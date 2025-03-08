@@ -1,0 +1,141 @@
+# ==========================
+# PROJECT-SPECIFIC PATTERNS
+# ==========================
+
+# Default: Ignore everything in processed and models directories
+processed/**/*
+models/**/*
+
+# CRITICAL PREPROCESSING FILES TO KEEP
+# -----------------------------------
+# Core metadata file (contains all preprocessing parameters)
+!processed/**/preprocessing_metadata.json
+# Feature files (the actual processed data)
+!processed/**/features.npy
+!processed/**/features.pkl
+!processed/**/features.npz
+# Mapping files (connect audio files to features)
+!processed/**/file_feature_map.csv
+!processed/**/all_metadata.csv
+
+# CRITICAL MODEL FILES TO KEEP
+# --------------------------
+# Model binary files
+!models/**/*.joblib
+!models/**/*.h5
+!models/**/*.pt
+!models/**/*.pth
+# Model metadata (contains all training parameters and preprocessing reference)
+!models/**/training_metadata.json
+# Prediction reliability files
+!models/**/centroids.npy
+!models/**/centroids.pkl
+!models/**/thresholds.npy
+!models/**/thresholds.pkl
+# Human-readable summary
+!models/**/training_summary.txt
+# Model directory structure
+!models/
+
+# Audio files
+# ----------
+# Ignore raw audio files (often large)
+data/train/**/*.wav
+data/train/**/*.mp3
+data/train/**/*.flac
+data/train/**/*.ogg
+data/train/**/*.m4a
+data/test/**/*.wav
+data/test/**/*.mp3
+data/test/**/*.flac
+data/test/**/*.ogg
+data/test/**/*.m4a
+# Large audio files on root directory
+/*.wav
+/*.mp3
+/*.flac
+/*.ogg
+/*.m4a
+
+# Generated directories
+# -------------------
+# Completely ignore logs and test results directories
+logs/
+test_results/
+
+# Keep important directories
+# ------------------------
+# Keep all scripts
+!scripts/
+# Keep all configuration files
+!config/
+
+# ==========================
+# PYTHON LANGUAGE PATTERNS
+# ==========================
+
+# Bytecode
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# Virtual environments
+.venv/
+venv/
+ENV/
+env/
+
+# Distribution / packaging
+dist/
+build/
+*.egg-info/
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+.hypothesis/
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# ==========================
+# SYSTEM & EDITOR PATTERNS
+# ==========================
+
+# IDE specific files
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# ==========================
+# MISCELLANEOUS PATTERNS
+# ==========================
+
+# Temporary files
+*.tmp
+*.bak
+
+# Environment-specific files
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local 
