@@ -1,5 +1,4 @@
 import numpy as np
-from sklearn.metrics import pairwise_distances
 import logging
 from config import *
 
@@ -68,7 +67,7 @@ def calculate_distances(features, centroids):
     """
     distances = {}
     features = features.flatten()  # Flatten the features array
-    
+
     for label, centroid in centroids.items():
         # Calculate Euclidean distance
         dist = np.linalg.norm(features - centroid)
@@ -80,13 +79,13 @@ def calculate_distances(features, centroids):
 def analyze_prediction_reliability(probabilities, distances, thresholds, pred_class):
     """
     Analyze prediction reliability using both probability and distance metrics.
-    
+
     Args:
         probabilities (np.ndarray): Prediction probabilities
         distances (dict): Distances to each class centroid
         thresholds (dict): Distance thresholds for each class
         pred_class (str): Predicted class label
-        
+
     Returns:
         dict: Reliability analysis information
     """

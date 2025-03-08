@@ -2,17 +2,17 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import numpy as np
 from sklearn.metrics import confusion_matrix
-import os
 from pathlib import Path
 import logging
 from config import *
 
 logger = logging.getLogger(__name__)
 
+
 def plot_confusion_matrix(y_true, y_pred, classes, output_path):
     """
     Plot and save confusion matrix.
-    
+
     Args:
         y_true (array-like): True labels
         y_pred (array-like): Predicted labels
@@ -38,7 +38,7 @@ def plot_confusion_matrix(y_true, y_pred, classes, output_path):
 def plot_feature_importance(model, feature_names, output_path):
     """
     Plot and save feature importance graph.
-    
+
     Args:
         model: Trained model with feature_importances_ attribute
         feature_names (list): Names of features
@@ -64,7 +64,7 @@ def plot_feature_importance(model, feature_names, output_path):
 def plot_prediction_analysis(probabilities, distances, thresholds, classes, true_label=None, prediction=None, output_path=None):
     """
     Plot confidence scores and distance ratios.
-    
+
     Args:
         probabilities (array-like): Prediction probabilities
         distances (dict): Distances to centroids
@@ -84,7 +84,7 @@ def plot_prediction_analysis(probabilities, distances, thresholds, classes, true
 
         # Plot 1: Confidence Scores
         confidence_colors = ['darkred' if p >= CONFIDENCE_THRESHOLD else 'lightgray'
-                            for p in sorted_probs]
+                             for p in sorted_probs]
 
         # Update colors for true label and prediction
         if true_label is not None:
@@ -101,12 +101,13 @@ def plot_prediction_analysis(probabilities, distances, thresholds, classes, true
         for bar in bars1:
             height = bar.get_height()
             ax1.text(bar.get_x() + bar.get_width()/2., height,
-                    f'{height:.2%}', ha='center', va='bottom')
+                     f'{height:.2%}', ha='center', va='bottom')
 
-        ax1.axhline(y=CONFIDENCE_THRESHOLD, color='r', linestyle='--', alpha=0.5)
+        ax1.axhline(y=CONFIDENCE_THRESHOLD, color='r',
+                    linestyle='--', alpha=0.5)
         ax1.text(len(sorted_probs)-1, CONFIDENCE_THRESHOLD,
-                f'Confidence Threshold ({CONFIDENCE_THRESHOLD:.2%})',
-                ha='right', va='bottom', color='r')
+                 f'Confidence Threshold ({CONFIDENCE_THRESHOLD:.2%})',
+                 ha='right', va='bottom', color='r')
 
         ax1.set_title('Confidence Scores by Reciter')
         ax1.set_xticks(range(len(sorted_classes)))
@@ -117,10 +118,10 @@ def plot_prediction_analysis(probabilities, distances, thresholds, classes, true
 
         # Plot 2: Distance Ratios
         distance_ratios = {k: distances[k][0] /
-                        thresholds[k] for k in sorted_classes}
+                           thresholds[k] for k in sorted_classes}
         ratio_values = [distance_ratios[k] for k in sorted_classes]
         distance_colors = ['darkred' if r <=
-                        1 else 'lightgray' for r in ratio_values]
+                           1 else 'lightgray' for r in ratio_values]
 
         bars2 = ax2.bar(range(len(ratio_values)),
                         ratio_values, color=distance_colors)
@@ -129,11 +130,11 @@ def plot_prediction_analysis(probabilities, distances, thresholds, classes, true
         for bar in bars2:
             height = bar.get_height()
             ax2.text(bar.get_x() + bar.get_width()/2., height,
-                    f'{height:.2f}', ha='center', va='bottom')
+                     f'{height:.2f}', ha='center', va='bottom')
 
         ax2.axhline(y=1.0, color='r', linestyle='--', alpha=0.5)
         ax2.text(len(ratio_values)-1, 1.0, 'Distance Threshold Ratio (1.0)',
-                ha='right', va='bottom', color='r')
+                 ha='right', va='bottom', color='r')
 
         ax2.set_title('Distance/Threshold Ratios by Reciter')
         ax2.set_xticks(range(len(sorted_classes)))
@@ -145,11 +146,12 @@ def plot_prediction_analysis(probabilities, distances, thresholds, classes, true
         # Add legend
         if true_label is not None:
             legend_elements = [
-                plt.Rectangle((0, 0), 1, 1, facecolor='green', label='True Label'),
+                plt.Rectangle((0, 0), 1, 1, facecolor='green',
+                              label='True Label'),
                 plt.Rectangle((0, 0), 1, 1, facecolor='darkred',
-                            label='Within Threshold'),
+                              label='Within Threshold'),
                 plt.Rectangle((0, 0), 1, 1, facecolor='lightgray',
-                            label='Outside Threshold')
+                              label='Outside Threshold')
             ]
             if prediction and prediction != true_label:
                 legend_elements.append(plt.Rectangle(

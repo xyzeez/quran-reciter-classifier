@@ -1,17 +1,15 @@
 """
 Random Forest model implementation for Quran reciter identification.
 """
-import numpy as np
-from sklearn.ensemble import RandomForestClassifier
-from sklearn.calibration import CalibratedClassifierCV
-from sklearn.model_selection import cross_val_score, KFold
-from sklearn.metrics import classification_report
 import joblib
 import os
 from datetime import datetime
 import logging
 from pathlib import Path
-
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.calibration import CalibratedClassifierCV
+from sklearn.model_selection import cross_val_score, KFold
+from sklearn.metrics import classification_report
 from src.models.base_model import BaseModel
 from src.utils.distance_utils import calculate_centroids, calculate_intra_class_thresholds
 from config import *

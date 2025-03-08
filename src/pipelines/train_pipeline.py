@@ -13,7 +13,6 @@ from sklearn.model_selection import train_test_split
 import logging
 import warnings
 import shutil
-
 from config import *
 from src.models import create_model
 from src.evaluation import plot_confusion_matrix, plot_feature_importance
@@ -51,7 +50,7 @@ def train_pipeline(model_type=None, preprocess_dir=None):
         logger, log_file = setup_logging(f"training_{run_id}")
         logger.info("Starting enhanced training pipeline")
         logger.info(f"Run ID: {run_id}")
-        
+
         if model_type:
             logger.info(f"Using model type: {model_type}")
         else:
@@ -63,11 +62,12 @@ def train_pipeline(model_type=None, preprocess_dir=None):
 
         # Determine preprocessing directory
         processed_base_dir = Path("processed/train")
-        
+
         if preprocess_dir:
             # Use the specified preprocessing directory
             preprocessed_path = Path(preprocess_dir)
-            logger.info(f"Using specified preprocessing directory: {preprocessed_path}")
+            logger.info(
+                f"Using specified preprocessing directory: {preprocessed_path}")
         else:
             # Use the latest preprocessing directory or symbolic link
             latest_link = processed_base_dir / "latest"
@@ -77,17 +77,22 @@ def train_pipeline(model_type=None, preprocess_dir=None):
                     preprocessed_path = processed_base_dir / target
                 else:
                     preprocessed_path = latest_link
-                logger.info(f"Using latest preprocessing directory: {preprocessed_path}")
+                logger.info(
+                    f"Using latest preprocessing directory: {preprocessed_path}")
             else:
                 # Find the most recent directory
-                preprocess_dirs = [d for d in processed_base_dir.iterdir() if d.is_dir() and d.name.endswith("_preprocess")]
+                preprocess_dirs = [d for d in processed_base_dir.iterdir(
+                ) if d.is_dir() and d.name.endswith("_preprocess")]
                 if not preprocess_dirs:
-                    logger.error(f"No preprocessing directories found in {processed_base_dir}")
+                    logger.error(
+                        f"No preprocessing directories found in {processed_base_dir}")
                     logger.error("Please run the preprocessing pipeline first")
                     return 1, None
-                
-                preprocessed_path = max(preprocess_dirs, key=lambda d: d.stat().st_mtime)
-                logger.info(f"Using most recent preprocessing directory: {preprocessed_path}")
+
+                preprocessed_path = max(
+                    preprocess_dirs, key=lambda d: d.stat().st_mtime)
+                logger.info(
+                    f"Using most recent preprocessing directory: {preprocessed_path}")
 
         # Check if preprocessed data exists in the directory
         features_file = preprocessed_path / "all_features.npy"
@@ -95,7 +100,8 @@ def train_pipeline(model_type=None, preprocess_dir=None):
         preprocess_metadata_file = preprocessed_path / "preprocessing_metadata.json"
 
         if not features_file.exists() or not metadata_file.exists():
-            logger.error(f"Preprocessed data files not found in {preprocessed_path}")
+            logger.error(
+                f"Preprocessed data files not found in {preprocessed_path}")
             logger.error("Please run the preprocessing pipeline first")
             return 1, None
 
@@ -105,10 +111,13 @@ def train_pipeline(model_type=None, preprocess_dir=None):
             try:
                 with open(preprocess_metadata_file, 'r') as f:
                     preprocess_info = json.load(f)
-                logger.info(f"Loaded preprocessing metadata from {preprocess_metadata_file}")
-                logger.info(f"Preprocessing run ID: {preprocess_info.get('run_id', 'unknown')}")
+                logger.info(
+                    f"Loaded preprocessing metadata from {preprocess_metadata_file}")
+                logger.info(
+                    f"Preprocessing run ID: {preprocess_info.get('run_id', 'unknown')}")
             except Exception as e:
-                logger.warning(f"Could not load preprocessing metadata: {str(e)}")
+                logger.warning(
+                    f"Could not load preprocessing metadata: {str(e)}")
 
         # Load preprocessed data
         logger.info(f"Loading preprocessed features from {features_file}")
@@ -120,7 +129,8 @@ def train_pipeline(model_type=None, preprocess_dir=None):
         # Extract labels from metadata
         labels = metadata['reciter'].values
 
-        logger.info(f"Loaded {len(features)} samples with {features.shape[1]} features")
+        logger.info(
+            f"Loaded {len(features)} samples with {features.shape[1]} features")
         logger.info(f"Found {len(np.unique(labels))} unique reciters")
 
         # Check for actual GPU availability
@@ -168,10 +178,13 @@ def train_pipeline(model_type=None, preprocess_dir=None):
         if model_type and model_type.lower() == 'blstm':
             logger.info("Using BLSTM model:")
             logger.info(f"- Using first {BLSTM_MFCC_COUNT} MFCCs as features")
-            logger.info(f"- Window size: {WINDOW_SIZE_MS}ms, Step size: {STEP_SIZE_MS}ms")
-            logger.info(f"- LSTM units: {LSTM_UNITS}, Dense units: {DENSE_UNITS}")
-            logger.info(f"- Dropout rate: {DROPOUT_RATE}, Learning rate: {LEARNING_RATE}")
-            
+            logger.info(
+                f"- Window size: {WINDOW_SIZE_MS}ms, Step size: {STEP_SIZE_MS}ms")
+            logger.info(
+                f"- LSTM units: {LSTM_UNITS}, Dense units: {DENSE_UNITS}")
+            logger.info(
+                f"- Dropout rate: {DROPOUT_RATE}, Learning rate: {LEARNING_RATE}")
+
             # Add BLSTM-specific parameters to metadata
             training_metadata["config"]["model_specific"] = {
                 "blstm_mfcc_count": BLSTM_MFCC_COUNT,
@@ -210,13 +223,14 @@ def train_pipeline(model_type=None, preprocess_dir=None):
         training_metadata["performance"] = {
             "accuracy": float(metrics['accuracy']),
             "training_time": float(model_train_time),
-            "class_report": metrics['classification_report']  # This might need conversion for JSON
+            # This might need conversion for JSON
+            "class_report": metrics['classification_report']
         }
 
         # Create timestamped output directories
         model_dir = Path(MODEL_OUTPUT_DIR) / run_id
         model_dir.mkdir(parents=True, exist_ok=True)
-        
+
         viz_dir = model_dir / "visualizations"
         viz_dir.mkdir(exist_ok=True)
 
@@ -239,7 +253,8 @@ def train_pipeline(model_type=None, preprocess_dir=None):
                     [f"Feature_{i}" for i in range(X.shape[1])],
                     str(feature_importance_path)
                 )
-                logger.info(f"Feature importance plot saved to {feature_importance_path}")
+                logger.info(
+                    f"Feature importance plot saved to {feature_importance_path}")
             except Exception as e:
                 logger.warning(f"Could not plot feature importance: {str(e)}")
 
@@ -257,7 +272,8 @@ def train_pipeline(model_type=None, preprocess_dir=None):
         metadata_path = model_dir / 'training_metadata.json'
         with open(metadata_path, 'w') as f:
             # Convert any non-serializable objects
-            json.dump(convert_to_json_serializable(training_metadata), f, indent=4)
+            json.dump(convert_to_json_serializable(
+                training_metadata), f, indent=4)
         logger.info(f"Training metadata saved to {metadata_path}")
 
         # Add training summary
@@ -301,11 +317,12 @@ def train_pipeline(model_type=None, preprocess_dir=None):
                 latest_dir.unlink()
             else:
                 shutil.rmtree(latest_dir)
-        
+
         try:
             # Try to create symbolic link first
             latest_dir.symlink_to(model_dir.name)
-            logger.info(f"Created symbolic link to latest training run: {latest_dir}")
+            logger.info(
+                f"Created symbolic link to latest training run: {latest_dir}")
         except (OSError, NotImplementedError):
             # If symlink fails (e.g., on Windows), copy the directory
             shutil.copytree(model_dir, latest_dir)
@@ -315,8 +332,10 @@ def train_pipeline(model_type=None, preprocess_dir=None):
         logger.info("\nTraining Complete!")
         logger.info(f"Run ID: {run_id}")
         logger.info(f"Output directory: {model_dir}")
-        logger.info(f"Model Training Time: {format_duration(model_train_time)}")
-        logger.info(f"Total Processing Time: {format_duration(total_training_time)}")
+        logger.info(
+            f"Model Training Time: {format_duration(model_train_time)}")
+        logger.info(
+            f"Total Processing Time: {format_duration(total_training_time)}")
 
         return 0, str(model_filename)
 
@@ -332,10 +351,10 @@ def train_pipeline(model_type=None, preprocess_dir=None):
 def convert_to_json_serializable(obj):
     """
     Convert non-serializable objects to JSON serializable format.
-    
+
     Args:
         obj: Object to convert
-        
+
     Returns:
         JSON serializable object
     """

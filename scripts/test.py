@@ -4,16 +4,11 @@ Test script for Quran Reciter Classifier models.
 Evaluates model performance against test data and generates metrics/visualizations.
 """
 import sys
-import os
 import argparse
 from pathlib import Path
-
-# Add project root to Python path so we can import our modules
-sys.path.insert(0, os.path.abspath(
-    os.path.join(os.path.dirname(__file__), '..')))
-
 from src.pipelines import test_pipeline
 from config import MODEL_OUTPUT_DIR, TEST_RESULTS_DIR
+
 
 def parse_args():
     """Handle command line options for testing."""

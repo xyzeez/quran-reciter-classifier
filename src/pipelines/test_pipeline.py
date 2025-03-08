@@ -2,7 +2,6 @@
 Testing pipeline for Quran reciter identification.
 """
 import os
-import sys
 import numpy as np
 import pandas as pd
 from pathlib import Path
@@ -10,9 +9,7 @@ from datetime import datetime
 import logging
 import json
 import warnings
-import shutil
 import platform
-
 from config import *
 from src.models import load_model
 from src.utils import calculate_distances, analyze_prediction_reliability, setup_logging, format_duration

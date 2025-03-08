@@ -4,16 +4,11 @@ Prediction script for the Quran Reciter Classifier system.
 Given an audio file, identifies the most likely Quran reciter.
 """
 import sys
-import os
 import argparse
 from pathlib import Path
-
-# Add project root to Python path so we can import our modules
-sys.path.insert(0, os.path.abspath(
-    os.path.join(os.path.dirname(__file__), '..')))
-
 from src.pipelines import predict_pipeline
 from config import MODEL_OUTPUT_DIR
+
 
 def parse_args():
     """Process command line options for prediction."""

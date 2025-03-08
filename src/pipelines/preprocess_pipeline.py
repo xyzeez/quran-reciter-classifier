@@ -16,7 +16,6 @@ import warnings
 import shutil
 import matplotlib.pyplot as plt
 import seaborn as sns
-
 from config import *
 from src.data import preprocess_audio_with_logic, preprocess_audio, augment_audio
 from src.features import extract_features
@@ -27,6 +26,7 @@ from src.utils import is_gpu_available
 warnings.filterwarnings('ignore')
 
 logger = logging.getLogger(__name__)
+
 
 def preprocess_pipeline(mode="train", augment=True):
     """
@@ -46,11 +46,12 @@ def preprocess_pipeline(mode="train", augment=True):
         # Generate timestamp for this preprocessing run
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
         run_id = f"{timestamp}_preprocess"
-        
+
         # Setup logging
         logger, log_file = setup_logging(f"preprocessing_{mode}_{run_id}")
         logger.info(f"Starting enhanced preprocessing pipeline in {mode} mode")
-        logger.info(f"Data augmentation: {'enabled' if augment else 'disabled'}")
+        logger.info(
+            f"Data augmentation: {'enabled' if augment else 'disabled'}")
         logger.info(f"Run ID: {run_id}")
 
         # Set input and output directories based on mode
@@ -68,7 +69,7 @@ def preprocess_pipeline(mode="train", augment=True):
         processed_dir = Path("processed")
         mode_dir = processed_dir / mode
         output_dir = mode_dir / run_id
-        
+
         # Create output directory and subdirectories
         output_dir.mkdir(parents=True, exist_ok=True)
         viz_dir = output_dir / "visualizations"
@@ -134,7 +135,8 @@ def preprocess_pipeline(mode="train", augment=True):
         # Process each reciter's folder
         for index, sub_folder in enumerate(sub_folders, 1):
             reciter_start_time = time.time()
-            logger.info(f'Processing {sub_folder.name} ({index}/{reciter_count})')
+            logger.info(
+                f'Processing {sub_folder.name} ({index}/{reciter_count})')
 
             # Create reciter directory in output
             reciter_output_dir = output_dir / sub_folder.name
@@ -152,7 +154,7 @@ def preprocess_pipeline(mode="train", augment=True):
 
             files_mp3 = list(sub_folder.glob('*.mp3'))
             reciter_profiles[sub_folder.name]["total_files"] = len(files_mp3)
-            
+
             if not files_mp3:
                 logger.warning(f"No MP3 files found in {sub_folder.name}")
                 continue
@@ -168,7 +170,7 @@ def preprocess_pipeline(mode="train", augment=True):
                 logger.info(f'Processing {file_mp3.name}')
                 file_size = file_mp3.stat().st_size
                 processing_start = time.time()
-                
+
                 # Create inventory entry for this file
                 inventory_entry = {
                     "file_path": str(file_mp3),
@@ -186,15 +188,16 @@ def preprocess_pipeline(mode="train", augment=True):
                 try:
                     # Preprocess audio
                     audio_data, sr = preprocess_audio_with_logic(str(file_mp3))
-                    
+
                     if audio_data is None or sr is None:
                         inventory_entry["processing_status"] = "skipped"
                         inventory_entry["reason"] = "Initial preprocessing failed"
                         file_inventory.append(inventory_entry)
                         skipped_count += 1
-                        skipped_reasons.append(f"{file_mp3.name}: Initial preprocessing failed")
+                        skipped_reasons.append(
+                            f"{file_mp3.name}: Initial preprocessing failed")
                         continue
-                    
+
                     # Calculate original audio duration
                     original_duration = len(audio_data) / sr
                     inventory_entry["original_duration"] = original_duration
@@ -208,9 +211,10 @@ def preprocess_pipeline(mode="train", augment=True):
                         inventory_entry["reason"] = "Secondary preprocessing failed"
                         file_inventory.append(inventory_entry)
                         skipped_count += 1
-                        skipped_reasons.append(f"{file_mp3.name}: Secondary preprocessing failed")
+                        skipped_reasons.append(
+                            f"{file_mp3.name}: Secondary preprocessing failed")
                         continue
-                    
+
                     # Update audio duration after preprocessing
                     processed_duration = len(audio_data) / sr
                     inventory_entry["processed_duration"] = processed_duration
@@ -225,7 +229,8 @@ def preprocess_pipeline(mode="train", augment=True):
                         inventory_entry["reason"] = "Feature extraction failed"
                         file_inventory.append(inventory_entry)
                         skipped_count += 1
-                        skipped_reasons.append(f"{file_mp3.name}: Feature extraction failed")
+                        skipped_reasons.append(
+                            f"{file_mp3.name}: Feature extraction failed")
                         continue
 
                     # Create metadata for original audio
@@ -241,9 +246,10 @@ def preprocess_pipeline(mode="train", augment=True):
 
                     # Update processing status
                     inventory_entry["processing_status"] = "processed"
-                    inventory_entry["processing_time"] = time.time() - processing_start
+                    inventory_entry["processing_time"] = time.time(
+                    ) - processing_start
                     file_inventory.append(inventory_entry)
-                    
+
                     # Update file-to-feature mapping
                     file_feature_map.append({
                         "file_path": str(file_mp3),
@@ -253,13 +259,13 @@ def preprocess_pipeline(mode="train", augment=True):
                         "augmented": False,
                         "feature_length": len(features)
                     })
-                    
+
                     # Add to lists
                     reciter_features.append(features)
                     reciter_metadata.append(file_metadata)
                     features_list.append(features)
                     metadata_list.append(file_metadata)
-                    
+
                     processed_count += 1
                     feature_index += 1
                     reciter_profiles[sub_folder.name]["processed_files"] += 1
@@ -270,20 +276,21 @@ def preprocess_pipeline(mode="train", augment=True):
                             augmented_audios = augment_audio(audio_data, sr)
                             # Skip the first element as it's the original audio
                             augmented_audios = augmented_audios[1:]
-                            
+
                             for i, aug_audio in enumerate(augmented_audios):
                                 aug_features = extract_features(aug_audio, sr)
                                 if aug_features is None:
                                     continue
 
                                 aug_duration = len(aug_audio) / sr
-                                
+
                                 # Create metadata for augmented audio
                                 aug_metadata = {
                                     "file_name": f"{file_mp3.stem}_aug{i+1}{file_mp3.suffix}",
                                     "reciter": sub_folder.name,
                                     "augmented": True,
-                                    "augmentation_type": i + 1,  # 1: pitch shift, 2: time stretch, etc.
+                                    # 1: pitch shift, 2: time stretch, etc.
+                                    "augmentation_type": i + 1,
                                     "original_file": file_mp3.name,
                                     "duration": aug_duration,
                                     "sample_rate": sr,
@@ -311,8 +318,9 @@ def preprocess_pipeline(mode="train", augment=True):
                                 feature_index += 1
                                 reciter_profiles[sub_folder.name]["augmented_samples"] += 1
                         except Exception as e:
-                            logger.warning(f"Augmentation failed for {file_mp3.name}: {str(e)}")
-                
+                            logger.warning(
+                                f"Augmentation failed for {file_mp3.name}: {str(e)}")
+
                 except Exception as e:
                     logger.error(f"Error processing {file_mp3.name}: {str(e)}")
                     inventory_entry["processing_status"] = "failed"
@@ -327,13 +335,14 @@ def preprocess_pipeline(mode="train", augment=True):
                 reciter_features_array = np.array(reciter_features)
                 features_file = reciter_output_dir / "features.npy"
                 np.save(features_file, reciter_features_array)
-                
+
                 # Save metadata as JSON
                 metadata_file = reciter_output_dir / "metadata.json"
                 with open(metadata_file, 'w') as f:
                     json.dump(reciter_metadata, f, indent=4)
-                
-                logger.info(f"Saved {len(reciter_features)} feature sets to {features_file}")
+
+                logger.info(
+                    f"Saved {len(reciter_features)} feature sets to {features_file}")
 
             # Calculate and store reciter processing duration
             reciter_duration = time.time() - reciter_start_time
@@ -343,7 +352,7 @@ def preprocess_pipeline(mode="train", augment=True):
                 'processed_files': processed_count,
                 'skipped_files': skipped_count
             }
-            
+
             # Update reciter profile with processing stats
             reciter_profiles[sub_folder.name]["skipped_files"] = skipped_count
             reciter_profiles[sub_folder.name]["processing_time"] = reciter_duration
@@ -372,12 +381,12 @@ def preprocess_pipeline(mode="train", augment=True):
         all_features = np.array(features_list)
         features_file = output_dir / "all_features.npy"
         np.save(features_file, all_features)
-        
+
         # Convert metadata to DataFrame and save as CSV
         metadata_df = pd.DataFrame(metadata_list)
         metadata_file = output_dir / "all_metadata.csv"
         metadata_df.to_csv(metadata_file, index=False)
-        
+
         logger.info(f"Total number of processed samples: {len(features_list)}")
         logger.info(f"Saved all features to {features_file}")
         logger.info(f"Saved all metadata to {metadata_file}")
@@ -401,7 +410,7 @@ def preprocess_pipeline(mode="train", augment=True):
                 f"  Processed Files: {times['processed_files']}",
                 f"  Skipped Files: {times['skipped_files']}"
             ])
-        
+
         # Update preprocessing metadata with final stats
         preprocessing_metadata.update({
             "total_reciters": reciter_count,
@@ -418,19 +427,19 @@ def preprocess_pipeline(mode="train", augment=True):
         inventory_file = output_dir / "file_inventory.csv"
         inventory_df.to_csv(inventory_file, index=False)
         logger.info(f"File inventory saved to {inventory_file}")
-        
+
         # Save file-to-feature mapping
         feature_map_df = pd.DataFrame(file_feature_map)
         feature_map_file = output_dir / "file_feature_map.csv"
         feature_map_df.to_csv(feature_map_file, index=False)
         logger.info(f"File-to-feature mapping saved to {feature_map_file}")
-        
+
         # Save reciter profiles
         reciter_profiles_file = output_dir / "reciter_profiles.json"
         with open(reciter_profiles_file, 'w') as f:
             json.dump(reciter_profiles, f, indent=4)
         logger.info(f"Reciter profiles saved to {reciter_profiles_file}")
-        
+
         # Save preprocessing metadata
         metadata_file = output_dir / "preprocessing_metadata.json"
         with open(metadata_file, 'w') as f:
@@ -442,29 +451,34 @@ def preprocess_pipeline(mode="train", augment=True):
         with open(summary_path, "w") as summary_file:
             summary_file.write("\n".join(summary_log))
         logger.info(f"Preprocessing summary saved to {summary_path}")
-        
+
         # Calculate and save feature statistics
         try:
-            feature_stats = calculate_feature_statistics(all_features, metadata_df)
+            feature_stats = calculate_feature_statistics(
+                all_features, metadata_df)
             feature_stats_file = output_dir / "feature_statistics.json"
             with open(feature_stats_file, 'w') as f:
                 # Convert numpy types to Python native types for JSON serialization
-                json_compatible_stats = convert_to_json_serializable(feature_stats)
+                json_compatible_stats = convert_to_json_serializable(
+                    feature_stats)
                 json.dump(json_compatible_stats, f, indent=4)
             logger.info(f"Feature statistics saved to {feature_stats_file}")
-            
+
             # Generate visualizations
             generate_visualizations(all_features, metadata_df, viz_dir, run_id)
             logger.info(f"Visualizations saved to {viz_dir}")
         except Exception as e:
-            logger.error(f"Error generating feature statistics or visualizations: {str(e)}")
-        
+            logger.error(
+                f"Error generating feature statistics or visualizations: {str(e)}")
+
         # Log duration summary to console
         logger.info("\nPreprocessing Complete!")
         logger.info(f"Run ID: {run_id}")
         logger.info(f"Output directory: {output_dir}")
-        logger.info(f"Total Audio Duration: {format_duration(total_audio_duration)}")
-        logger.info(f"Total Processing Time: {format_duration(total_preprocessing_time)}")
+        logger.info(
+            f"Total Audio Duration: {format_duration(total_audio_duration)}")
+        logger.info(
+            f"Total Processing Time: {format_duration(total_preprocessing_time)}")
         logger.info(f"Total Features: {len(features_list)}")
 
         # Create a symbolic link or copy to 'latest' for convenience
@@ -474,15 +488,17 @@ def preprocess_pipeline(mode="train", augment=True):
                 latest_dir.unlink()
             else:
                 shutil.rmtree(latest_dir)
-        
+
         try:
             # Try to create symbolic link first
             latest_dir.symlink_to(output_dir.name)
-            logger.info(f"Created symbolic link to latest preprocessing run: {latest_dir}")
+            logger.info(
+                f"Created symbolic link to latest preprocessing run: {latest_dir}")
         except (OSError, NotImplementedError):
             # If symlink fails (e.g., on Windows), copy the directory
             shutil.copytree(output_dir, latest_dir)
-            logger.info(f"Created copy of latest preprocessing run: {latest_dir}")
+            logger.info(
+                f"Created copy of latest preprocessing run: {latest_dir}")
 
         return 0, str(output_dir)
 
@@ -498,11 +514,11 @@ def preprocess_pipeline(mode="train", augment=True):
 def calculate_feature_statistics(features, metadata_df):
     """
     Calculate comprehensive statistics about the extracted features.
-    
+
     Args:
         features (np.ndarray): All extracted features
         metadata_df (pd.DataFrame): Metadata for all processed files
-        
+
     Returns:
         dict: Statistics about the features
     """
@@ -516,12 +532,13 @@ def calculate_feature_statistics(features, metadata_df):
         "per_reciter": {},
         "feature_correlations": {}
     }
-    
+
     # Calculate per-reciter statistics
     for reciter in metadata_df['reciter'].unique():
-        reciter_indices = metadata_df[metadata_df['reciter'] == reciter].index.tolist()
+        reciter_indices = metadata_df[metadata_df['reciter']
+                                      == reciter].index.tolist()
         reciter_features = features[reciter_indices]
-        
+
         stats["per_reciter"][reciter] = {
             "min": np.min(reciter_features, axis=0).tolist(),
             "max": np.max(reciter_features, axis=0).tolist(),
@@ -529,20 +546,21 @@ def calculate_feature_statistics(features, metadata_df):
             "std": np.std(reciter_features, axis=0).tolist(),
             "sample_count": len(reciter_features)
         }
-    
+
     # Calculate correlation matrix for the first 20 features (to keep size manageable)
     if features.shape[1] > 1:
-        corr_matrix = np.corrcoef(features[:, :min(20, features.shape[1])], rowvar=False)
+        corr_matrix = np.corrcoef(
+            features[:, :min(20, features.shape[1])], rowvar=False)
         # Convert to list of lists for JSON serialization
         stats["feature_correlations"]["first_20_features"] = corr_matrix.tolist()
-    
+
     return stats
 
 
 def generate_visualizations(features, metadata_df, viz_dir, run_id):
     """
     Generate visualizations for the preprocessing run.
-    
+
     Args:
         features (np.ndarray): All extracted features
         metadata_df (pd.DataFrame): Metadata for all processed files
@@ -560,17 +578,18 @@ def generate_visualizations(features, metadata_df, viz_dir, run_id):
     plt.tight_layout()
     plt.savefig(viz_dir / 'reciter_sample_counts.png', dpi=300)
     plt.close()
-    
+
     # 2. Original vs. Augmented samples
     plt.figure(figsize=(8, 6))
     aug_counts = metadata_df['augmented'].value_counts()
     labels = ['Original', 'Augmented']
     values = [aug_counts.get(False, 0), aug_counts.get(True, 0)]
-    plt.pie(values, labels=labels, autopct='%1.1f%%', colors=['#66b3ff', '#99ff99'])
+    plt.pie(values, labels=labels, autopct='%1.1f%%',
+            colors=['#66b3ff', '#99ff99'])
     plt.title('Original vs. Augmented Samples')
     plt.savefig(viz_dir / 'augmentation_distribution.png', dpi=300)
     plt.close()
-    
+
     # 3. Duration distribution
     plt.figure(figsize=(10, 6))
     sns.histplot(metadata_df['duration'], bins=30, kde=True)
@@ -579,11 +598,12 @@ def generate_visualizations(features, metadata_df, viz_dir, run_id):
     plt.ylabel('Count')
     plt.savefig(viz_dir / 'duration_distribution.png', dpi=300)
     plt.close()
-    
+
     # 4. Feature correlation heatmap (first 20 features only for readability)
     if features.shape[1] > 1:
         plt.figure(figsize=(12, 10))
-        corr_matrix = np.corrcoef(features[:, :min(20, features.shape[1])], rowvar=False)
+        corr_matrix = np.corrcoef(
+            features[:, :min(20, features.shape[1])], rowvar=False)
         mask = np.triu(np.ones_like(corr_matrix, dtype=bool))
         sns.heatmap(corr_matrix, mask=mask, cmap='coolwarm', center=0,
                     square=True, linewidths=.5, annot=False)
@@ -591,19 +611,20 @@ def generate_visualizations(features, metadata_df, viz_dir, run_id):
         plt.tight_layout()
         plt.savefig(viz_dir / 'feature_correlation.png', dpi=300)
         plt.close()
-    
+
     # 5. Feature distributions (first 8 features)
     n_features = min(8, features.shape[1])
     if n_features > 0:
-        fig, axes = plt.subplots(n_features, 1, figsize=(10, 2*n_features), sharex=True)
+        fig, axes = plt.subplots(
+            n_features, 1, figsize=(10, 2*n_features), sharex=True)
         if n_features == 1:
             axes = [axes]  # Make it iterable when there's only one feature
-        
+
         for i in range(n_features):
             sns.histplot(features[:, i], kde=True, ax=axes[i])
             axes[i].set_title(f'Feature {i+1} Distribution')
             axes[i].set_xlabel('')
-        
+
         axes[-1].set_xlabel('Feature Value')
         plt.tight_layout()
         plt.savefig(viz_dir / 'feature_distributions.png', dpi=300)
@@ -613,10 +634,10 @@ def generate_visualizations(features, metadata_df, viz_dir, run_id):
 def convert_to_json_serializable(obj):
     """
     Convert numpy types to Python native types for JSON serialization.
-    
+
     Args:
         obj: Object to convert
-        
+
     Returns:
         JSON serializable object
     """
@@ -636,14 +657,16 @@ def convert_to_json_serializable(obj):
 
 if __name__ == "__main__":
     import argparse
-    
-    parser = argparse.ArgumentParser(description="Preprocess audio files for Quran reciter identification")
-    parser.add_argument("--mode", choices=["train", "test"], default="train", 
+
+    parser = argparse.ArgumentParser(
+        description="Preprocess audio files for Quran reciter identification")
+    parser.add_argument("--mode", choices=["train", "test"], default="train",
                         help="Mode to run in: 'train' or 'test'")
-    parser.add_argument("--no-augment", action="store_true", 
+    parser.add_argument("--no-augment", action="store_true",
                         help="Disable data augmentation (train mode only)")
-    
+
     args = parser.parse_args()
-    
-    status, output_dir = preprocess_pipeline(mode=args.mode, augment=not args.no_augment)
+
+    status, output_dir = preprocess_pipeline(
+        mode=args.mode, augment=not args.no_augment)
     sys.exit(status)

@@ -5,7 +5,6 @@ Handles audio processing, feature extraction, and data organization to prepare
 for model training or testing.
 """
 import sys
-import os
 import argparse
 from pathlib import Path
 from src.pipelines import preprocess_pipeline

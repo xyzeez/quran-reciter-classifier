@@ -4,16 +4,11 @@ Training script for the Quran Reciter Classifier system.
 Handles model building, training and serialization.
 """
 import sys
-import os
 import argparse
 from pathlib import Path
-
-# Add project root to Python path so we can import our modules
-project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
-sys.path.insert(0, project_root)
-
 from src.pipelines import train_pipeline
 from config import PROCESSED_DIR
+
 
 def parse_args():
     """Parse CLI args for training config."""
@@ -40,7 +35,7 @@ def find_preprocess_dir(file_id=None):
 
     Can fail if no preprocessed data exists - you'll need to run preprocess.py first.
     """
-    processed_dir = Path("processed/train")
+    processed_dir = Path(f"{PROCESSED_DIR}/train")
 
     if not processed_dir.exists():
         print(f"Error: Processed directory not found: {processed_dir}")

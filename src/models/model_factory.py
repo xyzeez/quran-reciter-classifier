@@ -4,8 +4,6 @@ Factory for creating model instances.
 import logging
 from pathlib import Path
 import os
-import joblib
-
 from src.models.random_forest import RandomForestModel
 from src.models.blstm_model import BLSTMModel
 from config import MODEL_TYPE
@@ -69,22 +67,22 @@ def get_latest_model(model_dir):
 def detect_model_type_from_filename(model_path):
     """
     Detect the model type from the filename.
-    
+
     Args:
         model_path (str or Path): Path to the model file
-        
+
     Returns:
         str: Detected model type (lowercase)
     """
     filename = str(model_path).lower()
-    
+
     # Check for specific model types in the filename
     if "blstm" in filename:
         return "blstm"
     elif "random_forest" in filename or "randomforest" in filename:
         return "random_forest"
     # Add more model type checks here as they are implemented
-    
+
     # Default to config model type if detection fails
     logger.warning(f"Could not detect model type from filename: {model_path}")
     logger.warning(f"Using default model type: {MODEL_TYPE}")
@@ -119,7 +117,7 @@ def load_model(model_path=None):
 
     # Detect model type from filename
     model_type = detect_model_type_from_filename(model_path)
-    
+
     # Try to load using the detected model type
     if model_type == "blstm":
         logger.info("Loading as BLSTM model")
@@ -132,7 +130,8 @@ def load_model(model_path=None):
                 return RandomForestModel.load(model_path)
             except Exception as e2:
                 logger.error(f"Error loading as RandomForest model: {str(e2)}")
-                raise ValueError(f"Failed to load model {model_path} as either BLSTM or RandomForest: {str(e)}, {str(e2)}")
+                raise ValueError(
+                    f"Failed to load model {model_path} as either BLSTM or RandomForest: {str(e)}, {str(e2)}")
     else:
         # Default to RandomForest
         logger.info("Loading as RandomForest model")
@@ -146,4 +145,5 @@ def load_model(model_path=None):
                 return BLSTMModel.load(model_path)
             except Exception as e2:
                 logger.error(f"Error loading as BLSTM model: {str(e2)}")
-                raise ValueError(f"Failed to load model {model_path} as either RandomForest or BLSTM: {str(e)}, {str(e2)}")
+                raise ValueError(
+                    f"Failed to load model {model_path} as either RandomForest or BLSTM: {str(e)}, {str(e2)}")

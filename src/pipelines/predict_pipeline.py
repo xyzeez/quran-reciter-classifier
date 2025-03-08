@@ -1,8 +1,6 @@
 """
 Prediction pipeline for Quran reciter identification.
 """
-import os
-import sys
 import numpy as np
 from pathlib import Path
 from datetime import datetime
@@ -10,7 +8,6 @@ from pydub import AudioSegment
 import logging
 import warnings
 import json
-
 from config import *
 from src.data import preprocess_audio_with_logic, preprocess_audio
 from src.features import extract_features
@@ -49,7 +46,8 @@ def predict_pipeline(model_path=None, audio_path=None, true_label=None):
 
         # Check if audio_path is provided
         if audio_path is None:
-            logger.error('No audio file specified. Please provide an audio file path.')
+            logger.error(
+                'No audio file specified. Please provide an audio file path.')
             return 1
 
         # Step 1: Load the model
@@ -64,7 +62,8 @@ def predict_pipeline(model_path=None, audio_path=None, true_label=None):
 
             # For BLSTM implementation, log additional info
             if model_info['model_type'] == 'BLSTM':
-                logger.info(f"Using first {model_info.get('input_size', BLSTM_MFCC_COUNT)} MFCCs as features")
+                logger.info(
+                    f"Using first {model_info.get('input_size', BLSTM_MFCC_COUNT)} MFCCs as features")
         except Exception as e:
             logger.error(f'Error loading model: {str(e)}')
             return 1
@@ -80,11 +79,13 @@ def predict_pipeline(model_path=None, audio_path=None, true_label=None):
         is_correct = None
         if true_label:
             logger.info(f'Provided true label: {true_label}')
-            unknown_variants = ['unknown', 'unknown reciter', 'unk', 'unknown reader']
+            unknown_variants = ['unknown',
+                                'unknown reciter', 'unk', 'unknown reader']
             if true_label.lower() in unknown_variants:
                 true_label = "Unknown"  # Standardize unknown label
             elif true_label not in model.classes_:
-                logger.warning(f"Warning: Provided reciter name '{true_label}' is not in model's classes")
+                logger.warning(
+                    f"Warning: Provided reciter name '{true_label}' is not in model's classes")
                 logger.info("Known classes: " + ", ".join(model.classes_))
 
         # Step 4: Process audio
@@ -213,11 +214,15 @@ def predict_pipeline(model_path=None, audio_path=None, true_label=None):
             "model": str(model_path),
             "model_type": model_info['model_type'],
             "predicted_reciter": predicted_reciter,
-            "is_reliable": bool(reliability['is_reliable']),  # Convert to Python bool
-            "confidence": float(reliability['top_confidence']),  # Convert to Python float
-            "distance_ratio": float(reliability['distance_ratio']),  # Convert to Python float
+            # Convert to Python bool
+            "is_reliable": bool(reliability['is_reliable']),
+            # Convert to Python float
+            "confidence": float(reliability['top_confidence']),
+            # Convert to Python float
+            "distance_ratio": float(reliability['distance_ratio']),
             "true_label": true_label,
-            "is_correct": bool(is_correct) if is_correct is not None else None,  # Convert to Python bool or None
+            # Convert to Python bool or None
+            "is_correct": bool(is_correct) if is_correct is not None else None,
             "analysis_plot": str(plot_path)
         }
 
