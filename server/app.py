@@ -1,12 +1,12 @@
 """
 Flask server for Quran Reciter Classifier.
 """
+import sys
+import logging
+from flask import Flask, request, jsonify
 from server.config import HOST, PORT, DEBUG
 from server.audio_utils import process_audio_file, extract_features
 from server.prediction_utils import load_latest_model, get_predictions
-from flask import Flask, request, jsonify
-import sys
-import logging
 
 
 # Initialize Flask app

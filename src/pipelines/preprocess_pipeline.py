@@ -187,7 +187,7 @@ def preprocess_pipeline(mode="train", augment=True):
 
                 try:
                     # Preprocess audio
-                    audio_data, sr = preprocess_audio_with_logic(str(file_mp3))
+                    audio_data, sr = preprocess_audio_with_logic(str(file_mp3), mode=mode)
 
                     if audio_data is None or sr is None:
                         inventory_entry["processing_status"] = "skipped"

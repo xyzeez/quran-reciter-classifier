@@ -5,8 +5,7 @@ import librosa
 from pydub import AudioSegment
 import io
 import torch
-
-from config import USE_GPU, N_MFCC, N_CHROMA, N_MEL_BANDS
+from config import USE_GPU
 from server.config import MIN_AUDIO_DURATION, MAX_AUDIO_DURATION, SAMPLE_RATE
 from src.features.extractors import extract_features as src_extract_features
 

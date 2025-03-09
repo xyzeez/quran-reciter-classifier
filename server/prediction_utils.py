@@ -2,7 +2,6 @@
 Prediction utilities for the server.
 """
 import numpy as np
-from pathlib import Path
 from src.models import load_model
 from src.utils import calculate_distances, analyze_prediction_reliability
 from server.config import MODEL_DIR, LATEST_MODEL_SYMLINK, TOP_N_PREDICTIONS

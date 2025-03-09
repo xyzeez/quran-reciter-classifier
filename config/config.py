@@ -15,7 +15,8 @@ TEST_RESULTS_DIR = "test_results"  # Directory for test results
 
 # Audio Processing Parameters
 DEFAULT_SAMPLE_RATE = 22050  # Hz
-MINIMUM_DURATION = 20  # seconds
+MINIMUM_DURATION = 20  # seconds for training mode
+TEST_MINIMUM_DURATION = 5  # seconds for test mode
 SKIP_START = 7  # seconds to skip from start
 SKIP_END = 5  # seconds to skip from end
 
