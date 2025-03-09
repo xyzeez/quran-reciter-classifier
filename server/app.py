@@ -3,7 +3,15 @@ Flask server for Quran Reciter Classifier.
 """
 import sys
 import logging
+from pathlib import Path
 from flask import Flask, request, jsonify
+
+# Add project root to Python path when running script directly
+if __name__ == "__main__":
+    project_root = Path(__file__).resolve().parent.parent
+    if str(project_root) not in sys.path:
+        sys.path.insert(0, str(project_root))
+
 from server.config import HOST, PORT, DEBUG
 from server.audio_utils import process_audio_file, extract_features
 from server.prediction_utils import load_latest_model, get_predictions

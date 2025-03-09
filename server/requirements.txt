@@ -10,3 +10,4 @@ soundfile>=0.10.3
 # Core dependencies
 numpy>=1.20.0
 scikit-learn>=1.0.0  # For model loading and prediction
+torch>=2.0.0  # Deep learning framework
