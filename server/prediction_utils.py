@@ -2,9 +2,32 @@
 Prediction utilities for the server.
 """
 import numpy as np
+from pathlib import Path
 from src.models import load_model
 from src.utils import calculate_distances, analyze_prediction_reliability
-from server.config import MODEL_DIR, LATEST_MODEL_SYMLINK, TOP_N_PREDICTIONS
+from server.config import MODEL_DIR, LATEST_MODEL_SYMLINK, TOP_N_PREDICTIONS, MODEL_ID
+
+
+def find_model_by_id(model_id):
+    """
+    Find a model by its ID (timestamp directory).
+
+    Args:
+        model_id (str): Model ID (e.g., '20240306_152417_train')
+
+    Returns:
+        Path: Path to the model file, or None if not found
+    """
+    try:
+        model_dir = MODEL_DIR / model_id
+        if not model_dir.exists() or not model_dir.is_dir():
+            return None
+
+        model_files = list(model_dir.glob('model_*.joblib'))
+        return model_files[0] if model_files else None
+
+    except Exception:
+        return None
 
 
 def find_latest_model():
@@ -39,13 +62,28 @@ def find_latest_model():
 
 def load_latest_model():
     """
-    Load the latest trained model.
+    Load the model based on priority:
+    1. Specific model ID from config
+    2. Latest model symlink
+    3. Latest model by timestamp
 
     Returns:
         tuple: (model, error_message)
     """
     try:
-        # First try using the symlink
+        # 1. Try loading specific model ID from config
+        if MODEL_ID:
+            model_path = find_model_by_id(MODEL_ID)
+            if model_path:
+                try:
+                    model = load_model(str(model_path))
+                    return model, None
+                except Exception as e:
+                    return None, f"Error loading model {MODEL_ID}: {str(e)}"
+            else:
+                return None, f"Model with ID {MODEL_ID} not found"
+
+        # 2. Try using the symlink
         if LATEST_MODEL_SYMLINK.exists():
             try:
                 model = load_model(str(LATEST_MODEL_SYMLINK))
@@ -53,7 +91,7 @@ def load_latest_model():
             except Exception:
                 pass  # If symlink fails, try finding latest model
 
-        # Find latest model by timestamp
+        # 3. Find latest model by timestamp
         model_path = find_latest_model()
         if model_path is None:
             return None, "No trained models found in models directory"

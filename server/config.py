@@ -24,6 +24,7 @@ SAMPLE_RATE = 22050  # Audio sample rate
 # Model settings
 MODEL_DIR = Path(MODEL_OUTPUT_DIR)
 LATEST_MODEL_SYMLINK = MODEL_DIR / 'latest'
+MODEL_ID = '20250309_113120_train'  # Specific model ID to use (e.g., '20240306_152417_train'), if None use symlink/latest
 
 # Server-specific prediction settings
 TOP_N_PREDICTIONS = 5  # Number of top predictions to return
