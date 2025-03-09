@@ -6,6 +6,13 @@ Evaluates model performance against test data and generates metrics/visualizatio
 import sys
 import argparse
 from pathlib import Path
+
+# Add project root to Python path when running script directly
+if __name__ == "__main__":
+    project_root = Path(__file__).resolve().parent.parent
+    if str(project_root) not in sys.path:
+        sys.path.insert(0, str(project_root))
+        
 from src.pipelines import test_pipeline
 from config import MODEL_OUTPUT_DIR, TEST_RESULTS_DIR
 
