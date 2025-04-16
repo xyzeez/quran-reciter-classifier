@@ -43,21 +43,27 @@ def get_reciter():
     try:
         # Check if file is present in request
         if 'audio' not in request.files:
+            error_msg = 'No audio file provided. Please send the file with key "audio" in form data.'
+            logger.warning(f"Bad Request (400): {error_msg}")
             return jsonify({
-                'error': 'No audio file provided. Please send the file with key "audio" in form data.'
+                'error': error_msg
             }), 400
 
         file = request.files['audio']
         if file.filename == '':
+            error_msg = 'No audio file selected'
+            logger.warning(f"Bad Request (400): {error_msg}")
             return jsonify({
-                'error': 'No audio file selected'
+                'error': error_msg
             }), 400
 
         # Process audio file
         result = process_audio_file(file)
         if result[0] is None:  # If first element is None, second element is error message
+            error_msg = result[1] # Get the error message
+            logger.warning(f"Bad Request (400) during audio processing: {error_msg}")
             return jsonify({
-                'error': result[1]  # Return the error message
+                'error': error_msg  # Return the error message
             }), 400
 
         audio_data, sr = result  # Unpack the successful result
@@ -66,12 +72,16 @@ def get_reciter():
         try:
             features = extract_features(audio_data, sr)
             if features is None:
+                error_msg = 'Feature extraction failed'
+                logger.error(f"Internal Server Error (500): {error_msg}")
                 return jsonify({
-                    'error': 'Feature extraction failed'
+                    'error': error_msg
                 }), 500
         except Exception as e:
+            error_msg = f'Error extracting features: {str(e)}'
+            logger.error(f"Internal Server Error (500): {error_msg}", exc_info=True) # Log exception info
             return jsonify({
-                'error': f'Error extracting features: {str(e)}'
+                'error': error_msg
             }), 500
 
         # Get predictions
@@ -80,13 +90,17 @@ def get_reciter():
             return jsonify(result), 200
 
         except Exception as e:
+            error_msg = f'Error making prediction: {str(e)}'
+            logger.error(f"Internal Server Error (500): {error_msg}", exc_info=True) # Log exception info
             return jsonify({
-                'error': f'Error making prediction: {str(e)}'
+                'error': error_msg
             }), 500
 
     except Exception as e:
+        error_msg = f'Server error: {str(e)}'
+        logger.error(f"Internal Server Error (500): {error_msg}", exc_info=True) # Log exception info
         return jsonify({
-            'error': f'Server error: {str(e)}'
+            'error': error_msg
         }), 500
 
 
