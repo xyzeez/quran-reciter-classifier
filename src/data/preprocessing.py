@@ -14,20 +14,13 @@ device = torch.device("cuda" if torch.cuda.is_available()
                       and USE_GPU else "cpu")
 
 
-def preprocess_audio_with_logic(file_path: str,
-                                mode: str = "train",
-                                base_threshold: int = MINIMUM_DURATION,
-                                skip_start: int = SKIP_START,
-                                skip_end: int = SKIP_END) -> tuple:
+def preprocess_audio_with_logic(file_path: str, mode: str = "train") -> tuple:
     """
-    Preprocess an audio file with smart duration-based filtering.
+    Preprocess an audio file.
 
     Args:
         file_path (str): Path to the audio file.
         mode (str): Mode to run in ('train' or 'test')
-        base_threshold (int): Minimum acceptable duration (seconds).
-        skip_start (int): Duration to skip from start (seconds).
-        skip_end (int): Duration to skip from end (seconds).
 
     Returns:
         Tuple[np.ndarray, int]: Preprocessed audio data and sample rate.
@@ -43,48 +36,11 @@ def preprocess_audio_with_logic(file_path: str,
         if device.type == "cuda":
             audio_data = torch.from_numpy(audio_data).to(device)
 
-        # Calculate duration
-        file_duration = len(audio_data) / sr
-
-        # Different handling for train and test modes
-        if mode == "train":
-            if file_duration < base_threshold:
-                logger.warning(
-                    f"[REJECTED] {file_path}: Too short for training ({file_duration:.2f}s)")
-                return None, None
-
-            # Smart duration handling for training
-            start_time = min(skip_start, file_duration *
-                            DURATION_PERCENTAGE_THRESHOLD)
-            end_time = file_duration - \
-                min(skip_end, file_duration * DURATION_PERCENTAGE_THRESHOLD)
-
-            usable_duration = end_time - start_time
-            if usable_duration < MIN_USABLE_DURATION:
-                logger.warning(
-                    f"[REJECTED] {file_path}: Usable duration too short ({usable_duration:.2f}s)")
-                return None, None
-
-            # Extract usable portion for training
-            start_sample = int(start_time * sr)
-            end_sample = int(end_time * sr)
-
-            if device.type == "cuda":
-                processed_audio = audio_data[start_sample:end_sample].cpu().numpy()
-            else:
-                processed_audio = audio_data[start_sample:end_sample]
-
-        else:  # Test mode
-            if file_duration < TEST_MINIMUM_DURATION:
-                logger.warning(
-                    f"[REJECTED] {file_path}: Too short for testing ({file_duration:.2f}s)")
-                return None, None
-            
-            # For test mode, use the entire audio without skipping
-            if device.type == "cuda":
-                processed_audio = audio_data.cpu().numpy()
-            else:
-                processed_audio = audio_data
+        # Use the entire audio without skipping
+        if device.type == "cuda":
+            processed_audio = audio_data.cpu().numpy()
+        else:
+            processed_audio = audio_data
 
         return processed_audio, sr
     except Exception as e:

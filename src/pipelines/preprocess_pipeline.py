@@ -113,9 +113,6 @@ def preprocess_pipeline(mode="train", augment=True):
             "augmentation_enabled": augment,
             "config": {
                 "sample_rate": DEFAULT_SAMPLE_RATE,
-                "min_duration": MINIMUM_DURATION,
-                "skip_start": SKIP_START,
-                "skip_end": SKIP_END,
                 "n_mfcc": N_MFCC,
                 "n_mel_bands": N_MEL_BANDS,
                 "n_chroma": N_CHROMA
