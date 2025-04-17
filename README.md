@@ -53,6 +53,7 @@ The Quran Reciter Classifier system uses machine learning to identify Quran reci
 ├── models/                 # Saved models (generated)
 ├── test_results/           # Test results (generated)
 ├── logs/                   # Log files (generated)
+├── tools/                  # Utility scripts for project management and automation
 ├── requirements.txt        # Python dependencies
 └── README.md               # This file
 ```
