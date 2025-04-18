@@ -190,7 +190,7 @@ python -m server.app
 
 The server will start on `http://localhost:5000` by default.
 
-#### API Endpoint
+#### API Endpoints
 
 **POST** `/getReciter`
 
@@ -389,6 +389,117 @@ A prediction is considered reliable when:
 3. No failure reasons are present
 
 If any of these criteria are not met, `is_reliable` will be false and `predicted_reciter` will be "Unknown".
+
+**POST** `/getAyah`
+
+Identifies the Quranic verse from an audio recording.
+
+##### Request Format
+
+- **Content-Type**: `multipart/form-data`
+- **Parameters**:
+  - `audio`: Audio file (MP3 or WAV format)
+  - `max_matches` (optional): Maximum number of matches to return (default: 5)
+  - `min_confidence` (optional): Minimum confidence threshold (default: 0.70)
+- **Audio Requirements**:
+  - Duration: 1-10 seconds
+  - Format: MP3 or WAV
+  - Sample Rate: 22050 Hz (will be converted if different)
+
+Example using curl:
+
+```bash
+# Basic usage
+curl -X POST -F "audio=@path/to/audio.mp3" http://localhost:5000/getAyah
+
+# With optional parameters
+curl -X POST -F "audio=@path/to/audio.mp3" -F "max_matches=10" -F "min_confidence=0.65" http://localhost:5000/getAyah
+
+# With debug information (server must be started with --show-debug flag)
+python -m server.app --show-debug
+curl -X POST -F "audio=@path/to/audio.mp3" http://localhost:5000/getAyah
+```
+
+##### Response Format
+
+1. **Successful Response (200 OK)**
+
+Regular response:
+
+```json
+{
+  "matches_found": true,
+  "total_matches": 5,
+  "matches": [
+    {
+      "surah_number": 105,
+      "surah_name": "الفيل",
+      "surah_name_en": "Al-Fil",
+      "ayah_number": 5,
+      "ayah_text": "فَجَعَلَهُمۡ كَعَصۡفٖ مَّأۡكُولِۭ",
+      "confidence_score": 0.7749
+    }
+    // ... more matches sorted by confidence
+  ],
+  "best_match": {
+    // highest confidence match that meets threshold
+  }
+}
+```
+
+Debug mode response (when server started with --show-debug):
+
+```json
+{
+  // ... regular response fields ...
+  "transcription": "فَجَعَلَهُمْ كَعَصْفٍ مَأْكُوهُ",
+  "debug_info": {
+    "transcription": "فَجَعَلَهُمْ كَعَصْفٍ مَأْكُوهُ",
+    "normalized_transcription": "فجعلهم كعصف ماكوه",
+    "normalized_matches": [
+      {
+        "transcription": "فجعلهم كعصف ماكوه",
+        "verse": "فجعلهم كعصف ماكول",
+        "score": 0.7749
+      }
+      // ... more matches with normalization details
+    ]
+  }
+}
+```
+
+2. **Bad Request Errors (400)**
+
+```json
+{
+  "error": "No audio file provided. Please send the file with key 'audio' in form data."
+}
+```
+
+or
+
+```json
+{
+  "error": "Audio duration (0.8s) is less than minimum required (1s)"
+}
+```
+
+3. **Internal Server Errors (500)**
+
+```json
+{
+  "error": "Error in transcription or matching: [specific error message]"
+}
+```
+
+##### Response Fields
+
+- **matches_found**: Boolean indicating if any matches were found
+- **total_matches**: Number of matches returned
+- **matches**: Array of matches sorted by confidence score
+- **best_match**: Highest confidence match that meets the threshold
+- **transcription**: (Debug mode only) Original transcribed text
+- **debug_info**: (Debug mode only) Detailed matching information
 
 ## 🧠 Models
 
