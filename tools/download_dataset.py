@@ -34,7 +34,18 @@ def load_reciters():
     """Load reciters information from reciters.json"""
     try:
         with open('data/reciters.json', 'r', encoding='utf-8') as f:
-            reciters = json.load(f)
+            reciters_data = json.load(f)
+            
+            # Convert the new format to the format expected by the rest of the code
+            reciters = {}
+            for reciter_name, reciter_info in reciters_data.items():
+                # Extract the servers field which contains the URLs
+                if isinstance(reciter_info, dict) and "servers" in reciter_info:
+                    reciters[reciter_name] = reciter_info["servers"]
+                else:
+                    # Handle legacy format or unexpected structure
+                    reciters[reciter_name] = reciter_info
+            
             log_success(f"Loaded {len(reciters)} reciters from configuration")
             return reciters
     except FileNotFoundError:
