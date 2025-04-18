@@ -6,7 +6,11 @@ from pydub import AudioSegment
 import io
 import torch
 from config import USE_GPU
-from server.config import MIN_AUDIO_DURATION, MAX_AUDIO_DURATION, SAMPLE_RATE
+from server.config import (
+    MIN_AUDIO_DURATION, MAX_AUDIO_DURATION,
+    AYAH_MIN_DURATION, AYAH_MAX_DURATION,
+    SAMPLE_RATE
+)
 from src.features.extractors import extract_features as src_extract_features
 
 # Determine device for computations
@@ -14,12 +18,13 @@ device = torch.device("cuda" if torch.cuda.is_available()
                       and USE_GPU else "cpu")
 
 
-def process_audio_file(audio_file):
+def process_audio_file(audio_file, for_ayah=False):
     """
     Process audio file for prediction.
 
     Args:
         audio_file: File-like object containing audio data
+        for_ayah: Whether this is for ayah identification (different duration constraints)
 
     Returns:
         tuple: (processed_audio, sample_rate) or (None, error_message)
@@ -39,15 +44,23 @@ def process_audio_file(audio_file):
         # Get duration
         duration = len(audio_data) / sr
 
-        # Check minimum duration
-        if duration < MIN_AUDIO_DURATION:
-            return None, f"Audio duration ({duration:.1f}s) is less than minimum required ({MIN_AUDIO_DURATION}s)"
+        # Use appropriate duration constraints
+        if for_ayah:
+            min_duration = AYAH_MIN_DURATION
+            max_duration = AYAH_MAX_DURATION
+        else:
+            min_duration = MIN_AUDIO_DURATION
+            max_duration = MAX_AUDIO_DURATION
 
-        # Handle duration
-        if duration > MAX_AUDIO_DURATION:
+        # Check minimum duration
+        if duration < min_duration:
+            return None, f"Audio duration ({duration:.1f}s) is less than minimum required ({min_duration}s)"
+
+        # Handle maximum duration
+        if duration > max_duration:
             # Calculate samples for max duration
-            max_samples = int(MAX_AUDIO_DURATION * sr)
-            # Take the first MAX_AUDIO_DURATION seconds
+            max_samples = int(max_duration * sr)
+            # Take the first max_duration seconds
             audio_data = audio_data[:max_samples]
 
         # Normalize audio
