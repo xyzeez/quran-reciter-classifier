@@ -2,11 +2,55 @@
 Prediction utilities for the server.
 """
 import numpy as np
+import json
 from pathlib import Path
 from src.models import load_model
 from src.utils import calculate_distances, analyze_prediction_reliability
 from server.config import MODEL_DIR, LATEST_MODEL_SYMLINK, TOP_N_PREDICTIONS, MODEL_ID
 
+# Load reciters data
+def load_reciters_data():
+    """Load reciters information from reciters.json"""
+    try:
+        with open('data/reciters.json', 'r', encoding='utf-8') as f:
+            return json.load(f)
+    except Exception as e:
+        raise Exception(f"Error loading reciters data: {str(e)}")
+
+# Load reciters data at module level
+RECITERS_DATA = load_reciters_data()
+
+def get_reciter_info(reciter_name):
+    """Get reciter information from reciters.json"""
+    # Try to find an exact match first
+    if reciter_name in RECITERS_DATA:
+        info = RECITERS_DATA[reciter_name]
+        server_url = info['servers'][0] if isinstance(info['servers'], list) else info['servers']
+        return {
+            'nationality': info['nationality'],
+            'serverUrl': server_url,
+            'flagUrl': info['flagUrl'],
+            'imageUrl': info['imageUrl']
+        }
+    
+    # If no exact match, try case-insensitive match
+    for name, info in RECITERS_DATA.items():
+        if name.lower() == reciter_name.lower():
+            server_url = info['servers'][0] if isinstance(info['servers'], list) else info['servers']
+            return {
+                'nationality': info['nationality'],
+                'serverUrl': server_url,
+                'flagUrl': info['flagUrl'],
+                'imageUrl': info['imageUrl']
+            }
+    
+    # If still no match, return default values
+    return {
+        'nationality': 'Unknown',
+        'serverUrl': '',
+        'flagUrl': '',
+        'imageUrl': ''
+    }
 
 def find_model_by_id(model_id):
     """
@@ -103,16 +147,21 @@ def load_latest_model():
         return None, f"Error loading model: {str(e)}"
 
 
-def get_predictions(model, features):
+def get_predictions(model, features, show_unreliable_predictions=False):
     """
     Get predictions for the given features.
 
     Args:
         model: Trained model
         features: Extracted features
+        show_unreliable_predictions: If True, will show top predictions even when prediction is unreliable
+                                   (useful for testing/development)
 
     Returns:
-        dict: Prediction results
+        dict: Prediction results containing:
+            - reliable: boolean indicating if prediction is reliable
+            - main_prediction: details of the main prediction (only if reliable)
+            - top_predictions: array of other predictions (if reliable or show_unreliable_predictions is True)
     """
     try:
         # Ensure features are properly shaped (2D array)
@@ -136,27 +185,53 @@ def get_predictions(model, features):
 
         # Get top N predictions with confidence scores
         sorted_indices = np.argsort(probabilities)[::-1][:TOP_N_PREDICTIONS]
-        top_predictions = [
-            {
-                "reciter": str(model.classes_[idx]),
-                "confidence": float(probabilities[idx])
-            }
-            for idx in sorted_indices
-        ]
-
-        # Convert numpy/boolean types to Python native types
-        result = {
-            "predicted_reciter": "Unknown" if not reliability['is_reliable'] else str(prediction),
-            "is_reliable": bool(reliability['is_reliable']),
-            "top_predictions": top_predictions,
-            "failure_reasons": [str(reason) for reason in reliability['failure_reasons']]
+        
+        # Format the main prediction
+        reciter_name = str(prediction)
+        reciter_info = get_reciter_info(reciter_name)
+        main_prediction = {
+            "name": reciter_name,
+            "confidence": float(probabilities[sorted_indices[0]] * 100),  # Convert to percentage
+            "nationality": reciter_info['nationality'],
+            "serverUrl": reciter_info['serverUrl'],
+            "flagUrl": reciter_info['flagUrl'],
+            "imageUrl": reciter_info['imageUrl']
         }
 
-        # Add additional metrics if available
-        if 'top_confidence' in reliability:
-            result["confidence"] = float(reliability['top_confidence'])
-        if 'distance_ratio' in reliability:
-            result["distance_ratio"] = float(reliability['distance_ratio'])
+        # Format the top predictions (including the main prediction)
+        top_predictions = []
+        for idx in sorted_indices:
+            reciter_name = str(model.classes_[idx])
+            confidence = float(probabilities[idx] * 100)  # Convert to percentage
+            reciter_info = get_reciter_info(reciter_name)
+            top_predictions.append({
+                "name": reciter_name,
+                "confidence": confidence,
+                "nationality": reciter_info['nationality'],
+                "serverUrl": reciter_info['serverUrl'],
+                "flagUrl": reciter_info['flagUrl'],
+                "imageUrl": reciter_info['imageUrl']
+            })
+
+        # If prediction is not reliable and we're not showing unreliable predictions
+        if not reliability['is_reliable'] and not show_unreliable_predictions:
+            return {
+                "reliable": False
+            }
+        
+        # If prediction is not reliable but we're showing unreliable predictions (dev mode)
+        if not reliability['is_reliable'] and show_unreliable_predictions:
+            return {
+                "reliable": False,
+                "top_predictions": top_predictions
+            }
+
+        # Return the full response format for reliable predictions
+        result = {
+            "reliable": bool(reliability['is_reliable']),  # Ensure it's a Python bool
+            "main_prediction": main_prediction,
+            "top_predictions": top_predictions
+        }
 
         return result
 

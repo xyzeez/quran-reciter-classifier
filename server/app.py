@@ -12,7 +12,7 @@ if __name__ == "__main__":
     if str(project_root) not in sys.path:
         sys.path.insert(0, str(project_root))
 
-from server.config import HOST, PORT, DEBUG
+from server.config import HOST, PORT, DEBUG, SHOW_UNRELIABLE_PREDICTIONS_IN_DEV
 from server.audio_utils import process_audio_file, extract_features
 from server.prediction_utils import load_latest_model, get_predictions
 
@@ -38,6 +38,7 @@ def get_reciter():
     Endpoint to identify reciter from audio file.
 
     Expected input: Audio file in form data with key 'audio'
+    Optional input: show_unreliable_predictions (boolean) - Show predictions even when unreliable
     Returns: JSON with prediction results
     """
     try:
@@ -56,6 +57,13 @@ def get_reciter():
             return jsonify({
                 'error': error_msg
             }), 400
+
+        # Get show_unreliable_predictions parameter from form data
+        show_unreliable = request.form.get('show_unreliable_predictions', '').lower() == 'true'
+        
+        # Use the global setting if not explicitly set in request
+        if not show_unreliable and SHOW_UNRELIABLE_PREDICTIONS_IN_DEV:
+            show_unreliable = True
 
         # Process audio file
         result = process_audio_file(file)
@@ -86,8 +94,21 @@ def get_reciter():
 
         # Get predictions
         try:
-            result = get_predictions(model, features)
-            return jsonify(result), 200
+            result = get_predictions(model, features, show_unreliable_predictions=show_unreliable)
+            
+            # Ensure all values are JSON serializable
+            try:
+                return jsonify(result), 200
+            except TypeError as e:
+                logger.error(f"JSON serialization error: {str(e)}", exc_info=True)
+                # Try to fix common serialization issues
+                if "is not JSON serializable" in str(e):
+                    error_msg = f"Response contains non-JSON serializable data: {str(e)}"
+                    logger.error(error_msg)
+                    return jsonify({
+                        'error': error_msg
+                    }), 500
+                raise  # Re-raise if it's a different TypeError
 
         except Exception as e:
             error_msg = f'Error making prediction: {str(e)}'

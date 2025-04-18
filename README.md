@@ -188,25 +188,207 @@ Start the Flask server:
 python -m server.app
 ```
 
-Send a POST request to the `/getReciter` endpoint with an audio file:
+The server will start on `http://localhost:5000` by default.
+
+#### API Endpoint
+
+**POST** `/getReciter`
+
+Identifies the Quran reciter from an audio file.
+
+##### Request Format
+
+- **Content-Type**: `multipart/form-data`
+- **Parameter**:
+  - `audio`: Audio file (MP3 or WAV format)
+- **Audio Requirements**:
+  - Duration: 5-15 seconds
+  - Format: MP3 or WAV
+  - Sample Rate: 22050 Hz (will be converted if different)
+
+Example using curl:
 
 ```bash
 curl -X POST -F "audio=@path/to/audio.mp3" http://localhost:5000/getReciter
 ```
 
-Response format:
+Example using Python requests:
+
+```python
+import requests
+
+url = 'http://localhost:5000/getReciter'
+files = {'audio': open('path/to/audio.mp3', 'rb')}
+response = requests.post(url, files=files)
+print(response.json())
+```
+
+##### Response Formats
+
+1. **Successful Response (200 OK)**
+
+For reliable predictions:
 
 ```json
 {
-  "primary_prediction": "Sheikh Mishary Rashid Alafasy",
-  "confidence": 0.92,
-  "secondary_predictions": [
-    { "reciter": "Abdul Rahman Al-Sudais", "confidence": 0.05 },
-    { "reciter": "Saud Al-Shuraim", "confidence": 0.03 }
-  ],
-  "processing_time": 1.25
+  "reliable": true,
+  "main_prediction": {
+    "name": "Reciter Name",
+    "confidence": 95.5, // float between 0 and 100
+    "nationality": "Country",
+    "serverUrl": "https://example.com",
+    "flagUrl": "https://example.com/flag.png",
+    "imageUrl": "https://example.com/image.jpg"
+  },
+  "top_predictions": [
+    {
+      "name": "Reciter Name 1",
+      "confidence": 95.5,
+      "nationality": "Country 1",
+      "serverUrl": "https://example.com/1",
+      "flagUrl": "https://example.com/flag1.png",
+      "imageUrl": "https://example.com/image1.jpg"
+    },
+    {
+      "name": "Reciter Name 2",
+      "confidence": 3.5,
+      "nationality": "Country 2",
+      "serverUrl": "https://example.com/2",
+      "flagUrl": "https://example.com/flag2.png",
+      "imageUrl": "https://example.com/image2.jpg"
+    }
+    // ... more predictions
+  ]
 }
 ```
+
+For unreliable predictions in production mode:
+
+```json
+{
+  "reliable": false
+}
+```
+
+For unreliable predictions in development mode (when SHOW_UNRELIABLE_PREDICTIONS_IN_DEV is true):
+
+```json
+{
+  "reliable": false,
+  "top_predictions": [
+    {
+      "name": "Reciter Name 1",
+      "confidence": 45.5,
+      "nationality": "Country 1",
+      "serverUrl": "https://example.com/1",
+      "flagUrl": "https://example.com/flag1.png",
+      "imageUrl": "https://example.com/image1.jpg"
+    }
+    // ... more predictions
+  ]
+}
+```
+
+2. **Bad Request Errors (400)**
+
+```json
+{
+  "error": "No audio file provided. Please send the file with key 'audio' in form data."
+}
+```
+
+or
+
+```json
+{
+  "error": "No audio file selected"
+}
+```
+
+or
+
+```json
+{
+  "error": "Audio file is too short. Minimum duration is 5 seconds."
+}
+```
+
+or
+
+```json
+{
+  "error": "Audio file is too long. Maximum duration is 15 seconds."
+}
+```
+
+or
+
+```json
+{
+  "error": "Invalid audio file format. Supported formats: MP3, WAV"
+}
+```
+
+3. **Internal Server Errors (500)**
+
+```json
+{
+  "error": "Feature extraction failed"
+}
+```
+
+or
+
+```json
+{
+  "error": "Error extracting features: [specific error message]"
+}
+```
+
+or
+
+```json
+{
+  "error": "Error making prediction: [specific error message]"
+}
+```
+
+or
+
+```json
+{
+  "error": "Server error: [specific error message]"
+}
+```
+
+##### Response Fields
+
+- **predicted_reciter**: The identified reciter's name, or "Unknown" if the prediction is not reliable
+- **is_reliable**: Boolean indicating if the prediction meets reliability criteria
+- **top_predictions**: Array of top N predictions with confidence scores
+- **confidence**: (Optional) The confidence score of the top prediction
+- **distance_ratio**: (Optional) Ratio of distances used in reliability analysis
+- **failure_reasons**: Array of strings explaining why a prediction might not be reliable
+
+##### Error Handling
+
+The API uses standard HTTP status codes:
+
+- **200**: Successful request
+- **400**: Bad request (client error)
+- **500**: Internal server error
+
+All error responses include an `error` field with a descriptive message.
+
+##### Reliability Criteria
+
+A prediction is considered reliable when:
+
+1. The top confidence score exceeds the threshold (default: 0.95)
+2. The distance ratio meets the minimum requirement
+3. No failure reasons are present
+
+If any of these criteria are not met, `is_reliable` will be false and `predicted_reciter` will be "Unknown".
 
 ## 🧠 Models
 

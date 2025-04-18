@@ -15,6 +15,7 @@ from config import (
 HOST = '0.0.0.0'  # Listen on all available interfaces
 PORT = 5000
 DEBUG = False
+SHOW_UNRELIABLE_PREDICTIONS_IN_DEV = True  # When True, shows unreliable predictions regardless of debug mode
 
 # Audio processing settings
 MIN_AUDIO_DURATION = 5  # Minimum audio duration in seconds
@@ -24,7 +25,7 @@ SAMPLE_RATE = 22050  # Audio sample rate
 # Model settings
 MODEL_DIR = Path(MODEL_OUTPUT_DIR)
 LATEST_MODEL_SYMLINK = MODEL_DIR / 'latest'
-MODEL_ID = '20250309_113120_train'  # Specific model ID to use (e.g., '20240306_152417_train'), if None use symlink/latest
+MODEL_ID = '20250417_023215_train'  # Specific model ID to use (e.g., '20240306_152417_train'), if None use symlink/latest
 
 # Server-specific prediction settings
 TOP_N_PREDICTIONS = 5  # Number of top predictions to return
