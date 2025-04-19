@@ -1,0 +1,35 @@
+{
+    "run_id": "20250419_001638_preprocess",
+    "timestamp": "2025-04-19T00:16:38.312528",
+    "mode": "train",
+    "augmentation_enabled": false,
+    "config": {
+        "sample_rate": 22050,
+        "n_mfcc": 32,
+        "n_mel_bands": 64,
+        "n_chroma": 12
+    },
+    "system_info": {
+        "platform": "Linux-6.1.123+-x86_64-with-glibc2.35",
+        "python_version": "3.11.12",
+        "cpu_count": 2,
+        "use_gpu_config": true,
+        "gpu_available": true
+    },
+    "input_directory": "data/train",
+    "output_directory": "processed/train/20250419_001638_preprocess",
+    "reciters": [
+        "Mohammed Siddiq Al-Minshawi",
+        "Mishary Alafasi",
+        "Mahmoud Khalil Al-Hussary",
+        "Saud Al-Shuraim",
+        "Abdulbasit Abdulsamad"
+    ],
+    "total_reciters": 5,
+    "total_files_processed": 4056,
+    "total_files_skipped": 0,
+    "total_augmented_samples": 0,
+    "total_features": 4056,
+    "total_audio_duration": 25999.032743764164,
+    "total_processing_time": 2876.883784532547
+}
