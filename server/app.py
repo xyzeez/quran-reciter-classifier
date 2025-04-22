@@ -7,6 +7,7 @@ from pathlib import Path
 from flask import Flask, request, jsonify
 import os
 import json
+import argparse
 
 # Add project root to Python path when running script directly
 if __name__ == "__main__":
@@ -15,13 +16,16 @@ if __name__ == "__main__":
         sys.path.insert(0, str(project_root))
 
 from server.config import (
-    HOST, PORT, DEBUG, SHOW_UNRELIABLE_PREDICTIONS_IN_DEV,
-    SHOW_DEBUG_INFO
+    HOST, PORT,
 )
 from server.audio_utils import process_audio_file, extract_features
 from server.prediction_utils import load_latest_model, get_predictions
 from server.transcription_utils import load_model as load_whisper_model, transcribe_audio
 from server.ayah_matcher import load_quran_data, find_matching_ayah
+
+# Global variable to hold command-line debug status
+SERVER_DEBUG_MODE = False
+SERVER_SHOW_DEBUG_INFO = False
 
 # --- Helper Function for Arabic Numerals ---
 def int_to_arabic_numeral(number: int) -> str:
@@ -122,11 +126,15 @@ def get_reciter():
             }), 400
 
         # Get show_unreliable_predictions parameter from form data
-        show_unreliable = request.form.get('show_unreliable_predictions', '').lower() == 'true'
+        show_unreliable_param = request.form.get('show_unreliable_predictions', '').lower() == 'true'
         
-        # Use the global setting if not explicitly set in request
-        if not show_unreliable and SHOW_UNRELIABLE_PREDICTIONS_IN_DEV:
-            show_unreliable = True
+        # Determine if unreliable predictions should be shown
+        # Use the command-line debug flag OR the explicit request parameter
+        show_unreliable = SERVER_DEBUG_MODE or show_unreliable_param
+        
+        # Log decision
+        if show_unreliable:
+            logger.info("Showing unreliable predictions (debug mode or request parameter)")
 
         # Process audio file with reciter duration constraints
         result = process_audio_file(file, for_ayah=False)
@@ -297,12 +305,12 @@ def get_ayah():
                 'similarAyahs': similarAyahs    # List of transformed matches
             }
             
-            # Optional: Include original debug info if needed 
-            # (though the app doesn't expect it in this structure)
-            if SHOW_DEBUG_INFO:
+            # Optional: Include original debug info if needed
+            # Use the global variable set by the command-line flag
+            if SERVER_SHOW_DEBUG_INFO:
                  response['debug_info_original'] = matches_result.get('debug_info', {})
                  response['debug_info_original']['transcription'] = transcription
-                 logger.info("Including original debug information in response under 'debug_info_original'")
+                 logger.info("Including original debug information in response (via --show-debug flag)")
 
             return jsonify(response), 200
 
@@ -354,10 +362,36 @@ def get_all_reciters():
         return jsonify({'error': 'Internal server error processing reciters data.'}), 500
 # --- End New Endpoint --- 
 
-def run_server():
+def run_server(debug_mode=False):
     """Run the Flask server."""
-    app.run(host=HOST, port=PORT, debug=DEBUG)
+    # This debug_mode controls Flask's reloader/debugger
+    app.run(host=HOST, port=PORT, debug=debug_mode)
 
 
 if __name__ == '__main__':
-    run_server()
+    # --- Command Line Argument Parsing ---
+    parser = argparse.ArgumentParser(description='Run the Quran Reciter Classifier Flask server.')
+    parser.add_argument(
+        '--debug', 
+        action='store_true', 
+        help='Run the server in debug mode (enables reloader and other debug behaviors).'
+    )
+    parser.add_argument(
+        '--show-debug', 
+        action='store_true', 
+        help='Enable debug information in /getAyah responses.'
+    )
+    args = parser.parse_args()
+    # --- End Argument Parsing ---
+    
+    # Set the global debug modes based on the flags
+    SERVER_DEBUG_MODE = args.debug 
+    SERVER_SHOW_DEBUG_INFO = args.show_debug 
+    
+    if SERVER_DEBUG_MODE:
+        logger.info("Running in server debug mode (via --debug flag).")
+    if SERVER_SHOW_DEBUG_INFO:
+         logger.info("Detailed Ayah debug info enabled (via --show-debug flag).")
+
+    # Pass the --debug flag value to run_server for Flask's internal debugger/reloader
+    run_server(debug_mode=args.debug)
