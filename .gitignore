@@ -51,3 +51,7 @@ processed/**/reciter_profiles.json
 processed/**/visualizations/
 processed/test/**/[A-Z]*/
 processed/train/**/[A-Z]*/
+
+# API Responses
+api-responses/
+

@@ -8,6 +8,7 @@ from flask import Flask, request, jsonify
 import os
 import json
 import argparse
+from datetime import datetime
 
 # Add project root to Python path when running script directly
 if __name__ == "__main__":
@@ -26,6 +27,10 @@ from server.ayah_matcher import load_quran_data, find_matching_ayah
 # Global variable to hold command-line debug status
 SERVER_DEBUG_MODE = False
 SERVER_SHOW_DEBUG_INFO = False
+
+# Define API response save directory relative to project root (assuming app.py is in server/)
+project_root_dir = Path(__file__).resolve().parent.parent
+API_RESPONSE_SAVE_DIR = project_root_dir / "api-responses" / "getAyah"
 
 # --- Helper Function for Arabic Numerals ---
 def int_to_arabic_numeral(number: int) -> str:
@@ -263,14 +268,14 @@ def get_ayah():
 
         audio_data, sr = result
 
-        # --- Helper to transform match data --- 
-        def transform_match_to_ayah(match_obj):
+        # --- Helper to transform match data ---
+        def transform_match_to_ayah(match_obj, include_confidence=False):
             if not match_obj:
                 return None
             # Get the unicode directly from the match object
-            ayah_unicode = match_obj.get('unicode', '') 
+            ayah_unicode = match_obj.get('unicode', '')
 
-            return {
+            ayah_data = {
                 'surah_number': int_to_arabic_numeral(match_obj.get('surah_number', 0)),
                 'surah_number_en': match_obj.get('surah_number', 0),
                 'surah_name': match_obj.get('surah_name', ''),
@@ -278,9 +283,15 @@ def get_ayah():
                 'ayah_number': int_to_arabic_numeral(match_obj.get('ayah_number', 0)),
                 'ayah_number_en': match_obj.get('ayah_number', 0),
                 'ayah_text': match_obj.get('ayah_text', ''),
-                'unicode': ayah_unicode # Use the actual unicode value
+                'unicode': ayah_unicode
             }
-        # --- End Helper --- 
+            
+            # Add confidence score if requested (e.g., in debug mode)
+            if include_confidence:
+                ayah_data['confidence_score'] = match_obj.get('confidence_score', 0.0)
+                
+            return ayah_data
+        # --- End Helper ---
 
         # Transcribe audio and find matches
         try:
@@ -294,23 +305,46 @@ def get_ayah():
             # Determine reliability based on best_match presence
             reliable = bool(matches_result.get('best_match'))
 
-            # Transform best_match and top_matches
-            matchedAyah = transform_match_to_ayah(matches_result.get('best_match'))
-            similarAyahs = [transform_match_to_ayah(m) for m in matches_result.get('matches', []) if m]
+            # Transform best_match and top_matches, including confidence if in debug mode
+            matchedAyah = transform_match_to_ayah(
+                matches_result.get('best_match'), 
+                include_confidence=SERVER_DEBUG_MODE # Pass debug flag
+            )
+            similarAyahs = [
+                transform_match_to_ayah(m, include_confidence=SERVER_DEBUG_MODE) 
+                for m in matches_result.get('matches', []) if m
+            ]
             
             # Prepare response in the structure expected by the app
             response = {
                 'reliable': reliable,
-                'matchedAyah': matchedAyah,       # Will be None if not reliable
-                'similarAyahs': similarAyahs    # List of transformed matches
+                'matchedAyah': matchedAyah,      
+                'similarAyahs': similarAyahs    
             }
             
-            # Optional: Include original debug info if needed
-            # Use the global variable set by the command-line flag
-            if SERVER_SHOW_DEBUG_INFO:
-                 response['debug_info_original'] = matches_result.get('debug_info', {})
-                 response['debug_info_original']['transcription'] = transcription
-                 logger.info("Including original debug information in response (via --show-debug flag)")
+            # If in debug mode, add transcription and confidence scores (already added via helper)
+            if SERVER_DEBUG_MODE:
+                response['transcription'] = transcription # Add transcription key
+                logger.info("Including transcription and confidence scores in response (debug mode)")
+                
+                # --- Save response to file --- 
+                try:
+                    # Ensure directory exists
+                    os.makedirs(API_RESPONSE_SAVE_DIR, exist_ok=True)
+                    
+                    # Create timestamped filename
+                    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S_%f")[:-3] # YYYYMMDD_HHMMSS_ms
+                    filename = f"response_{timestamp}.json"
+                    filepath = API_RESPONSE_SAVE_DIR / filename
+                    
+                    # Save the response dictionary as JSON
+                    with open(filepath, 'w', encoding='utf-8') as f:
+                        json.dump(response, f, ensure_ascii=False, indent=4)
+                    logger.info(f"Saved /getAyah debug response to: {filepath}")
+                    
+                except Exception as save_e:
+                    logger.error(f"Failed to save /getAyah debug response: {save_e}")
+                # --- End save response --- 
 
             return jsonify(response), 200
 
