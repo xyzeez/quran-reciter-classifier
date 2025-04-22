@@ -5,6 +5,8 @@ import sys
 import logging
 from pathlib import Path
 from flask import Flask, request, jsonify
+import os
+import json
 
 # Add project root to Python path when running script directly
 if __name__ == "__main__":
@@ -21,6 +23,12 @@ from server.prediction_utils import load_latest_model, get_predictions
 from server.transcription_utils import load_model as load_whisper_model, transcribe_audio
 from server.ayah_matcher import load_quran_data, find_matching_ayah
 
+# --- Helper Function for Arabic Numerals ---
+def int_to_arabic_numeral(number: int) -> str:
+    """Converts an integer to Eastern Arabic numeral string."""
+    arabic_digits = { '0': '٠', '1': '١', '2': '٢', '3': '٣', '4': '٤', '5': '٥', '6': '٦', '7': '٧', '8': '٨', '9': '٩' }
+    return "".join(arabic_digits[digit] for digit in str(number))
+# --- End Helper Function ---
 
 # Initialize Flask app
 app = Flask(__name__)
@@ -49,6 +57,43 @@ except Exception as e:
     logger.error(f"Error loading models or data: {str(e)}")
     sys.exit(1)
 
+# --- Reciters Data Loading --- 
+reciters_data = None
+def load_reciters_data():
+    global reciters_data
+    if reciters_data:
+        return reciters_data
+    try:
+        # Try different paths relative to app.py
+        script_dir = Path(__file__).resolve().parent
+        project_root = script_dir.parent 
+        possible_paths = [
+            project_root / 'data' / 'reciters.json',
+            script_dir / '..' / 'data' / 'reciters.json' # Relative path
+        ]
+        
+        reciters_file = None
+        for path in possible_paths:
+            if path.exists():
+                reciters_file = path
+                break
+
+        if reciters_file is None:
+             raise FileNotFoundError(
+                f"Could not find reciters.json in expected locations relative to app.py: {[str(p) for p in possible_paths]}"
+            )
+            
+        logger.info(f"Loading reciters data from: {reciters_file}")
+        with open(reciters_file, 'r', encoding='utf-8') as f:
+            reciters_data = json.load(f)
+        return reciters_data
+    except Exception as e:
+        logger.error(f"Error loading reciters.json: {str(e)}")
+        return None # Return None on error
+
+# Ensure reciters data is loaded at startup
+load_reciters_data()
+# --- End Reciters Data Loading ---
 
 @app.route('/getReciter', methods=['POST'])
 def get_reciter():
@@ -210,6 +255,25 @@ def get_ayah():
 
         audio_data, sr = result
 
+        # --- Helper to transform match data --- 
+        def transform_match_to_ayah(match_obj):
+            if not match_obj:
+                return None
+            # Get the unicode directly from the match object
+            ayah_unicode = match_obj.get('unicode', '') 
+
+            return {
+                'surah_number': int_to_arabic_numeral(match_obj.get('surah_number', 0)),
+                'surah_number_en': match_obj.get('surah_number', 0),
+                'surah_name': match_obj.get('surah_name', ''),
+                'surah_name_en': match_obj.get('surah_name_en', ''),
+                'ayah_number': int_to_arabic_numeral(match_obj.get('ayah_number', 0)),
+                'ayah_number_en': match_obj.get('ayah_number', 0),
+                'ayah_text': match_obj.get('ayah_text', ''),
+                'unicode': ayah_unicode # Use the actual unicode value
+            }
+        # --- End Helper --- 
+
         # Transcribe audio and find matches
         try:
             transcription = transcribe_audio(audio_data, sr)
@@ -218,36 +282,34 @@ def get_ayah():
                 min_confidence=min_confidence,
                 max_matches=max_matches
             )
+
+            # Determine reliability based on best_match presence
+            reliable = bool(matches_result.get('best_match'))
+
+            # Transform best_match and top_matches
+            matchedAyah = transform_match_to_ayah(matches_result.get('best_match'))
+            similarAyahs = [transform_match_to_ayah(m) for m in matches_result.get('matches', []) if m]
             
-            # Prepare response
+            # Prepare response in the structure expected by the app
             response = {
-                'matches_found': bool(matches_result['matches']),
-                'total_matches': matches_result['total_matches']
+                'reliable': reliable,
+                'matchedAyah': matchedAyah,       # Will be None if not reliable
+                'similarAyahs': similarAyahs    # List of transformed matches
             }
-
-            if not matches_result['matches']:
-                response['message'] = 'No matching verses found with sufficient confidence'
-            else:
-                response['matches'] = matches_result['matches']
-                response['best_match'] = matches_result['best_match']
-
-            # Add debug info when enabled via command line
-            if SHOW_DEBUG_INFO:
-                # Add transcription at root level for easy access
-                response['transcription'] = transcription
-                # Add detailed debug info
-                response['debug_info'] = matches_result.get('debug_info', {})
-                response['debug_info']['transcription'] = transcription
-                logger.info("Including debug information in response")
             
+            # Optional: Include original debug info if needed 
+            # (though the app doesn't expect it in this structure)
+            if SHOW_DEBUG_INFO:
+                 response['debug_info_original'] = matches_result.get('debug_info', {})
+                 response['debug_info_original']['transcription'] = transcription
+                 logger.info("Including original debug information in response under 'debug_info_original'")
+
             return jsonify(response), 200
 
         except Exception as e:
             error_msg = f'Error in transcription or matching: {str(e)}'
             logger.error(f"Internal Server Error (500): {error_msg}", exc_info=True)
-            return jsonify({
-                'error': error_msg
-            }), 500
+            return jsonify({'error': error_msg}), 500
 
     except Exception as e:
         error_msg = f'Server error: {str(e)}'
@@ -256,6 +318,41 @@ def get_ayah():
             'error': error_msg
         }), 500
 
+# --- New Endpoint for Reciters --- 
+@app.route('/getAllReciters', methods=['GET'])
+def get_all_reciters():
+    """Endpoint to get a list of all available reciters."""
+    global reciters_data
+    if not reciters_data:
+        # Attempt to reload if it failed at startup
+        load_reciters_data()
+        if not reciters_data:
+             return jsonify({'error': 'Reciters data could not be loaded.'}), 500
+
+    reciters_list = []
+    try:
+        for name, data in reciters_data.items():
+            servers = data.get('servers', [])
+            server_url = ''
+            if isinstance(servers, list):
+                server_url = servers[0] if servers else ''
+            elif isinstance(servers, str):
+                server_url = servers
+                
+            reciter_info = {
+                'name': name,
+                'nationality': data.get('nationality', 'Unknown'),
+                'flagUrl': data.get('flagUrl', ''),
+                'imageUrl': data.get('imageUrl', ''),
+                'serverUrl': server_url
+            }
+            reciters_list.append(reciter_info)
+            
+        return jsonify(reciters_list), 200
+    except Exception as e:
+        logger.error(f"Error processing reciters data: {str(e)}", exc_info=True)
+        return jsonify({'error': 'Internal server error processing reciters data.'}), 500
+# --- End New Endpoint --- 
 
 def run_server():
     """Run the Flask server."""

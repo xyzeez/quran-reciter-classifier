@@ -154,6 +154,7 @@ def load_quran_data() -> None:
         normalized_verses = []
         verse_count = 0
         for surah in quran_data:
+            surah_unicode = surah.get('unicode', '') # Get unicode for the surah
             for verse in surah['verses']:
                 normalized_verses.append({
                     'surah_number': surah['id'],
@@ -161,7 +162,8 @@ def load_quran_data() -> None:
                     'surah_name_en': surah['transliteration'],
                     'ayah_number': verse['id'],
                     'ayah_text': verse['text'],
-                    'normalized_text': normalize_arabic_text(verse['text'], verbose=False)
+                    'normalized_text': normalize_arabic_text(verse['text'], verbose=False),
+                    'unicode': surah_unicode  # Add unicode here
                 })
                 verse_count += 1
         
@@ -212,7 +214,8 @@ def find_matching_ayah(transcribed_text: str, min_confidence: float = 0.60, max_
                 'ayah_number': verse['ayah_number'],
                 'ayah_text': verse['ayah_text'],
                 'confidence_score': round(score, 4),
-                'normalized_text': verse['normalized_text']  # Store normalized text for debug info
+                'normalized_text': verse['normalized_text'],  # Store normalized text for debug info
+                'unicode': verse.get('unicode', '')  # Add unicode from normalized_verse
             }
             all_matches.append(match_info)
         
