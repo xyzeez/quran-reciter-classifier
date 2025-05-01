@@ -1,5 +1,6 @@
 """
-Model loading utilities for server initialization.
+Model initialization and management for the server.
+Handles loading and access to reciter and verse identification models.
 """
 import logging
 from pathlib import Path
@@ -21,10 +22,11 @@ ayah_model = None
 
 def find_model_path() -> Optional[Path]:
     """
-    Find the appropriate model file path based on config.
+    Locate model file using configured paths and fallback strategies.
+    Tries specific model ID, latest symlink, and most recent model.
     
     Returns:
-        Path: Path to model file or None if not found
+        Path to model file or None if not found
     """
     models_dir = Path(MODEL_DIR)
     
@@ -71,10 +73,11 @@ def find_model_path() -> Optional[Path]:
 
 def initialize_models() -> Tuple[bool, bool]:
     """
-    Initialize both reciter and ayah models at server startup.
+    Load both reciter and verse identification models at startup.
+    Uses configured paths and model types.
     
     Returns:
-        Tuple[bool, bool]: (reciter_success, ayah_success)
+        (reciter_success, ayah_success) indicating load status
     """
     global reciter_model, ayah_model
     reciter_success = False
@@ -106,14 +109,30 @@ def initialize_models() -> Tuple[bool, bool]:
     return reciter_success, ayah_success
 
 def get_reciter_model():
-    """Get the loaded reciter model instance."""
+    """
+    Get the global reciter identification model.
+    
+    Returns:
+        Loaded reciter model instance
+        
+    Raises:
+        RuntimeError: If model not initialized
+    """
     global reciter_model
     if reciter_model is None:
         raise RuntimeError("Reciter model not initialized")
     return reciter_model
 
 def get_ayah_model():
-    """Get the loaded ayah model instance."""
+    """
+    Get the global verse identification model.
+    
+    Returns:
+        Loaded verse model instance
+        
+    Raises:
+        RuntimeError: If model not initialized
+    """
     global ayah_model
     if ayah_model is None:
         raise RuntimeError("Ayah model not initialized")

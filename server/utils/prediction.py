@@ -1,5 +1,6 @@
 """
-Prediction utilities for the Quran reciter classifier.
+Prediction utilities for Quran reciter identification.
+Handles model loading, feature extraction, and reliability analysis.
 """
 import logging
 import numpy as np
@@ -26,10 +27,11 @@ _centroids = None
 
 def find_model_path() -> Optional[Path]:
     """
-    Find the appropriate model file path based on config.
+    Locate model file using configured paths and fallback strategies.
+    Tries specific model ID, latest symlink, and most recent model.
     
     Returns:
-        Path: Path to model file or None if not found
+        Path to model file or None if not found
     """
     models_dir = Path(MODEL_DIR)
     
@@ -76,10 +78,11 @@ def find_model_path() -> Optional[Path]:
 
 def get_model():
     """
-    Get the loaded model instance, loading it if necessary.
+    Get or initialize the global model instance.
+    Loads model from disk if not already loaded.
     
     Returns:
-        Model instance or None if loading fails
+        Loaded model instance or None if loading fails
     """
     global _model
     if _model is None:
@@ -108,11 +111,11 @@ def get_model():
 
 def update_centroids(features: np.ndarray, labels: List[str]) -> None:
     """
-    Update class centroids based on provided features.
+    Update class centroids for distance-based reliability analysis.
     
     Args:
-        features: Array of features of shape (n_samples, n_features)
-        labels: List of corresponding class labels
+        features: Feature matrix (n_samples, n_features)
+        labels: Corresponding class labels
     """
     global _centroids
     try:
@@ -143,21 +146,22 @@ def get_predictions(
     reliability_thresholds: Optional[Dict[str, float]] = None
 ) -> Tuple[List[Dict[str, Union[str, float]]], bool]:
     """
-    Get model predictions with reliability analysis.
+    Generate predictions with confidence scores and reliability analysis.
     
     Args:
-        audio_data: Audio data array
-        sample_rate: Audio sample rate
-        top_k: Number of top predictions to return
-        min_confidence: Minimum confidence threshold for predictions
-        reliability_thresholds: Dictionary of thresholds for reliability analysis:
-            - 'min_probability': Minimum acceptable probability
-            - 'max_distance': Maximum acceptable distance to centroid
+        audio_data: Audio time series
+        sample_rate: Audio sample rate in Hz
+        top_k: Number of predictions to return
+        min_confidence: Minimum confidence threshold
+        reliability_thresholds: Optional thresholds for reliability checks:
+            - min_probability: Minimum class probability
+            - max_distance: Maximum centroid distance
             
     Returns:
-        Tuple containing:
-        - List of dictionaries with predictions and scores
-        - Boolean indicating if prediction is reliable
+        (predictions, is_reliable) where predictions is a list of dicts with:
+        - reciter: Predicted reciter name
+        - confidence: Prediction confidence score
+        - reliability metrics (for top prediction only)
     """
     model = get_model()
     if model is None:

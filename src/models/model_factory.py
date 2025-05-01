@@ -1,5 +1,6 @@
 """
-Factory for creating model instances.
+Factory for creating and loading Quran reciter classifier models.
+Supports multiple model types and handles automatic type detection.
 """
 import logging
 from pathlib import Path
@@ -13,23 +14,21 @@ logger = logging.getLogger(__name__)
 
 def create_model(model_type=None):
     """
-    Create a model instance based on the specified model type.
+    Create a new model instance.
 
     Args:
-        model_type (str, optional): Model type to create.
-            If None, will use the MODEL_TYPE from config.
+        model_type: Type of model to create ('random_forest' or 'blstm')
+                   Uses MODEL_TYPE from config if not specified
 
     Returns:
-        Model instance
+        New model instance
 
     Raises:
-        ValueError: If the model type is not supported
+        ValueError: If model_type is not supported
     """
-    # Use config model type if not specified
     if model_type is None:
         model_type = MODEL_TYPE
 
-    # Convert to lowercase for case-insensitive comparison
     model_type = model_type.lower()
 
     if model_type == 'random_forest':
@@ -44,16 +43,16 @@ def create_model(model_type=None):
 
 def get_latest_model(model_dir):
     """
-    Find the latest model file in the models directory.
+    Find most recently modified model file.
 
     Args:
-        model_dir (str or Path): Directory containing model files
+        model_dir: Directory containing model files
 
     Returns:
-        Path: Path to the latest model file
+        Path to latest model file
 
     Raises:
-        FileNotFoundError: If no model files are found
+        FileNotFoundError: If no model files exist
     """
     model_dir = Path(model_dir)
     model_files = list(model_dir.glob('model_*.joblib'))
@@ -66,47 +65,44 @@ def get_latest_model(model_dir):
 
 def detect_model_type_from_filename(model_path):
     """
-    Detect the model type from the filename.
+    Infer model type from filename.
 
     Args:
-        model_path (str or Path): Path to the model file
+        model_path: Path to model file
 
     Returns:
-        str: Detected model type (lowercase)
+        Detected model type or default from config
     """
     filename = str(model_path).lower()
 
-    # Check for specific model types in the filename
     if "blstm" in filename:
         return "blstm"
     elif "random_forest" in filename or "randomforest" in filename:
         return "random_forest"
-    # Add more model type checks here as they are implemented
 
-    # Default to config model type if detection fails
-    logger.warning(f"Could not detect model type from filename: {model_path}")
-    logger.warning(f"Using default model type: {MODEL_TYPE}")
+    logger.warning(f"Could not detect model type from: {model_path}")
+    logger.warning(f"Using default type: {MODEL_TYPE}")
     return MODEL_TYPE
 
 
 def load_model(model_path=None):
     """
-    Load a model from file with improved model type detection.
+    Load a saved model with automatic type detection.
 
     Args:
-        model_path (str, optional): Path to the model file.
-            If None, will load the latest model from the MODEL_OUTPUT_DIR.
+        model_path: Path to model file
+                   Loads latest model if not specified
 
     Returns:
         Loaded model instance
 
     Raises:
-        FileNotFoundError: If the model file is not found
+        FileNotFoundError: If model file doesn't exist
+        ValueError: If model loading fails for all supported types
     """
     from config import MODEL_OUTPUT_DIR
 
     if model_path is None:
-        # Load the latest model
         model_dir = Path(MODEL_OUTPUT_DIR)
         model_path = get_latest_model(model_dir)
         logger.info(f"Loading latest model: {model_path}")
@@ -115,35 +111,32 @@ def load_model(model_path=None):
         if not model_path.is_file():
             raise FileNotFoundError(f"Model file not found: {model_path}")
 
-    # Detect model type from filename
     model_type = detect_model_type_from_filename(model_path)
 
-    # Try to load using the detected model type
+    # Try loading with detected type first, then fallback
     if model_type == "blstm":
         logger.info("Loading as BLSTM model")
         try:
             return BLSTMModel.load(model_path)
         except Exception as e:
             logger.error(f"Error loading as BLSTM model: {str(e)}")
-            logger.info("Trying to load as RandomForest model as fallback...")
+            logger.info("Trying RandomForest as fallback...")
             try:
                 return RandomForestModel.load(model_path)
             except Exception as e2:
                 logger.error(f"Error loading as RandomForest model: {str(e2)}")
                 raise ValueError(
-                    f"Failed to load model {model_path} as either BLSTM or RandomForest: {str(e)}, {str(e2)}")
+                    f"Failed to load {model_path} as either type: {str(e)}, {str(e2)}")
     else:
-        # Default to RandomForest
         logger.info("Loading as RandomForest model")
         try:
             return RandomForestModel.load(model_path)
         except Exception as e:
             logger.error(f"Error loading as RandomForest model: {str(e)}")
-            # Try BLSTM as a fallback
-            logger.info("Trying to load as BLSTM model as fallback...")
+            logger.info("Trying BLSTM as fallback...")
             try:
                 return BLSTMModel.load(model_path)
             except Exception as e2:
                 logger.error(f"Error loading as BLSTM model: {str(e2)}")
                 raise ValueError(
-                    f"Failed to load model {model_path} as either RandomForest or BLSTM: {str(e)}, {str(e2)}")
+                    f"Failed to load {model_path} as either type: {str(e)}, {str(e2)}")

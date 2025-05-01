@@ -1,5 +1,6 @@
 """
-Audio processing utilities for the server.
+Server-side audio processing utilities for loading and validating audio files.
+Handles duration constraints and feature extraction for both reciter and verse identification.
 """
 import librosa
 import numpy as np
@@ -19,15 +20,15 @@ def process_audio_file(
     sample_rate: Optional[int] = None
 ) -> Tuple[Optional[np.ndarray], Union[int, str]]:
     """
-    Process audio file for analysis.
+    Load and validate audio for analysis, enforcing duration constraints.
     
     Args:
-        file: File-like object or path to audio file
-        for_ayah: If True, use ayah-specific constraints, else use reciter constraints
-        sample_rate: Target sample rate, if None uses DEFAULT_SAMPLE_RATE
+        file: Audio file path or file-like object
+        for_ayah: Use verse constraints if True, reciter constraints if False
+        sample_rate: Target sample rate, defaults to 22050 Hz
         
     Returns:
-        tuple: (audio_data, sample_rate) or (None, error_message) on failure
+        (audio_data, sample_rate) or (None, error_message)
     """
     try:
         # Set constraints based on mode
@@ -60,14 +61,14 @@ def process_audio_file(
 
 def extract_features(audio_data: np.ndarray, sample_rate: int) -> np.ndarray:
     """
-    Extract features from audio data.
+    Extract mel spectrogram features from audio data.
     
     Args:
         audio_data: Audio time series
-        sample_rate: Sampling rate of audio
+        sample_rate: Audio sample rate in Hz
         
     Returns:
-        np.ndarray: Extracted features
+        Log-scaled mel spectrogram features
     """
     try:
         # Extract mel spectrogram

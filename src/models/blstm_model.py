@@ -1,6 +1,6 @@
 """
-Improved Bidirectional LSTM model implementation for Quran reciter identification.
-This version includes fixes for overfitting and better generalization.
+Bidirectional LSTM model for Quran reciter identification.
+Optimized for audio feature sequences with attention mechanism.
 """
 import os
 import numpy as np
@@ -26,7 +26,8 @@ logger = logging.getLogger(__name__)
 
 class SimpleAttentionLayer(nn.Module):
     """
-    Simpler attention mechanism to focus on important parts of sequences.
+    Attention layer that learns to focus on important time steps.
+    Weights each time step based on its relevance to classification.
     """
 
     def __init__(self, hidden_size):
@@ -34,37 +35,37 @@ class SimpleAttentionLayer(nn.Module):
         self.attention = nn.Linear(hidden_size * 2, 1)
 
     def forward(self, lstm_output):
-        # lstm_output shape: (batch, seq_len, hidden_size*2)
+        # Weight each time step
         attention_weights = torch.softmax(
             self.attention(lstm_output).squeeze(-1), dim=1
-        )  # (batch, seq_len)
+        )
 
-        # Apply attention weights to LSTM output
+        # Combine weighted features
         context = torch.bmm(
             attention_weights.unsqueeze(1), lstm_output
-        ).squeeze(1)  # (batch, hidden_size*2)
+        ).squeeze(1)
 
         return context, attention_weights
 
 
 class BLSTMNetwork(nn.Module):
     """
-    Bidirectional LSTM network with attention mechanism.
+    Neural network combining bidirectional LSTM with attention.
+    Processes audio feature sequences to identify reciters.
     """
 
     def __init__(self, input_size, hidden_size, num_classes, dropout=None):
         """
-        Initialize the BLSTM network.
+        Initialize network architecture.
 
         Args:
-            input_size: Number of input features
-            hidden_size: Number of hidden units
-            num_classes: Number of output classes
-            dropout: Dropout rate (if None, uses BLSTM_DROPOUT_RATE from config)
+            input_size: Feature dimension
+            hidden_size: LSTM hidden units
+            num_classes: Number of reciters
+            dropout: Regularization rate
         """
         super(BLSTMNetwork, self).__init__()
 
-        # Use config dropout if not provided
         if dropout is None:
             dropout = BLSTM_DROPOUT_RATE
 
@@ -83,36 +84,26 @@ class BLSTMNetwork(nn.Module):
         self.fc = nn.Linear(hidden_size * 2, num_classes)
 
     def forward(self, x):
-        # x shape: (batch, seq_len, features)
-
-        # LSTM layer
-        lstm_out, _ = self.lstm(x)  # (batch, seq_len, hidden_size*2)
-
-        # Apply dropout
+        # Process sequence
+        lstm_out, _ = self.lstm(x)
         lstm_out = self.dropout(lstm_out)
 
         # Apply attention
         context, _ = self.attention(lstm_out)
-
-        # Apply dropout again
         context = self.dropout(context)
 
-        # Final fully connected layer
-        x = self.fc(context)
-
-        return x
+        # Classify
+        return self.fc(context)
 
 
 class BLSTMModel(BaseModel):
     """
-    Improved Bidirectional LSTM model for reciter identification.
-
-    This implementation focuses on preventing overfitting and
-    improving generalization to unseen data.
+    BLSTM-based reciter classifier with attention mechanism.
+    Optimized for audio feature sequences with regularization.
     """
 
     def __init__(self):
-        """Initialize the BLSTM model with default parameters."""
+        """Initialize model with configuration parameters."""
         self.model = None
         self.device = torch.device(
             "cuda" if torch.cuda.is_available() and USE_GPU else "cpu")
@@ -121,79 +112,61 @@ class BLSTMModel(BaseModel):
         self.thresholds = None
         self.classes_ = None
         self.training_info = {}
-        self.feature_importances_ = None  # Kept for compatibility
+        self.feature_importances_ = None  # For compatibility
 
-        # BLSTM specific parameters (using config values)
+        # Model parameters
         self.lstm_units = LSTM_UNITS
-        # Using enhanced dropout rate from config
         self.dropout_rate = BLSTM_DROPOUT_RATE
-        # Using enhanced learning rate from config
         self.learning_rate = BLSTM_LEARNING_RATE
-        self.weight_decay = BLSTM_WEIGHT_DECAY  # Using weight decay from config
+        self.weight_decay = BLSTM_WEIGHT_DECAY
         self.batch_size = BATCH_SIZE
         self.epochs = EPOCHS
         self.patience = EARLY_STOPPING_PATIENCE
 
-        # Data augmentation parameters
+        # Data processing
         self.use_augmentation = True
-        self.noise_level = BLSTM_NOISE_LEVEL  # Using noise level from config
-        # Using feature dropout rate from config
+        self.noise_level = BLSTM_NOISE_LEVEL
         self.feature_dropout_rate = BLSTM_FEATURE_DROPOUT_RATE
-
-        # Sequence parameters
-        self.sequence_length = BLSTM_SEQUENCE_LENGTH  # Using sequence length from config
+        self.sequence_length = BLSTM_SEQUENCE_LENGTH
         self.num_features = BLSTM_MFCC_COUNT
 
     def _extract_mfcc_features(self, X):
         """
-        Extract only the first N MFCCs from the feature matrix.
+        Extract MFCC features from input data.
 
         Args:
-            X: Input features array or DataFrame
+            X: Input features array/DataFrame
 
         Returns:
-            Numpy array with only the first N features (MFCCs)
+            Array of first N MFCC features
         """
-        # Convert DataFrame to numpy array if needed
         if hasattr(X, 'values'):
             X_array = X.values
         else:
             X_array = X
 
-        # Extract just the first N features (assuming these are the MFCCs)
-        # Note: This assumes your feature extraction puts MFCCs first in the feature vector
-        X_mfccs = X_array[:, :self.num_features]
-
-        return X_mfccs
+        return X_array[:, :self.num_features]
 
     def _create_sequences(self, X, sequence_length=None):
         """
-        Create fixed-length sequences from the input features.
+        Convert features to fixed-length sequences.
 
         Args:
-            X: Input features with shape (samples, features)
-            sequence_length: Length of sequences to create
+            X: Input features (samples, features)
+            sequence_length: Desired sequence length
 
         Returns:
-            Numpy array with shape (samples, sequence_length, features)
+            Array of shape (samples, sequence_length, features)
         """
         if sequence_length is None:
             sequence_length = self.sequence_length
 
-        # Get dimensions
-        n_samples = X.shape[0]
-        n_features = X.shape[1]
-
-        # Create placeholder for sequences
+        n_samples, n_features = X.shape
         X_sequences = np.zeros((n_samples, sequence_length, n_features))
 
-        # Fill sequences
+        # Repeat features to create sequences
         for i in range(n_samples):
-            # For simplicity, just repeat the feature vector
-            # This approach treats each sample as a standalone representation
-            # rather than trying to create artificial time sequences
-            for j in range(sequence_length):
-                X_sequences[i, j, :] = X[i, :]
+            X_sequences[i] = np.tile(X[i], (sequence_length, 1))
 
         return X_sequences
 

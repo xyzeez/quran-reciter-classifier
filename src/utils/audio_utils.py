@@ -1,6 +1,6 @@
 """
-Audio processing utilities for the Quran Reciter Classifier system.
-Provides functionality for loading, processing, and feature extraction from audio files.
+Audio processing utilities for loading, validating, and extracting features from audio files.
+Supports various audio formats and handles both file paths and file-like objects.
 """
 import io
 import logging
@@ -15,10 +15,10 @@ from config import USE_GPU
 # Configure logging
 logger = logging.getLogger(__name__)
 
-# Device configuration
+# Use GPU if available and enabled in config
 DEVICE = torch.device("cuda" if torch.cuda.is_available() and USE_GPU else "cpu")
 
-# Audio parameters
+# Audio constraints
 DEFAULT_SAMPLE_RATE = 22050
 AYAH_MIN_DURATION = 1.0  # seconds
 AYAH_MAX_DURATION = 10.0  # seconds
@@ -31,36 +31,35 @@ def process_audio_file(
     sample_rate: Optional[int] = None
 ) -> Tuple[Optional[np.ndarray], Union[int, str]]:
     """
-    Process audio file for analysis. Handles both file paths and file-like objects.
-    Supports various audio formats through pydub if direct loading fails.
+    Load and validate an audio file for analysis.
     
     Args:
-        file: File-like object or path to audio file
-        for_ayah: If True, use ayah-specific constraints, else use reciter constraints
-        sample_rate: Target sample rate, if None uses DEFAULT_SAMPLE_RATE
+        file: Audio file path or file-like object
+        for_ayah: Use ayah duration limits if True, reciter limits if False
+        sample_rate: Target sample rate (default: 22050 Hz)
         
     Returns:
-        tuple: (audio_data, sample_rate) or (None, error_message) on failure
+        (audio_data, sample_rate) or (None, error_message)
     """
     try:
-        # Set constraints based on mode
+        # Set duration limits based on task
         min_duration = AYAH_MIN_DURATION if for_ayah else RECITER_MIN_DURATION
         max_duration = AYAH_MAX_DURATION if for_ayah else RECITER_MAX_DURATION
         target_sr = sample_rate or DEFAULT_SAMPLE_RATE
 
-        # Try loading with librosa first
+        # Try librosa first, fallback to pydub for other formats
         try:
             y, sr = librosa.load(file, sr=None)
         except Exception as e:
             logger.debug(f"Direct loading failed, trying pydub: {e}")
-            # Fallback to pydub for other formats
+            
             if isinstance(file, (str, Path)):
                 audio = AudioSegment.from_file(file)
             else:
                 file.seek(0)
                 audio = AudioSegment.from_file(file)
             
-            # Convert to numpy array
+            # Convert to normalized numpy array
             samples = np.array(audio.get_array_of_samples())
             if audio.channels > 1:
                 samples = samples.reshape((-1, audio.channels)).mean(axis=1)
@@ -73,21 +72,17 @@ def process_audio_file(
             y = librosa.resample(y, orig_sr=sr, target_sr=target_sr)
             sr = target_sr
 
-        # Check duration
+        # Validate duration
         duration = len(y) / sr
         if duration < min_duration:
             return None, f"Audio too short. Minimum duration: {min_duration} seconds"
         
         if duration > max_duration:
-            # Truncate to max duration
             samples = int(max_duration * sr)
             y = y[:samples]
             logger.debug(f"Audio truncated to {max_duration} seconds")
 
-        # Normalize audio
-        y = librosa.util.normalize(y)
-        
-        return y, sr
+        return librosa.util.normalize(y), sr
 
     except Exception as e:
         logger.error(f"Error processing audio file: {str(e)}")
@@ -102,21 +97,20 @@ def extract_features(
     fmax: int = 8000
 ) -> np.ndarray:
     """
-    Extract mel spectrogram features from audio data.
+    Extract log-scaled mel spectrogram features from audio.
     
     Args:
         audio_data: Audio time series
-        sample_rate: Sampling rate of audio
-        n_mels: Number of mel bands
-        n_fft: Length of FFT window
-        hop_length: Number of samples between successive frames
+        sample_rate: Audio sample rate
+        n_mels: Number of mel frequency bands
+        n_fft: FFT window size
+        hop_length: Samples between frames
         fmax: Maximum frequency
         
     Returns:
-        np.ndarray: Log-scaled mel spectrogram features
+        Log-scaled mel spectrogram features
     """
     try:
-        # Extract mel spectrogram
         mel_spec = librosa.feature.melspectrogram(
             y=audio_data,
             sr=sample_rate,
@@ -126,10 +120,9 @@ def extract_features(
             fmax=fmax
         )
         
-        # Convert to log scale
         mel_spec_db = librosa.power_to_db(mel_spec, ref=np.max)
         
-        # Ensure correct shape for model input
+        # Add batch dimension if needed
         if len(mel_spec_db.shape) < 3:
             mel_spec_db = np.expand_dims(mel_spec_db, axis=0)
             
@@ -141,26 +134,21 @@ def extract_features(
 
 def prepare_audio_batch(features: np.ndarray) -> torch.Tensor:
     """
-    Prepare audio features for model input.
+    Convert audio features to PyTorch tensor for model input.
     
     Args:
-        features: Extracted audio features (mel spectrogram)
+        features: Mel spectrogram features
         
     Returns:
-        torch.Tensor: Tensor ready for model input
+        Model-ready tensor on appropriate device
     """
     try:
-        # Convert to tensor
         tensor = torch.from_numpy(features).float()
         
-        # Add batch dimension if needed
         if len(tensor.shape) == 2:
             tensor = tensor.unsqueeze(0)
         
-        # Move to appropriate device
-        tensor = tensor.to(DEVICE)
-        
-        return tensor
+        return tensor.to(DEVICE)
         
     except Exception as e:
         logger.error(f"Error preparing audio batch: {str(e)}")

@@ -1,5 +1,6 @@
 """
-Factory for creating Ayah identification model instances.
+Factory for creating verse identification models.
+Supports multiple model types with consistent interface.
 """
 import logging
 from pathlib import Path
@@ -7,28 +8,25 @@ from src.models.whisper_ayah_model import WhisperAyahModel
 
 logger = logging.getLogger(__name__)
 
-# Default model type
-DEFAULT_AYAH_MODEL = "whisper"
+DEFAULT_AYAH_MODEL = "whisper"  # Default model type
 
 def create_ayah_model(model_type: str = None):
     """
-    Create an Ayah identification model instance.
+    Create a verse identification model.
     
     Args:
-        model_type (str, optional): Type of model to create.
-            If None, uses DEFAULT_AYAH_MODEL.
+        model_type: Model type to create ('whisper')
+                   Uses DEFAULT_AYAH_MODEL if None
             
     Returns:
-        BaseAyahModel: Model instance
+        New model instance
         
     Raises:
-        ValueError: If model type is not supported
+        ValueError: If model_type not supported
     """
-    # Use default if not specified
     if model_type is None:
         model_type = DEFAULT_AYAH_MODEL
     
-    # Convert to lowercase for case-insensitive comparison
     model_type = model_type.lower()
     
     if model_type == "whisper":
@@ -39,23 +37,20 @@ def create_ayah_model(model_type: str = None):
 
 def load_ayah_model(model_type: str = None, model_path: Path = None):
     """
-    Create and load an Ayah identification model.
+    Create and load a verse identification model.
     
     Args:
-        model_type (str, optional): Type of model to load
-        model_path (Path, optional): Path to model files
+        model_type: Model type to load
+        model_path: Path to saved model
             
     Returns:
-        BaseAyahModel: Loaded model instance
+        Loaded model instance
     """
-    # Create model instance
     model = create_ayah_model(model_type)
     
-    # Load model if path provided
     if model_path is not None:
         model.load(model_path)
     else:
-        # Load default/pretrained model
-        model.load()
+        model.load()  # Load pretrained
     
     return model 

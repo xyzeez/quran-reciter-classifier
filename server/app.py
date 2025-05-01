@@ -1,5 +1,5 @@
 """
-Flask server for Quran reciter and ayah identification.
+Main Flask server for Quran reciter and ayah identification API endpoints.
 """
 import logging
 from flask import Flask, request, jsonify
@@ -31,18 +31,15 @@ if not (reciter_success and ayah_success):
 @app.route('/getAyah', methods=['POST'])
 def get_ayah():
     """
-    Endpoint for identifying Quranic ayah from audio.
+    Identify a Quranic verse from an audio recording.
     
-    Expected input:
-        - audio: Audio file in the request
-        - max_matches: (optional) Maximum number of matches to return
-        - min_confidence: (optional) Minimum confidence threshold
-        
-    Returns:
-        JSON with ayah matches and transcription
+    Accepts:
+        - audio: Audio file (MP3/WAV, 1-10 seconds)
+        - max_matches: Max results to return (optional)
+        - min_confidence: Confidence threshold (optional)
     """
     try:
-        # Check for audio file
+        # Validate request has audio file
         if 'audio' not in request.files:
             return jsonify({
                 'error': 'No audio file provided. Please send the file with key "audio" in form data.'
@@ -54,46 +51,41 @@ def get_ayah():
                 'error': 'No audio file selected'
             }), 400
 
-        # Get parameters with defaults from config
+        # Parse optional parameters
         max_matches = int(request.form.get('max_matches', TOP_N_PREDICTIONS))
         min_confidence = float(request.form.get('min_confidence', 0.70))
         
-        # Process audio
+        # Process and validate audio
         result = process_audio_file(audio_file, for_ayah=True)
-        if isinstance(result[1], str):  # Error message returned
-            return jsonify({
-                'error': result[1]
-            }), 400
+        if isinstance(result[1], str):
+            return jsonify({'error': result[1]}), 400
 
         audio_data, sample_rate = result
         
-        # Get transcription using initialized model
+        # Generate transcription
         model = get_ayah_model()
         transcribed_text = model.transcribe(audio_data, sample_rate)
         if not transcribed_text:
-            return jsonify({
-                'error': 'Failed to transcribe audio'
-            }), 500
+            return jsonify({'error': 'Failed to transcribe audio'}), 500
             
-        # Find matching ayah
+        # Find matching verses
         matches = find_matching_ayah(
             transcribed_text,
             min_confidence=min_confidence,
             max_matches=max_matches
         )
         
-        # Get matches list and ensure it exists
         matches_list = matches.get('matches', [])
         
-        # Format response according to README structure
+        # Build response
         response = {
             'matches_found': len(matches_list) > 0,
             'total_matches': len(matches_list),
             'matches': matches_list,
-            'best_match': matches_list[0] if matches_list else None  # Highest confidence match
+            'best_match': matches_list[0] if matches_list else None
         }
         
-        # Add debug info only if debug mode is enabled
+        # Add debug info in development
         if app.debug:
             debug_response = {
                 'transcription': transcribed_text,
@@ -116,17 +108,14 @@ def get_ayah():
 @app.route('/getReciter', methods=['POST'])
 def identify_reciter():
     """
-    Endpoint for identifying Quran reciter from audio.
+    Identify a Quran reciter from an audio recording.
     
-    Expected input:
-        - audio: Audio file in the request
-        - show_unreliable_predictions: (optional) Whether to show unreliable predictions
-    
-    Returns:
-        JSON with reciter predictions and reliability information
+    Accepts:
+        - audio: Audio file (MP3/WAV, 5-15 seconds)
+        - show_unreliable: Show predictions below confidence threshold (optional)
     """
     try:
-        # Check for audio file
+        # Validate request has audio file
         if 'audio' not in request.files:
             return jsonify({
                 'error': 'No audio file provided. Please send the file with key "audio" in form data.'
@@ -138,63 +127,52 @@ def identify_reciter():
                 'error': 'No audio file selected'
             }), 400
 
-        # Get show_unreliable_predictions parameter from form data
         show_unreliable = request.form.get('show_unreliable_predictions', '').lower() == 'true'
         
-        # Process audio file with reciter duration constraints
+        # Process and validate audio
         result = process_audio_file(audio_file, for_ayah=False)
-        if isinstance(result[1], str):  # Error message returned
-            return jsonify({
-                'error': result[1]
-            }), 400
+        if isinstance(result[1], str):
+            return jsonify({'error': result[1]}), 400
 
         audio_data, sample_rate = result
         
-        # Get model
+        # Load model and validate
         model = get_reciter_model()
         if model is None:
-            return jsonify({
-                'error': 'Model not initialized'
-            }), 500
+            return jsonify({'error': 'Model not initialized'}), 500
             
-        # Extract features
+        # Extract audio features
         try:
             features = extract_features(audio_data, sample_rate)
             if features is None:
-                return jsonify({
-                    'error': 'Feature extraction failed'
-                }), 500
+                return jsonify({'error': 'Feature extraction failed'}), 500
         except Exception as e:
             logger.error(f"Error extracting features: {str(e)}")
             return jsonify({
                 'error': f'Error extracting features: {str(e)}'
             }), 500
 
-        # Get predictions
         try:
-            # Ensure features are properly shaped (2D array)
+            # Reshape features if needed
             if features.ndim == 1:
                 features = features.reshape(1, -1)
 
-            # Get prediction and probabilities
+            # Get model predictions
             prediction = model.predict(features)[0]
             probabilities = model.predict_proba(features)[0]
 
-            # Calculate distances using the correct function
+            # Calculate reliability metrics
             distances = calculate_distances(features[0], model.centroids)
-
-            # Analyze reliability using model thresholds
             reliability = analyze_prediction_reliability(
                 probabilities, distances, model.thresholds, prediction)
 
-            # Get top N predictions with confidence scores
+            # Get top predictions
             sorted_indices = np.argsort(probabilities)[::-1][:TOP_N_PREDICTIONS]
             predictions = []
             
-            # Load reciters data for metadata
+            # Load reciter metadata
             reciters_data = {}
             try:
-                # Use the reciters.json from project root's data directory
                 reciters_file = Path(__file__).resolve().parent.parent / 'data' / 'reciters.json'
                 if reciters_file.exists():
                     with open(reciters_file, 'r', encoding='utf-8') as f:
