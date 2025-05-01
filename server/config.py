@@ -4,12 +4,7 @@ Server configuration settings.
 from pathlib import Path
 
 # Import model-related settings from main config
-from config import (
-    MODEL_OUTPUT_DIR,
-    CONFIDENCE_THRESHOLD,
-    SECONDARY_CONFIDENCE_THRESHOLD,
-    MAX_CONFIDENCE_DIFF
-)
+from config import MODEL_OUTPUT_DIR
 
 # Server settings
 HOST = '0.0.0.0'  # Listen on all available interfaces
@@ -28,9 +23,14 @@ AYAH_MIN_DURATION = 1  # Minimum audio duration in seconds for ayah identificati
 AYAH_MAX_DURATION = 10  # Maximum audio duration in seconds for ayah identification
 
 # Model settings
-MODEL_DIR = Path(MODEL_OUTPUT_DIR)
+MODEL_DIR = Path(MODEL_OUTPUT_DIR)  # Use the path from main config
 LATEST_MODEL_SYMLINK = MODEL_DIR / 'latest'
 MODEL_ID = '20250417_023215_train'  # Specific model ID to use (e.g., '20240306_152417_train'), if None use symlink/latest
+
+# Reliability Parameters
+CONFIDENCE_THRESHOLD = 0.95  # Primary confidence threshold
+SECONDARY_CONFIDENCE_THRESHOLD = 0.10  # Threshold for secondary predictions
+MAX_CONFIDENCE_DIFF = 0.80  # Required difference between top predictions
 
 # Server-specific prediction settings
 TOP_N_PREDICTIONS = 5  # Number of top predictions to return
