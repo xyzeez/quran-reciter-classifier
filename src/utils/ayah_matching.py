@@ -22,9 +22,6 @@ def normalize_arabic_text(text: str) -> str:
     """
     if not text:
         return ""
-        
-    # Log original text
-    logger.debug(f"Original text: {text}")
     
     # Remove diacritics (tashkeel)
     text = re.sub(r'[\u064B-\u065F\u0670]', '', text)
@@ -46,9 +43,6 @@ def normalize_arabic_text(text: str) -> str:
     
     # Remove extra spaces
     text = ' '.join(text.split())
-    
-    # Log normalized text
-    logger.debug(f"Normalized text: {text}")
     
     return text
 
@@ -78,7 +72,6 @@ def load_quran_data(data_dir: Optional[Path] = None) -> Dict:
                 f"Could not find quran.json in expected locations: {[str(p) for p in possible_paths]}"
             )
 
-        logger.info(f"Loading Quran data from: {quran_file}")
         with open(quran_file, 'r', encoding='utf-8') as f:
             surahs = json.load(f)
 
@@ -99,7 +92,6 @@ def load_quran_data(data_dir: Optional[Path] = None) -> Dict:
                     'normalized_text': normalize_arabic_text(verse['text'])
                 })
 
-        logger.info(f"Loaded and normalized {len(verses)} verses successfully")
         return {'verses': verses}
 
     except Exception as e:
@@ -143,9 +135,7 @@ def find_matching_ayah(transcription: str, min_confidence: float = 0.70, max_mat
     """
     try:
         # Normalize input text
-        logger.info(f"Normalizing text: {transcription}")
         normalized_input = normalize_arabic_text(transcription)
-        logger.info(f"Normalized result: {normalized_input}")
 
         # Load Quran data if not already loaded
         quran_data = load_quran_data()
@@ -154,8 +144,6 @@ def find_matching_ayah(transcription: str, min_confidence: float = 0.70, max_mat
 
         # Find matches
         matches = []
-        logger.info("Top matches (including those below threshold):")
-        
         for verse in quran_data['verses']:
             # Calculate similarity score
             score = calculate_similarity(normalized_input, verse['normalized_text'])
@@ -169,7 +157,6 @@ def find_matching_ayah(transcription: str, min_confidence: float = 0.70, max_mat
                     'confidence_score': score
                 }
                 matches.append(match)
-                logger.info(f"Score: {score:.4f} - Verse: {verse['text']}")
 
         # Sort matches by confidence
         matches.sort(key=lambda x: x['confidence_score'], reverse=True)

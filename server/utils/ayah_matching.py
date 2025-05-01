@@ -175,7 +175,7 @@ def find_matching_ayah(
         verses = quran_data['verses']
         
         # Normalize transcribed text
-        normalized_transcription = normalize_arabic_text(transcribed_text, verbose=True)
+        normalized_transcription = normalize_arabic_text(transcribed_text)
         
         # Find matches using similarity scoring
         matches = []
@@ -196,7 +196,6 @@ def find_matching_ayah(
                     'confidence_score': score
                 }
                 matches.append(match)
-                logger.debug(f"Score: {score:.4f} - Verse: {verse['ayah_text']}")
 
         # Sort matches by confidence
         matches.sort(key=lambda x: x['confidence_score'], reverse=True)
