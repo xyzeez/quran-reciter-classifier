@@ -20,6 +20,7 @@ dataset
 # Data
 data/test
 data/train
+data/test-ayah
 
 # Development Artifacts and Logs
 logs/
