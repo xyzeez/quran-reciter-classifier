@@ -53,7 +53,7 @@ def load_quran_data(data_dir: Optional[Path] = None) -> Dict:
         data_dir: Directory containing quran.json, defaults to looking in common locations
     
     Returns:
-        Dict containing normalized Quran data
+        Dict containing normalized Quran data and raw data
     """
     try:
         # Find quran.json
@@ -81,6 +81,7 @@ def load_quran_data(data_dir: Optional[Path] = None) -> Dict:
             surah_number = surah['id']
             surah_name = surah['name']
             surah_name_en = surah['transliteration']
+            unicode_char = surah['unicode']
             
             for verse in surah['verses']:
                 verses.append({
@@ -89,10 +90,14 @@ def load_quran_data(data_dir: Optional[Path] = None) -> Dict:
                     'surah_name': surah_name,
                     'surah_name_en': surah_name_en,
                     'text': verse['text'],
-                    'normalized_text': normalize_arabic_text(verse['text'])
+                    'normalized_text': normalize_arabic_text(verse['text']),
+                    'unicode': unicode_char
                 })
 
-        return {'verses': verses}
+        return {
+            'verses': verses,
+            'raw_data': surahs
+        }
 
     except Exception as e:
         logger.error(f"Error loading Quran data: {str(e)}")
@@ -154,7 +159,8 @@ def find_matching_ayah(transcription: str, min_confidence: float = 0.70, max_mat
                     'surah_name': verse['surah_name'],
                     'surah_name_en': verse['surah_name_en'],
                     'ayah_text': verse['text'],
-                    'confidence_score': score
+                    'confidence_score': score,
+                    'unicode': verse['unicode']
                 }
                 matches.append(match)
 

@@ -10,36 +10,32 @@ from pathlib import Path
 from src.utils.audio_utils import process_audio_file
 from src.features import extract_features
 from server.utils.model_loader import initialize_models, get_reciter_model, get_ayah_model
-from src.utils.ayah_matching import find_matching_ayah
+from src.utils.ayah_matching import find_matching_ayah, load_quran_data
 from src.utils.distance_utils import calculate_distances, analyze_prediction_reliability
-from server.config import TOP_N_PREDICTIONS
+from server.config import TOP_N_PREDICTIONS, HOST, PORT
+from server.utils.text_utils import to_arabic_number
 
-# Configure logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-# Initialize Flask app
 app = Flask(__name__)
 
-# Initialize models at startup
+# Load Quran data at startup
+quran_data_result = load_quran_data()
+if not quran_data_result:
+    logger.error("Failed to load Quran data")
+    raw_quran_data = []
+else:
+    raw_quran_data = quran_data_result.get('raw_data', [])
+
 reciter_success, ayah_success = initialize_models()
 if not (reciter_success and ayah_success):
     logger.error("Failed to initialize one or more models")
-    # In production, you might want to exit here
-    # import sys; sys.exit(1)
 
 @app.route('/getAyah', methods=['POST'])
 def get_ayah():
-    """
-    Identify a Quranic verse from an audio recording.
-    
-    Accepts:
-        - audio: Audio file (MP3/WAV, 1-10 seconds)
-        - max_matches: Max results to return (optional)
-        - min_confidence: Confidence threshold (optional)
-    """
+    """Identify a Quranic verse from an audio recording."""
     try:
-        # Validate request has audio file
         if 'audio' not in request.files:
             return jsonify({
                 'error': 'No audio file provided. Please send the file with key "audio" in form data.'
@@ -51,24 +47,20 @@ def get_ayah():
                 'error': 'No audio file selected'
             }), 400
 
-        # Parse optional parameters
         max_matches = int(request.form.get('max_matches', TOP_N_PREDICTIONS))
         min_confidence = float(request.form.get('min_confidence', 0.70))
         
-        # Process and validate audio
         result = process_audio_file(audio_file, for_ayah=True)
         if isinstance(result[1], str):
             return jsonify({'error': result[1]}), 400
 
         audio_data, sample_rate = result
         
-        # Generate transcription
         model = get_ayah_model()
         transcribed_text = model.transcribe(audio_data, sample_rate)
         if not transcribed_text:
             return jsonify({'error': 'Failed to transcribe audio'}), 500
             
-        # Find matching verses
         matches = find_matching_ayah(
             transcribed_text,
             min_confidence=min_confidence,
@@ -77,15 +69,35 @@ def get_ayah():
         
         matches_list = matches.get('matches', [])
         
-        # Build response
+        formatted_matches = []
+        for match in matches_list:
+            surah_num = int(match['surah_number'])
+            ayah_num = int(match['ayah_number'])
+            
+            # Get unicode from Quran data
+            surah_data = next((s for s in raw_quran_data if s['id'] == surah_num), None)
+            unicode_char = surah_data['unicode'] if surah_data else ''
+            
+            formatted_match = {
+                'surah_number': to_arabic_number(surah_num),
+                'surah_number_en': surah_num,
+                'surah_name': match['surah_name'],
+                'surah_name_en': match['surah_name_en'],
+                'ayah_number': to_arabic_number(ayah_num),
+                'ayah_number_en': ayah_num,
+                'ayah_text': match['ayah_text'],
+                'confidence_score': float(match['confidence_score']),
+                'unicode': unicode_char
+            }
+            formatted_matches.append(formatted_match)
+        
         response = {
-            'matches_found': len(matches_list) > 0,
-            'total_matches': len(matches_list),
-            'matches': matches_list,
-            'best_match': matches_list[0] if matches_list else None
+            'matches_found': len(formatted_matches) > 0,
+            'total_matches': len(formatted_matches),
+            'matches': formatted_matches,
+            'best_match': formatted_matches[0] if formatted_matches else None
         }
         
-        # Add debug info in development
         if app.debug:
             debug_response = {
                 'transcription': transcribed_text,
@@ -107,15 +119,8 @@ def get_ayah():
 
 @app.route('/getReciter', methods=['POST'])
 def identify_reciter():
-    """
-    Identify a Quran reciter from an audio recording.
-    
-    Accepts:
-        - audio: Audio file (MP3/WAV, 5-15 seconds)
-        - show_unreliable: Show predictions below confidence threshold (optional)
-    """
+    """Identify a Quran reciter from an audio recording."""
     try:
-        # Validate request has audio file
         if 'audio' not in request.files:
             return jsonify({
                 'error': 'No audio file provided. Please send the file with key "audio" in form data.'
@@ -129,19 +134,16 @@ def identify_reciter():
 
         show_unreliable = request.form.get('show_unreliable_predictions', '').lower() == 'true'
         
-        # Process and validate audio
         result = process_audio_file(audio_file, for_ayah=False)
         if isinstance(result[1], str):
             return jsonify({'error': result[1]}), 400
 
         audio_data, sample_rate = result
         
-        # Load model and validate
         model = get_reciter_model()
         if model is None:
             return jsonify({'error': 'Model not initialized'}), 500
             
-        # Extract audio features
         try:
             features = extract_features(audio_data, sample_rate)
             if features is None:
@@ -153,24 +155,19 @@ def identify_reciter():
             }), 500
 
         try:
-            # Reshape features if needed
             if features.ndim == 1:
                 features = features.reshape(1, -1)
 
-            # Get model predictions
             prediction = model.predict(features)[0]
             probabilities = model.predict_proba(features)[0]
 
-            # Calculate reliability metrics
             distances = calculate_distances(features[0], model.centroids)
             reliability = analyze_prediction_reliability(
                 probabilities, distances, model.thresholds, prediction)
 
-            # Get top predictions
             sorted_indices = np.argsort(probabilities)[::-1][:TOP_N_PREDICTIONS]
             predictions = []
             
-            # Load reciter metadata
             reciters_data = {}
             try:
                 reciters_file = Path(__file__).resolve().parent.parent / 'data' / 'reciters.json'
@@ -186,21 +183,19 @@ def identify_reciter():
                 reciter_name = str(model.classes_[idx])
                 confidence = float(probabilities[idx])
                 
-                # Get reciter metadata if available
                 reciter_info = reciters_data.get(reciter_name, {})
                 servers = reciter_info.get('servers', [])
                 server_url = servers[0] if isinstance(servers, list) and servers else ''
                 
                 predictions.append({
                     'name': reciter_name,
-                    'confidence': confidence * 100,  # Convert to percentage
+                    'confidence': confidence * 100,
                     'nationality': reciter_info.get('nationality', ''),
                     'serverUrl': server_url,
                     'flagUrl': reciter_info.get('flagUrl', ''),
                     'imageUrl': reciter_info.get('imageUrl', '')
                 })
 
-            # Format response based on reliability
             if not reliability['is_reliable'] and not show_unreliable:
                 response = {
                     'reliable': False,
@@ -230,9 +225,8 @@ def identify_reciter():
 
 @app.route('/getAllReciters', methods=['GET'])
 def get_all_reciters():
-    """Endpoint to get a list of all available reciters."""
+    """Get a list of all available reciters."""
     try:
-        # Load reciters data
         try:
             reciters_file = Path(__file__).resolve().parent.parent / 'data' / 'reciters.json'
             if not reciters_file.exists():
@@ -244,7 +238,6 @@ def get_all_reciters():
             logger.error(f"Error loading reciters data: {str(e)}")
             return jsonify({'error': 'Error loading reciters data.'}), 500
 
-        # Format reciters list
         reciters_list = []
         for name, data in reciters_data.items():
             servers = data.get('servers', [])
@@ -270,4 +263,4 @@ def get_all_reciters():
         }), 500
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host=HOST, port=PORT, debug=True)
