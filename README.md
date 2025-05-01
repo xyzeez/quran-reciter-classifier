@@ -36,26 +36,36 @@ The Quran Reciter Classifier system uses machine learning to identify Quran reci
 
 ```
 .
-├── config/                 # Configuration settings
-├── data/                   # Training and test data
-│   ├── train/              # Training audio files
-│   └── test/               # Test audio files
-├── server/                 # Flask server for API
-├── src/                    # Source code
-│   ├── models/             # ML models implementation
-│   ├── features/           # Feature extraction
-│   ├── utils/              # Utility functions
-│   ├── pipelines/          # Processing pipelines
-│   ├── evaluation/         # Model evaluation
-│   └── data/               # Data handling
-├── scripts/                # Scripts for training, testing, etc.
-├── processed/              # Preprocessed data (generated)
-├── models/                 # Saved models (generated)
-├── test_results/           # Test results (generated)
-├── logs/                   # Log files (generated)
-├── tools/                  # Utility scripts for project management and automation
-├── requirements.txt        # Python dependencies
-└── README.md               # This file
+├── api-responses/          # API response cache and examples
+│   └── getAyah/           # Ayah identification responses
+├── config/                # Configuration settings
+├── data/                  # Training and test data
+│   ├── train/             # Training audio files
+│   ├── test/              # Test audio files
+│   └── test-ayah/         # Ayah identification test files
+├── server/                # Flask server for API
+│   ├── endpoints/         # API endpoint implementations
+│   ├── utils/            # Server utility functions
+│   ├── app.py            # Main server application
+│   └── config.py         # Server configuration
+├── src/                   # Source code
+│   ├── models/           # ML models implementation
+│   ├── features/         # Feature extraction
+│   ├── utils/            # Utility functions
+│   ├── pipelines/        # Processing pipelines
+│   ├── evaluation/       # Model evaluation
+│   └── data/            # Data handling
+├── scripts/              # Scripts for training, testing, etc.
+├── processed/            # Preprocessed data (generated)
+│   ├── train/           # Processed training data
+│   └── test/            # Processed test data
+├── models/               # Saved models (generated)
+├── test_results/         # Test results (generated)
+│   └── ayah/            # Ayah identification results
+├── logs/                 # Log files (generated)
+├── tools/                # Project management and automation tools
+├── requirements.txt      # Python dependencies
+└── README.md            # This file
 ```
 
 ## 🔧 Installation
@@ -86,93 +96,74 @@ The Quran Reciter Classifier system uses machine learning to identify Quran reci
 4. Prepare your data:
    - Place training audio files in `data/train/`
    - Place test audio files in `data/test/`
+   - Place ayah test files in `data/test-ayah/`
 
 ## 🚀 Usage
 
 ### Preprocessing Data
 
-Preprocess your audio data before training:
-
 ```bash
-python scripts/preprocess.py --mode train
+python scripts/preprocess.py [--mode {train,test}] [--no-augment]
 ```
 
 Options:
 
 - `--mode`: Mode to run in (`train` or `test`), default is `train`
-- `--no-augment`: Disable data augmentation (only applies to train mode)
+- `--no-augment`: Skip data augmentation (saves time but reduces diversity)
 
-This will:
+Output:
 
-- Load audio files from the data directory
-- Apply noise reduction
-- Extract meaningful segments
-- Save processed data to the `processed/` directory
-- Create a timestamped directory (e.g., `20240306_143208_preprocess`)
+- Creates a timestamped directory (e.g., `20240306_143208_preprocess`)
+- Saves processed data to `processed/{mode}/TIMESTAMP_preprocess/`
+- Creates a `latest` symlink to the most recent run
 
 ### Training Models
 
-Train a model using the preprocessed data:
-
 ```bash
-python scripts/train.py --model-type random_forest
+python scripts/train.py [--model-type MODEL_TYPE] [--preprocess-file-id PREPROCESS_FILE_ID]
 ```
 
 Options:
 
-- `--model-type`: Model type to use (`random_forest` or `blstm`), if not specified, uses the default from config
-- `--preprocess-file-id`: Specific preprocessing run ID to use (e.g., `20240306_143208_preprocess`), if not specified, uses the latest
+- `--model-type`: Model type to use (`random_forest` or `blstm`). If not specified, uses default from config
+- `--preprocess-file-id`: Specific preprocessing run ID to use (e.g., `20240306_143208_preprocess`). If not specified, uses the latest
 
-The training process will:
+Output:
 
-- Load preprocessed data from the specified directory
-- Train the selected model type
-- Save the model to the `models/` directory in a timestamped folder
-- Create a symlink to the latest model
+- Creates a timestamped directory in `models/` (e.g., `20240306_152417_train`)
+- Saves model file as `model_{type}.joblib`
+- Creates a `latest` symlink to the most recent model
 
 ### Testing Models
 
-Evaluate model performance on test data:
-
 ```bash
-python scripts/test.py --model-file-id 20240306_152417_train
+python scripts/test.py [--model-file-id MODEL_FILE_ID] [--list-models] [--list-tests]
 ```
 
 Options:
 
-- `--model-file-id`: Training run ID to use (e.g., `20240306_152417_train`), if not specified, uses the latest
-- `--list-models`: List all available model runs
-- `--list-tests`: List all previous test runs
+- `--model-file-id`: Training run ID to use (e.g., `20240306_152417_train`). If not specified, uses the latest
+- `--list-models`: List all available model runs with their types and creation timestamps
+- `--list-tests`: List all previous test runs with their accuracies
 
-The testing process will:
+Output:
 
-- Load the specified model
-- Evaluate it on the test data
-- Generate performance metrics and visualizations
-- Save results to the `test_results/` directory
+- Creates a timestamped directory in `test_results/` (e.g., `20240306_153012_test`)
+- Generates performance metrics and visualizations
+- Creates a `summary_report.json` with test results
 
 ### Making Predictions
 
-Make predictions on new audio files:
-
 ```bash
-python scripts/predict.py --audio path/to/audio.mp3
+python scripts/predict.py [--audio AUDIO_FILE] [--model-file-id MODEL_FILE_ID] [--true-label RECITER_NAME] [--list-models]
 ```
 
 Options:
 
 - `--audio`: Path to audio file to analyze (required)
-- `--model-file-id`: Training run ID to use (e.g., `20240306_152417_train`), if not specified, uses the latest
+- `--model-file-id`: Training run ID to use, uses latest if not specified
 - `--true-label`: True reciter name for verification (optional)
 - `--list-models`: List all available model runs
-
-The prediction will:
-
-- Load the specified model
-- Process the audio file
-- Extract features
-- Identify the most likely reciter
-- Display confidence scores and secondary predictions
 
 ### Using the API
 
@@ -185,7 +176,7 @@ pip install -r server/requirements.txt
 Start the Flask server:
 
 ```bash
-python -m server.app
+python -m server.app [--show-debug]
 ```
 
 The server will start on `http://localhost:5000` by default.
@@ -199,42 +190,23 @@ Identifies the Quran reciter from an audio file.
 ##### Request Format
 
 - **Content-Type**: `multipart/form-data`
-- **Parameter**:
-  - `audio`: Audio file (MP3 or WAV format)
-- **Audio Requirements**:
-  - Duration: 5-15 seconds
-  - Format: MP3 or WAV
-  - Sample Rate: 22050 Hz (will be converted if different)
+- **Parameters**:
+  - `audio`: Audio file (required)
+    - Format: MP3 or WAV
+    - Duration: 5-15 seconds
+    - Sample Rate: 22050 Hz (will be converted if different)
+  - `show_unreliable_predictions`: Boolean (optional)
+    - Default: false
+    - When true, returns predictions even if reliability criteria aren't met
 
-Example using curl:
-
-```bash
-curl -X POST -F "audio=@path/to/audio.mp3" http://localhost:5000/getReciter
-```
-
-Example using Python requests:
-
-```python
-import requests
-
-url = 'http://localhost:5000/getReciter'
-files = {'audio': open('path/to/audio.mp3', 'rb')}
-response = requests.post(url, files=files)
-print(response.json())
-```
-
-##### Response Formats
-
-1. **Successful Response (200 OK)**
-
-For reliable predictions:
+##### Response Format
 
 ```json
 {
   "reliable": true,
   "main_prediction": {
     "name": "Reciter Name",
-    "confidence": 95.5, // float between 0 and 100
+    "confidence": 95.5,
     "nationality": "Country",
     "serverUrl": "https://example.com",
     "flagUrl": "https://example.com/flag.png",
@@ -248,147 +220,11 @@ For reliable predictions:
       "serverUrl": "https://example.com/1",
       "flagUrl": "https://example.com/flag1.png",
       "imageUrl": "https://example.com/image1.jpg"
-    },
-    {
-      "name": "Reciter Name 2",
-      "confidence": 3.5,
-      "nationality": "Country 2",
-      "serverUrl": "https://example.com/2",
-      "flagUrl": "https://example.com/flag2.png",
-      "imageUrl": "https://example.com/image2.jpg"
     }
     // ... more predictions
   ]
 }
 ```
-
-For unreliable predictions in production mode:
-
-```json
-{
-  "reliable": false
-}
-```
-
-For unreliable predictions in development mode (when SHOW_UNRELIABLE_PREDICTIONS_IN_DEV is true):
-
-```json
-{
-  "reliable": false,
-  "top_predictions": [
-    {
-      "name": "Reciter Name 1",
-      "confidence": 45.5,
-      "nationality": "Country 1",
-      "serverUrl": "https://example.com/1",
-      "flagUrl": "https://example.com/flag1.png",
-      "imageUrl": "https://example.com/image1.jpg"
-    }
-    // ... more predictions
-  ]
-}
-```
-
-2. **Bad Request Errors (400)**
-
-```json
-{
-  "error": "No audio file provided. Please send the file with key 'audio' in form data."
-}
-```
-
-or
-
-```json
-{
-  "error": "No audio file selected"
-}
-```
-
-or
-
-```json
-{
-  "error": "Audio file is too short. Minimum duration is 5 seconds."
-}
-```
-
-or
-
-```json
-{
-  "error": "Audio file is too long. Maximum duration is 15 seconds."
-}
-```
-
-or
-
-```json
-{
-  "error": "Invalid audio file format. Supported formats: MP3, WAV"
-}
-```
-
-3. **Internal Server Errors (500)**
-
-```json
-{
-  "error": "Feature extraction failed"
-}
-```
-
-or
-
-```json
-{
-  "error": "Error extracting features: [specific error message]"
-}
-```
-
-or
-
-```json
-{
-  "error": "Error making prediction: [specific error message]"
-}
-```
-
-or
-
-```json
-{
-  "error": "Server error: [specific error message]"
-}
-```
-
-##### Response Fields
-
-- **predicted_reciter**: The identified reciter's name, or "Unknown" if the prediction is not reliable
-- **is_reliable**: Boolean indicating if the prediction meets reliability criteria
-- **top_predictions**: Array of top N predictions with confidence scores
-- **confidence**: (Optional) The confidence score of the top prediction
-- **distance_ratio**: (Optional) Ratio of distances used in reliability analysis
-- **failure_reasons**: Array of strings explaining why a prediction might not be reliable
-
-##### Error Handling
-
-The API uses standard HTTP status codes:
-
-- **200**: Successful request
-- **400**: Bad request (client error)
-- **500**: Internal server error
-
-All error responses include an `error` field with a descriptive message.
-
-##### Reliability Criteria
-
-A prediction is considered reliable when:
-
-1. The top confidence score exceeds the threshold (default: 0.95)
-2. The distance ratio meets the minimum requirement
-3. No failure reasons are present
-
-If any of these criteria are not met, `is_reliable` will be false and `predicted_reciter` will be "Unknown".
 
 **POST** `/getAyah`
 
@@ -398,33 +234,14 @@ Identifies the Quranic verse from an audio recording.
 
 - **Content-Type**: `multipart/form-data`
 - **Parameters**:
-  - `audio`: Audio file (MP3 or WAV format)
-  - `max_matches` (optional): Maximum number of matches to return (default: 5)
-  - `min_confidence` (optional): Minimum confidence threshold (default: 0.70)
-- **Audio Requirements**:
-  - Duration: 1-10 seconds
-  - Format: MP3 or WAV
-  - Sample Rate: 22050 Hz (will be converted if different)
-
-Example using curl:
-
-```bash
-# Basic usage
-curl -X POST -F "audio=@path/to/audio.mp3" http://localhost:5000/getAyah
-
-# With optional parameters
-curl -X POST -F "audio=@path/to/audio.mp3" -F "max_matches=10" -F "min_confidence=0.65" http://localhost:5000/getAyah
-
-# With debug information (server must be started with --show-debug flag)
-python -m server.app --show-debug
-curl -X POST -F "audio=@path/to/audio.mp3" http://localhost:5000/getAyah
-```
+  - `audio`: Audio file (required)
+    - Format: MP3 or WAV
+    - Duration: 1-10 seconds
+    - Sample Rate: 22050 Hz (will be converted if different)
+  - `max_matches`: Maximum number of matches to return (optional, default: 5)
+  - `min_confidence`: Minimum confidence threshold (optional, default: 0.70)
 
 ##### Response Format
-
-1. **Successful Response (200 OK)**
-
-Regular response:
 
 ```json
 {
@@ -447,7 +264,7 @@ Regular response:
 }
 ```
 
-Debug mode response (when server started with --show-debug):
+Debug Mode Fields (when server started with --show-debug):
 
 ```json
 {
@@ -467,39 +284,6 @@ Debug mode response (when server started with --show-debug):
   }
 }
 ```
-
-2. **Bad Request Errors (400)**
-
-```json
-{
-  "error": "No audio file provided. Please send the file with key 'audio' in form data."
-}
-```
-
-or
-
-```json
-{
-  "error": "Audio duration (0.8s) is less than minimum required (1s)"
-}
-```
-
-3. **Internal Server Errors (500)**
-
-```json
-{
-  "error": "Error in transcription or matching: [specific error message]"
-}
-```
-
-##### Response Fields
-
-- **matches_found**: Boolean indicating if any matches were found
-- **total_matches**: Number of matches returned
-- **matches**: Array of matches sorted by confidence score
-- **best_match**: Highest confidence match that meets the threshold
-- **transcription**: (Debug mode only) Original transcribed text
-- **debug_info**: (Debug mode only) Detailed matching information
 
 ## 🧠 Models
 
@@ -542,28 +326,35 @@ The system extracts the following features from audio:
 
 ## ⚙️ Configuration
 
-Configuration settings are stored in `config/config.py`. Key parameters include:
+The system uses multiple configuration files:
 
-- **Audio Processing**:
+- `config/config.py`: Core system configuration
+- `server/config.py`: API server configuration
+- `src/config.py`: Model and feature extraction configuration
 
-  - Sample rate: 22050 Hz
-  - Minimum duration: 20 seconds
-  - Skip start/end: 7/5 seconds
-  - Minimum usable duration: 5 seconds
+### Server Configuration
 
-- **Feature Extraction**:
+- `TOP_N_PREDICTIONS`: Number of predictions to return (default: 5)
+- `MIN_CONFIDENCE_THRESHOLD`: Minimum confidence for reliable predictions
+- `SHOW_UNRELIABLE_PREDICTIONS_IN_DEV`: Debug mode setting
 
-  - Number of MFCCs: 40
-  - Number of Chroma features: 12
-  - Number of Mel bands: 128
+### Audio Processing Configuration
 
-- **Data Augmentation**:
+- `SAMPLE_RATE`: 22050 Hz
+- `MIN_DURATION`: 5 seconds (for reciter identification)
+- `MAX_DURATION`: 15 seconds (for reciter identification)
+- `MIN_AYAH_DURATION`: 1 second
+- `MAX_AYAH_DURATION`: 10 seconds
 
-  - Pitch steps: [1.5, -1.5]
-  - Time stretch rates: [0.9, 1.1]
-  - Noise factor: 0.005
-  - Volume adjust: 0.8
+### Feature Extraction Configuration
 
-- **Model Parameters**:
-  - Random Forest: 100 estimators, max depth 10
-  - BLSTM: 64 units, 0.5 dropout rate, 0.0005 learning rate
+- `N_MFCC`: 40 (number of MFCC features)
+- `N_CHROMA`: 12 (number of chroma features)
+- `N_MEL_BANDS`: 128 (number of mel spectrogram bands)
+
+### Data Augmentation Configuration
+
+- `PITCH_STEPS`: [1.5, -1.5]
+- `TIME_STRETCH_RATES`: [0.9, 1.1]
+- `NOISE_FACTOR`: 0.005
+- `VOLUME_ADJUST`: 0.8
