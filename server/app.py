@@ -6,6 +6,7 @@ from flask import Flask, request, jsonify
 import numpy as np
 import json
 from pathlib import Path
+import argparse
 
 from src.utils.audio_utils import process_audio_file
 from src.features import extract_features
@@ -263,4 +264,8 @@ def get_all_reciters():
         }), 500
 
 if __name__ == '__main__':
-    app.run(host=HOST, port=PORT, debug=True)
+    parser = argparse.ArgumentParser(description="Run the Quran Reciter API server.")
+    parser.add_argument('--debug', action='store_true', help='Run the server in debug mode.')
+    args = parser.parse_args()
+
+    app.run(host=HOST, port=PORT, debug=args.debug)

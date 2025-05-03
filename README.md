@@ -176,7 +176,7 @@ pip install -r server/requirements.txt
 Start the Flask server:
 
 ```bash
-python -m server.app [--show-debug]
+python -m server.app [--debug]
 ```
 
 The server will start on `http://localhost:5000` by default.
@@ -264,11 +264,10 @@ Identifies the Quranic verse from an audio recording.
 }
 ```
 
-Debug Mode Fields (when server started with --show-debug):
+Debug Mode Fields (when server started with --debug):
 
 ```json
 {
-  // ... regular response fields ...
   "transcription": "فَجَعَلَهُمْ كَعَصْفٍ مَأْكُوهُ",
   "debug_info": {
     "transcription": "فَجَعَلَهُمْ كَعَصْفٍ مَأْكُوهُ",
