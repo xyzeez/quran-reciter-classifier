@@ -131,57 +131,56 @@ class QuranMatcher:
         if not hasattr(self, 'model') or not hasattr(self, 'processor'):
              raise RuntimeError("QuranMatcher model/processor not properly initialized. Cannot transcribe.")
         try:
-            logger.info(f"[QuranMatcher] Loading audio file: {audio_path}")
+            logging.debug(f"[QuranMatcher-Debug] Loading audio file: {audio_path}")
             wav, sr = torchaudio.load(audio_path)
             # Ensure mono
             if wav.shape[0] > 1:
-                logger.info("[QuranMatcher] Converting stereo audio to mono.")
+                logging.debug("[QuranMatcher-Debug] Converting stereo audio to mono.")
                 wav = wav.mean(dim=0, keepdim=True)
 
             # Check sample rate (should be 16k after conversion, but double-check)
             if sr != 16000:
-                 logger.warning(f"[QuranMatcher] Audio sample rate is {sr}Hz, expected 16000Hz. Resampling...")
+                 logging.warning(f"[QuranMatcher] Audio sample rate is {sr}Hz, expected 16000Hz. Resampling...")
                  resampler = torchaudio.transforms.Resample(orig_freq=sr, new_freq=16000)
                  wav = resampler(wav)
                  sr = 16000
 
-            logger.info("[QuranMatcher] Extracting features...")
+            logging.debug("[QuranMatcher-Debug] Extracting features...")
             inputs = self.processor(wav.squeeze(0), sampling_rate=sr, return_tensors='pt')
             input_feats = inputs.input_features.to(self.device)
 
-            logger.info("[QuranMatcher] Generating transcription...")
+            logging.debug("[QuranMatcher-Debug] Generating transcription...")
             # Use forced_decoder_ids for language/task specification
             forced_decoder_ids = self.processor.get_decoder_prompt_ids(language="ar", task="transcribe")
             pred_ids = self.model.generate(input_feats, forced_decoder_ids=forced_decoder_ids)
             transcription = self.processor.batch_decode(pred_ids, skip_special_tokens=True)[0]
-            logger.info(f"[QuranMatcher] Raw transcription: {transcription}")
+            logging.debug(f"[QuranMatcher-Debug] Raw transcription: {transcription}")
             return transcription
         except Exception as e:
-            logger.error(f"[QuranMatcher] Transcription failed for {audio_path}: {e}", exc_info=True)
+            logging.error(f"[QuranMatcher] Transcription failed for {audio_path}: {e}", exc_info=True)
             raise RuntimeError("Audio transcription failed") from e
 
     def find_matches(self, transcription: str, top_n: int = 5, score_threshold: int = 30) -> tuple[list, str, list]:
         """Find top matching Quran verses via fuzzy matching. Returns (matches, normalized_input, normalized_matches_debug)."""
         if not self.all_verses or not self.normalized_verses:
-             logger.error("[QuranMatcher] Cannot find matches: Verse database is empty or not prepared.")
-             return [], "", [] # Return empty list and empty normalized text/debug list
+             logging.error("[QuranMatcher] Cannot find matches: Verse database is empty or not prepared.")
+             return [], "", []
              
         clean = self._normalize_text(transcription)
         if not clean:
-            logger.warning("[QuranMatcher] Normalized transcription is empty. Cannot perform matching.")
-            return [], clean, [] # Return empty list but the (empty) normalized text
-        logger.info(f"[QuranMatcher] Normalized transcription for matching: '{clean}'")
+            logging.warning("[QuranMatcher] Normalized transcription is empty. Cannot perform matching.")
+            return [], clean, []
+        logging.debug(f"[QuranMatcher-Debug] Normalized transcription for matching: '{clean}'")
 
         # get fuzzy scores against precomputed normalized verses
         try:
-            logger.info(f"[QuranMatcher] Running fuzzy matching (top_n={top_n}, threshold={score_threshold})...")
-            # Increase limit slightly more to allow filtering duplicates more effectively
+            logging.debug(f"[QuranMatcher-Debug] Running fuzzy matching (top_n={top_n}, threshold={score_threshold})...")
             results = process.extract(clean, self.normalized_verses,
                                       scorer=fuzz.token_set_ratio,
-                                      limit=top_n * 5) 
+                                      limit=top_n * 5)
         except Exception as e:
-            logger.error(f"[QuranMatcher] Fuzzy matching failed: {e}", exc_info=True)
-            return [], clean, [] # Return empty list but the normalized text
+            logging.error(f"[QuranMatcher] Fuzzy matching failed: {e}", exc_info=True)
+            return [], clean, []
 
         # sort by score descending
         sorted_res = sorted(results, key=lambda x: x[1], reverse=True)
@@ -190,16 +189,16 @@ class QuranMatcher:
         seen = set()
         normalized_matches_debug = []
 
-        logger.info(f"[QuranMatcher] Processing {len(sorted_res)} potential fuzzy matches...")
+        logging.debug(f"[QuranMatcher-Debug] Processing {len(sorted_res)} potential fuzzy matches...")
         for choice, score, idx in sorted_res:
             # Safety check
             if idx >= len(self.all_verses):
-                logger.warning(f"[QuranMatcher] Fuzzy match index {idx} out of bounds for all_verses (len={len(self.all_verses)}). Skipping.")
+                logging.warning(f"[QuranMatcher] Fuzzy match index {idx} out of bounds for all_verses (len={len(self.all_verses)}). Skipping.")
                 continue
                 
             # Threshold check
             if score < score_threshold:
-                 logger.info(f"[QuranMatcher] Score {score:.2f} below threshold {score_threshold}. Stopping match processing.")
+                 logging.debug(f"[QuranMatcher-Debug] Score {score:.2f} below threshold {score_threshold}. Stopping match processing.")
                  break 
 
             verse = self.all_verses[idx]
@@ -211,7 +210,7 @@ class QuranMatcher:
 
             # Stop if desired number of unique matches found
             if len(matches) >= top_n:
-                logger.info(f"[QuranMatcher] Reached top_n limit ({top_n}) for unique matches.")
+                logging.debug(f"[QuranMatcher-Debug] Reached top_n limit ({top_n}) for unique matches.")
                 break
                 
             seen.add(key)
@@ -234,7 +233,8 @@ class QuranMatcher:
                 'surah': verse['surah_num'],
                 'ayah': verse['ayah_num']
             })
-            logger.debug(f"[QuranMatcher] Match added: S{key[0]}:A{key[1]} ({verse['surah_name_en']}) Score={score:.2f}") # Debug level
+            logging.debug(f"[QuranMatcher-Debug] Match added: S{key[0]}:A{key[1]} ({verse['surah_name_en']}) Score={score:.2f}")
 
-        logger.info(f"[QuranMatcher] Found {len(matches)} final unique matches meeting threshold.")
+        # Changed to DEBUG level
+        logging.debug(f"[QuranMatcher] Found {len(matches)} final unique matches meeting threshold.")
         return matches, clean, normalized_matches_debug 

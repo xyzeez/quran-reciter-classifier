@@ -19,4 +19,6 @@ rapidfuzz
 
 # Web/API
 Flask
-requests 
+
+# Added for enhanced CLI logging
+rich 

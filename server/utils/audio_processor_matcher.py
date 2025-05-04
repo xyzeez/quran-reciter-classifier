@@ -38,13 +38,13 @@ class AudioProcessor:
                 output_path
             ]
 
-            logger.info(f"Running ffmpeg command: {' '.join(command)}")
+            logger.debug(f"Running ffmpeg command: {' '.join(command)}")
             process = subprocess.run(command, check=True, capture_output=True, text=True, encoding='utf-8', errors='ignore')
             
             if process.stdout:
-                logger.debug(f"ffmpeg stdout: {process.stdout.strip()}") # Debug level for stdout
+                logger.debug(f"ffmpeg stdout: {process.stdout.strip()}")
             if process.stderr:
-                logger.info(f"ffmpeg stderr: {process.stderr.strip()}") # Info level for stderr noise
+                logger.debug(f"ffmpeg stderr: {process.stderr.strip()}")
             
             if not os.path.exists(output_path):
                 logger.error(f"FFmpeg command completed but output file not found: {output_path}")

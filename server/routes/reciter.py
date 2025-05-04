@@ -7,6 +7,8 @@ import json
 from pathlib import Path
 from datetime import datetime
 from flask import Blueprint, request, jsonify, current_app
+import soundfile as sf # Import soundfile
+import numpy as np # Import numpy
 
 # Import service functions
 from server.services.reciter_service import identify_reciter_from_audio, get_all_reciters_list
@@ -62,7 +64,7 @@ def handle_get_reciter():
         }
 
         # Call service, passing debug status
-        response_data, error_message, status_code = identify_reciter_from_audio(
+        response_data, processed_audio, processed_sr, error_message, status_code = identify_reciter_from_audio(
             audio_file_storage=audio_file,
             params=params,
             debug=current_app.debug # Pass debug status to service
@@ -84,13 +86,24 @@ def handle_get_reciter():
 
         # Save successful response in debug mode
         if current_app.debug and debug_save_dir:
-             try:
-                 json_path = debug_save_dir / "response.json"
-                 with open(json_path, 'w', encoding='utf-8') as f:
-                     json.dump(response_data, f, ensure_ascii=False, indent=4)
-                 logger.info(f"[ReciterRoute-Debug] Saved final response to {json_path}")
-             except Exception as json_save_err:
-                 logger.warning(f"[ReciterRoute-Debug] Failed to save final JSON response: {json_save_err}")
+            try:
+                json_path = debug_save_dir / "response.json"
+                with open(json_path, 'w', encoding='utf-8') as f:
+                    json.dump(response_data, f, ensure_ascii=False, indent=4)
+                logger.info(f"[ReciterRoute-Debug] Saved final response to {json_path}")
+            except Exception as json_save_err:
+                logger.warning(f"[ReciterRoute-Debug] Failed to save final JSON response: {json_save_err}")
+
+            # Save processed audio in debug mode if available
+            if processed_audio is not None and processed_sr is not None:
+                try:
+                    processed_audio_path = debug_save_dir / "processed_audio.wav"
+                    sf.write(processed_audio_path, processed_audio, processed_sr)
+                    logger.info(f"[ReciterRoute-Debug] Saved processed audio to {processed_audio_path}")
+                except Exception as wav_save_err:
+                    logger.warning(f"[ReciterRoute-Debug] Failed to save processed WAV: {wav_save_err}")
+            else:
+                logger.warning("[ReciterRoute-Debug] Processed audio data not available to save.")
 
         return jsonify(response_data), status_code
 

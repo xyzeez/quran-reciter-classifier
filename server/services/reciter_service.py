@@ -21,7 +21,7 @@ def identify_reciter_from_audio(
     audio_file_storage, # Type hint: werkzeug.datastructures.FileStorage
     params: Dict,
     debug: bool = False # Add debug parameter
-) -> Tuple[Optional[Dict], Optional[str], Optional[int]]:
+) -> Tuple[Optional[Dict], Optional[np.ndarray], Optional[int], Optional[str], Optional[int]]:
     """Processes audio, identifies Reciter, formats result.
 
     Args:
@@ -30,60 +30,76 @@ def identify_reciter_from_audio(
         debug: Boolean indicating if debug mode is active.
 
     Returns:
-        Tuple containing: (response_data, error_message, status_code).
+        Tuple containing: (response_data, processed_audio_data, processed_sample_rate, error_message, status_code).
     """
+    logging.debug(f"Starting Reciter identification process (debug={debug})")
+    processed_audio_data: Optional[np.ndarray] = None
+    processed_sample_rate: Optional[int] = None
     try:
         show_unreliable = params.get('show_unreliable_predictions', '').lower() == 'true'
+        if debug:
+            logging.debug(f"[ReciterService-Debug] Parameters: show_unreliable={show_unreliable}")
         
         # --- Audio Processing --- 
-        logger.info("[ReciterService] Processing audio for reciter identification...")
+        if debug:
+            logging.debug("[ReciterService-Debug] Processing audio for reciter identification...")
         result = process_audio_file(audio_file_storage, for_ayah=False)
         if isinstance(result, tuple) and len(result) == 2 and isinstance(result[1], str):
             error_msg = result[1]
-            logger.error(f"[ReciterService] Audio processing failed: {error_msg}")
-            return None, error_msg, 400
+            logging.error(f"[ReciterService] Audio processing failed: {error_msg}")
+            return None, None, None, error_msg, 400
         elif not isinstance(result, tuple) or len(result) != 2:
-             logger.error(f"[ReciterService] Unexpected return format from process_audio_file: {type(result)}")
-             return None, "Internal error during audio processing.", 500
+             logging.error(f"[ReciterService] Unexpected return format from process_audio_file: {type(result)}")
+             return None, None, None, "Internal error during audio processing.", 500
 
-        audio_data, sample_rate = result
-        logger.info(f"[ReciterService] Audio processed successfully. Sample rate: {sample_rate}, Data shape: {getattr(audio_data, 'shape', 'N/A')}")
+        processed_audio_data, processed_sample_rate = result
+        if debug:
+            logging.debug(f"[ReciterService-Debug] Audio processed successfully. Sample rate: {processed_sample_rate}, Data shape: {getattr(processed_audio_data, 'shape', 'N/A')}")
 
         # --- Feature Extraction --- 
-        logger.info("[ReciterService] Extracting features...")
-        features = extract_features(audio_data, sample_rate)
+        if debug:
+            logging.debug("[ReciterService-Debug] Extracting features...")
+        features = extract_features(processed_audio_data, processed_sample_rate)
         if features is None:
-            logger.error("[ReciterService] Feature extraction returned None.")
-            return None, 'Feature extraction failed', 500
-        logger.info(f"[ReciterService] Features extracted. Shape: {features.shape}")
+            logging.error("[ReciterService] Feature extraction returned None.")
+            return None, None, None, 'Feature extraction failed', 500
+        if debug:
+            logging.debug(f"[ReciterService-Debug] Features extracted. Shape: {features.shape}")
 
         # --- Prediction --- 
-        logger.info("[ReciterService] Performing prediction...")
+        if debug:
+            logging.debug("[ReciterService-Debug] Performing prediction...")
         model = get_reciter_model() # Get the loaded model instance
 
         if features.ndim == 1:
             features = features.reshape(1, -1)
 
-        prediction_idx = model.predict(features)[0]
         probabilities = model.predict_proba(features)[0]
-        predicted_class_name = str(model.classes_[prediction_idx])
-        logger.info(f"[ReciterService] Raw prediction: {predicted_class_name}, Index: {prediction_idx}")
+        predicted_class_index = np.argmax(probabilities)
+        predicted_class_name = str(model.classes_[predicted_class_index])
+        if debug:
+            logging.debug(f"[ReciterService-Debug] Raw prediction: {predicted_class_name}, Index: {predicted_class_index}")
 
         # --- Reliability Analysis --- 
+        if debug:
+            logging.debug("[ReciterService-Debug] Analyzing reliability...")
         distances = calculate_distances(features[0], model.centroids)
         reliability = analyze_prediction_reliability(
-            probabilities, distances, model.thresholds, prediction_idx
+            probabilities, distances, model.thresholds, predicted_class_name
         )
-        logger.info(f"[ReciterService] Prediction reliability: {reliability}")
+        if debug:
+            logging.debug(f"[ReciterService-Debug] Prediction reliability: {reliability}")
 
         # --- Format Response --- 
+        if debug:
+            logging.debug("[ReciterService-Debug] Formatting response...")
         sorted_indices = np.argsort(probabilities)[::-1][:TOP_N_PREDICTIONS]
         predictions_list = []
         
         reciters_metadata = _load_reciters_metadata()
         if reciters_metadata is None:
              reciters_metadata = {}
-             logger.warning("[ReciterService] Proceeding without reciters metadata.")
+             logging.warning("[ReciterService] Proceeding without reciters metadata.")
 
         for idx in sorted_indices:
             reciter_name = str(model.classes_[idx])
@@ -105,8 +121,6 @@ def identify_reciter_from_audio(
             })
 
         # Construct response based on reliability AND debug mode
-        # In debug mode, always include predictions
-        # Otherwise, include only if reliable OR show_unreliable is true
         include_predictions = debug or reliability['is_reliable'] or show_unreliable
 
         if not include_predictions:
@@ -115,28 +129,28 @@ def identify_reciter_from_audio(
                 'main_prediction': None,
                 'top_predictions': []
             }
-            logger.info("[ReciterService] Unreliable prediction, hiding results (debug={}, show_unreliable={}).".format(debug, show_unreliable))
+            logging.debug("[ReciterService] Unreliable prediction, hiding results (debug={}, show_unreliable={}).".format(debug, show_unreliable))
         else:
             response_data = {
                 'reliable': bool(reliability['is_reliable']), # Still report actual reliability
                 'main_prediction': predictions_list[0] if predictions_list else None,
                 'top_predictions': predictions_list
             }
-            if debug and not reliability['is_reliable']:
-                 logger.info("[ReciterService] Showing unreliable predictions because debug mode is active.")
-            elif reliability['is_reliable']:
-                 logger.info(f"[ReciterService] Reliable prediction. Found {len(predictions_list)} predictions.")
-            else: # Unreliable but show_unreliable was true
-                 logger.info(f"[ReciterService] Unreliable prediction, showing results because show_unreliable=true. Found {len(predictions_list)} predictions.")
+            if debug:
+                 if not reliability['is_reliable']:
+                     logging.debug("[ReciterService-Debug] Showing unreliable predictions because debug mode is active.")
+                 else:
+                     logging.debug(f"[ReciterService-Debug] Reliable prediction or showing unreliable. Found {len(predictions_list)} predictions.")
 
-        return response_data, None, 200
+        logging.debug("Reciter identification process completed successfully.")
+        return response_data, processed_audio_data, processed_sample_rate, None, 200
 
     except RuntimeError as e:
-         logger.error(f"[ReciterService] Runtime error: {e}", exc_info=True)
-         return None, f"Server runtime error: {e}", 500
+         logging.error(f"[ReciterService] Runtime error: {e}", exc_info=debug)
+         return None, None, None, f"Server runtime error: {e}", 500
     except Exception as e:
-        logger.exception(f"[ReciterService] Unexpected error during reciter identification: {e}")
-        return None, f'An unexpected server error occurred: {type(e).__name__}', 500
+        logging.error(f"[ReciterService] Unexpected error during reciter identification: {e}", exc_info=True)
+        return None, None, None, f'An unexpected server error occurred: {type(e).__name__}', 500
 
 def get_all_reciters_list() -> Tuple[Optional[List[Dict]], Optional[str], Optional[int]]:
     """Retrieves the list of all known reciters from metadata.
@@ -147,6 +161,7 @@ def get_all_reciters_list() -> Tuple[Optional[List[Dict]], Optional[str], Option
     try:
         reciters_metadata = _load_reciters_metadata()
         if reciters_metadata is None:
+            logging.error("[ReciterService] Reciters data file not found or failed to load.")
             return None, "Reciters data file not found or failed to load.", 500
 
         reciters_list = []
@@ -165,11 +180,11 @@ def get_all_reciters_list() -> Tuple[Optional[List[Dict]], Optional[str], Option
             }
             reciters_list.append(reciter_info)
             
-        logger.info(f"[ReciterService] Retrieved {len(reciters_list)} reciters.")
+        logging.info(f"[ReciterService] Retrieved {len(reciters_list)} reciters.")
         return reciters_list, None, 200
         
     except Exception as e:
-        logger.exception(f"[ReciterService] Server error in get_all_reciters_list: {e}")
+        logging.error(f"[ReciterService] Server error in get_all_reciters_list: {e}", exc_info=True)
         return None, f'Server error retrieving reciter list: {type(e).__name__}', 500
 
 # Helper function to load reciters.json
@@ -183,7 +198,7 @@ def _load_reciters_metadata() -> Optional[Dict]:
         if not reciters_file.exists():
              reciters_file = Path.cwd() / 'data' / 'reciters.json'
              if not reciters_file.exists():
-                  logger.error(f"Reciters metadata file not found at primary path or relative to CWD ({Path.cwd()}).")
+                  logging.error(f"Reciters metadata file not found at primary path or relative to CWD ({Path.cwd()}).")
                   return None
 
         with open(reciters_file, 'r', encoding='utf-8') as f:
@@ -191,5 +206,5 @@ def _load_reciters_metadata() -> Optional[Dict]:
             
     except Exception as e:
         path_str = str(reciters_file) if reciters_file else "unknown path"
-        logger.error(f"Could not load or parse reciters metadata from {path_str}: {e}", exc_info=True)
+        logging.error(f"Could not load or parse reciters metadata from {path_str}: {e}", exc_info=True)
         return None 
