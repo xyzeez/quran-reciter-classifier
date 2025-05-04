@@ -8,12 +8,9 @@ import json
 from pathlib import Path
 import argparse
 import os
-from datetime import datetime
-import soundfile
 import tempfile
 import subprocess
 import re
-import requests
 import torch
 import torchaudio
 from transformers import WhisperProcessor, WhisperForConditionalGeneration
@@ -21,8 +18,8 @@ from rapidfuzz import process, fuzz
 
 from src.utils.audio_utils import process_audio_file
 from src.features import extract_features
-from server.utils.model_loader import initialize_models, get_reciter_model, get_ayah_model
-from src.utils.ayah_matching import find_matching_ayah, load_quran_data
+from server.utils.model_loader import initialize_models, get_reciter_model
+from src.utils.ayah_matching import load_quran_data
 from src.utils.distance_utils import calculate_distances, analyze_prediction_reliability
 from server.config import TOP_N_PREDICTIONS, HOST, PORT
 from server.utils.text_utils import to_arabic_number
@@ -111,7 +108,7 @@ class QuranMatcher:
             # cache normalized strings for matching
             self.normalized_verses = [v["normalized"] for v in self.all_verses]
             logger.info(f"[QuranMatcher] Prepared {len(self.all_verses)} verses from pre-loaded data.")
-        except Exception as e:
+            except Exception as e:
             logger.error(f"[QuranMatcher] Failed to process pre-loaded Quran data: {e}")
             # If processing fails, ensure the matcher is in a state where it won't crash later
             self.quran_data = []
@@ -283,187 +280,10 @@ try:
         logger.error("CRITICAL: Global raw_quran_data is empty. Cannot initialize QuranMatcher.")
         quran_matcher_instance = None
 except Exception as init_err:
-    logger.error(f"CRITICAL: Failed to initialize QuranMatcher: {init_err}. /getAyahNew endpoint will likely fail.")
+    logger.error(f"CRITICAL: Failed to initialize QuranMatcher: {init_err}. /getAyah endpoint will likely fail.")
     quran_matcher_instance = None # Set to None to indicate failure
 
 # --- Quran Matcher Logic End ---
-
-@app.route('/getAyah', methods=['POST'])
-def get_ayah():
-    """Identify a Quranic verse from an audio recording."""
-    debug_save_dir = None # Initialize variable
-
-    try:
-        if 'audio' not in request.files:
-            return jsonify({
-                'error': 'No audio file provided. Please send the file with key "audio" in form data.'
-            }), 400
-
-        audio_file = request.files['audio']
-        if not audio_file:
-            return jsonify({
-                'error': 'No audio file selected'
-            }), 400
-
-        # --- Debug Saving Start ---
-        if app.debug:
-            try:
-                timestamp = datetime.now().strftime("%Y%m%d_%H%M%S_%f")
-                debug_save_dir_base = Path("api-responses") / "getAyah"
-                debug_save_dir = debug_save_dir_base / timestamp
-                os.makedirs(debug_save_dir, exist_ok=True)
-                logger.info(f"Debug mode: Saving request data to {debug_save_dir}")
-
-                # Save original audio
-                original_filename = audio_file.filename if audio_file.filename else 'audio.unknown'
-                safe_filename = "".join(c for c in original_filename if c.isalnum() or c in ('.', '_')).rstrip()
-                original_audio_path = debug_save_dir / f"original_{safe_filename}"
-                try:
-                    audio_file.save(original_audio_path)
-                    audio_file.seek(0) # Reset stream position
-                except Exception as save_err:
-                    logger.warning(f"Debug mode: Failed to save original audio to {original_audio_path}: {save_err}")
-
-            except Exception as e:
-                logger.warning(f"Debug mode: Error setting up debug save directory or saving original audio: {e}")
-                debug_save_dir = None # Skip saving later if setup failed
-        # --- Debug Saving End ---
-
-        max_matches = int(request.form.get('max_matches', TOP_N_PREDICTIONS))
-        min_confidence = float(request.form.get('min_confidence', 0.70))
-
-        result = process_audio_file(audio_file, for_ayah=True)
-        if isinstance(result[1], str): # Check if processing failed
-            # --- Debug Saving for Error Response ---
-            if app.debug and debug_save_dir:
-                 error_response = {'error': result[1]}
-                 try:
-                     json_path = debug_save_dir / "response_audio_error.json"
-                     with open(json_path, 'w', encoding='utf-8') as f:
-                         json.dump(error_response, f, ensure_ascii=False, indent=4)
-                 except Exception as json_save_err:
-                     logger.warning(f"Debug mode: Failed to save audio error JSON response: {json_save_err}")
-            # --- Debug Saving End ---
-            return jsonify({'error': result[1]}), 400
-
-        audio_data, sample_rate = result
-
-        # --- Debug Saving Processed Audio ---
-        if app.debug and debug_save_dir:
-            try:
-                processed_audio_path = debug_save_dir / "processed_audio.wav"
-                soundfile.write(processed_audio_path, audio_data, sample_rate)
-            except Exception as processed_save_err:
-                logger.warning(f"Debug mode: Failed to save processed audio: {processed_save_err}")
-        # --- Debug Saving End ---
-
-        model = get_ayah_model()
-        transcribed_text = model.transcribe(audio_data, sample_rate)
-        if not transcribed_text:
-            # --- Debug Saving for Error Response ---
-            if app.debug and debug_save_dir:
-                 error_response = {'error': 'Failed to transcribe audio'}
-                 try:
-                     json_path = debug_save_dir / "response_transcription_error.json"
-                     with open(json_path, 'w', encoding='utf-8') as f:
-                         json.dump(error_response, f, ensure_ascii=False, indent=4)
-                 except Exception as json_save_err:
-                     logger.warning(f"Debug mode: Failed to save transcription error JSON response: {json_save_err}")
-            # --- Debug Saving End ---
-            return jsonify({'error': 'Failed to transcribe audio'}), 500
-
-        matches = find_matching_ayah(
-            transcribed_text,
-            min_confidence=min_confidence,
-            max_matches=max_matches
-        )
-        
-        matches_list = matches.get('matches', [])
-        
-        formatted_matches = []
-        for match in matches_list:
-            surah_num = int(match['surah_number'])
-            ayah_num = int(match['ayah_number'])
-            
-            # Get unicode from Quran data
-            surah_data = next((s for s in raw_quran_data if s['id'] == surah_num), None)
-            unicode_char = surah_data['unicode'] if surah_data else ''
-            
-            formatted_match = {
-                'surah_number': to_arabic_number(surah_num),
-                'surah_number_en': surah_num,
-                'surah_name': match['surah_name'],
-                'surah_name_en': match['surah_name_en'],
-                'ayah_number': to_arabic_number(ayah_num),
-                'ayah_number_en': ayah_num,
-                'ayah_text': match['ayah_text'],
-                'confidence_score': float(match['confidence_score']),
-                'unicode': unicode_char
-            }
-            formatted_matches.append(formatted_match)
-        
-        response = {
-            'matches_found': len(formatted_matches) > 0,
-            'total_matches': len(formatted_matches),
-            'matches': formatted_matches,
-            'best_match': formatted_matches[0] if formatted_matches else None
-        }
-        
-        if app.debug:
-            debug_response = {
-                'transcription': transcribed_text,
-                'debug_info': {
-                    'transcription': transcribed_text,
-                    'normalized_transcription': matches.get('normalized_input', ''),
-                    'normalized_matches': matches.get('normalized_matches', [])
-                }
-            }
-            response.update(debug_response)
-
-        # --- Debug Saving Final JSON Response ---
-        if app.debug and debug_save_dir:
-            try:
-                json_path = debug_save_dir / "response.json"
-                with open(json_path, 'w', encoding='utf-8') as f:
-                    json.dump(response, f, ensure_ascii=False, indent=4)
-            except Exception as json_save_err:
-                logger.warning(f"Debug mode: Failed to save final JSON response: {json_save_err}")
-        # --- Debug Saving End ---
-
-        return jsonify(response)
-
-    except Exception as e:
-        logger.error(f"Error in transcription or matching: {str(e)}")
-        # --- Debug Saving for Server Error ---
-        error_response_server = {'error': f'Error in transcription or matching: {str(e)}'}
-        if app.debug and debug_save_dir: # Check if debug_save_dir was potentially created
-             try:
-                 # Attempt to create dir again just in case the error happened before creation
-                 if not debug_save_dir:
-                     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S_%f")
-                     debug_save_dir_base = Path("api-responses") / "getAyah"
-                     debug_save_dir = debug_save_dir_base / timestamp
-                     os.makedirs(debug_save_dir, exist_ok=True)
-
-                 json_path = debug_save_dir / "response_server_error.json"
-                 with open(json_path, 'w', encoding='utf-8') as f:
-                     json.dump(error_response_server, f, ensure_ascii=False, indent=4)
-
-                 # Attempt to save original audio if available
-                 if 'audio_file' in locals() and audio_file and hasattr(audio_file, 'save'):
-                    try:
-                        original_filename = audio_file.filename if audio_file.filename else 'audio_error.unknown'
-                        safe_filename = "".join(c for c in original_filename if c.isalnum() or c in ('.', '_')).rstrip()
-                        original_audio_path = debug_save_dir / f"original_error_{safe_filename}"
-                        audio_file.seek(0) # Ensure pointer is at start
-                        audio_file.save(original_audio_path)
-                    except Exception as save_err:
-                        logger.warning(f"Debug mode: Failed to save original audio on server error: {save_err}")
-
-             except Exception as json_save_err:
-                 logger.warning(f"Debug mode: Failed to save server error JSON response: {json_save_err}")
-        # --- Debug Saving End ---
-        return jsonify(error_response_server), 500
 
 @app.route('/getReciter', methods=['POST'])
 def identify_reciter():
@@ -610,18 +430,18 @@ def get_all_reciters():
             'error': f'Server error: {str(e)}'
         }), 500
 
-@app.route('/getAyahNew', methods=['POST'])
-def get_ayah_new():
+@app.route('/getAyah', methods=['POST'])
+def get_ayah():
     """
     Identify a Quranic verse from an audio recording using the Tarteel Whisper model
-    and fuzzy matching logic (mirrors quran-matcher, formats like /getAyah).
+    and fuzzy matching logic. (Replaces old /getAyah)
     """
     temp_dir = None # Track temporary directory for cleanup
     temp_input_path = None # Track temporary input file path
     wav_path = None # Track converted WAV file path
 
     if quran_matcher_instance is None:
-        logger.error("QuranMatcher instance not available for /getAyahNew")
+        logger.error("QuranMatcher instance not available for /getAyah")
         return jsonify({'error': 'Quran Matcher service is not initialized.'}), 503 # Service Unavailable
 
     try:
@@ -738,7 +558,7 @@ def get_ayah_new():
         logger.error(f"FFmpeg execution failed: {e.stderr}")
         return jsonify({'error': f'Audio processing failed (ffmpeg error). Details: {e.stderr}'}), 500
     except RuntimeError as e:
-        logger.error(f"Runtime error in get_ayah_new: {e}")
+        logger.error(f"Runtime error in get_ayah: {e}")
         # Provide specific messages for known issues
         if "Audio conversion failed" in str(e):
              return jsonify({'error': 'Failed to convert audio. Ensure ffmpeg is installed and the audio format is supported.'}), 400
@@ -749,7 +569,7 @@ def get_ayah_new():
         else:
              return jsonify({'error': f'An internal processing error occurred: {e}'}), 500
     except Exception as e:
-        logger.exception(f"Unexpected error in /getAyahNew endpoint: {e}") # Log full traceback for unexpected errors
+        logger.exception(f"Unexpected error in /getAyah endpoint: {e}") # Log full traceback for unexpected errors
         return jsonify({'error': f'An unexpected server error occurred: {e}'}), 500
 
     finally:

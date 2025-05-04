@@ -6,7 +6,6 @@ import logging
 from pathlib import Path
 from typing import Dict, Optional
 import re
-from difflib import SequenceMatcher
 
 logger = logging.getLogger(__name__)
 
@@ -101,87 +100,4 @@ def load_quran_data(data_dir: Optional[Path] = None) -> Dict:
 
     except Exception as e:
         logger.error(f"Error loading Quran data: {str(e)}")
-        return None
-
-def calculate_similarity(text1: str, text2: str) -> float:
-    """Calculate similarity between two texts using a combination of methods.
-    
-    Args:
-        text1: First text to compare
-        text2: Second text to compare
-        
-    Returns:
-        float: Similarity score between 0 and 1
-    """
-    # Get word sets
-    words1 = set(text1.split())
-    words2 = set(text2.split())
-    
-    # Calculate word overlap
-    common_words = words1.intersection(words2)
-    word_similarity = len(common_words) / max(len(words1), len(words2))
-    
-    # Calculate sequence similarity
-    sequence_similarity = SequenceMatcher(None, text1, text2).ratio()
-    
-    # Combine scores (weighted average)
-    return 0.7 * word_similarity + 0.3 * sequence_similarity
-
-def find_matching_ayah(transcription: str, min_confidence: float = 0.70, max_matches: int = 5) -> Dict:
-    """Find matching Quranic verses for the transcribed text.
-    
-    Args:
-        transcription: Transcribed Arabic text
-        min_confidence: Minimum confidence threshold for matches
-        max_matches: Maximum number of matches to return
-    
-    Returns:
-        Dict containing matches and best match
-    """
-    try:
-        # Normalize input text
-        normalized_input = normalize_arabic_text(transcription)
-
-        # Load Quran data if not already loaded
-        quran_data = load_quran_data()
-        if quran_data is None:
-            raise Exception("Failed to load Quran data")
-
-        # Find matches
-        matches = []
-        for verse in quran_data['verses']:
-            # Calculate similarity score
-            score = calculate_similarity(normalized_input, verse['normalized_text'])
-            if score > 0:
-                match = {
-                    'surah_number': verse['surah_number'],
-                    'ayah_number': verse['ayah_number'],
-                    'surah_name': verse['surah_name'],
-                    'surah_name_en': verse['surah_name_en'],
-                    'ayah_text': verse['text'],
-                    'confidence_score': score,
-                    'unicode': verse['unicode']
-                }
-                matches.append(match)
-
-        # Sort matches by confidence
-        matches.sort(key=lambda x: x['confidence_score'], reverse=True)
-        matches = matches[:max_matches]
-
-        # Get best match
-        best_match = matches[0] if matches and matches[0]['confidence_score'] >= min_confidence else None
-
-        return {
-            'matches': matches,
-            'best_match': best_match,
-            'total_matches': len(matches)
-        }
-
-    except Exception as e:
-        logger.error(f"Error finding matching ayah: {str(e)}")
-        return {
-            'matches': [],
-            'best_match': None,
-            'total_matches': 0,
-            'error': str(e)
-        } 
+        return None 
