@@ -7,6 +7,9 @@ import numpy as np
 import json
 from pathlib import Path
 import argparse
+import os
+from datetime import datetime
+import soundfile
 
 from src.utils.audio_utils import process_audio_file
 from src.features import extract_features
@@ -36,6 +39,8 @@ if not (reciter_success and ayah_success):
 @app.route('/getAyah', methods=['POST'])
 def get_ayah():
     """Identify a Quranic verse from an audio recording."""
+    debug_save_dir = None # Initialize variable
+
     try:
         if 'audio' not in request.files:
             return jsonify({
@@ -48,20 +53,73 @@ def get_ayah():
                 'error': 'No audio file selected'
             }), 400
 
+        # --- Debug Saving Start ---
+        if app.debug:
+            try:
+                timestamp = datetime.now().strftime("%Y%m%d_%H%M%S_%f")
+                debug_save_dir_base = Path("api-responses") / "getAyah"
+                debug_save_dir = debug_save_dir_base / timestamp
+                os.makedirs(debug_save_dir, exist_ok=True)
+                logger.info(f"Debug mode: Saving request data to {debug_save_dir}")
+
+                # Save original audio
+                original_filename = audio_file.filename if audio_file.filename else 'audio.unknown'
+                safe_filename = "".join(c for c in original_filename if c.isalnum() or c in ('.', '_')).rstrip()
+                original_audio_path = debug_save_dir / f"original_{safe_filename}"
+                try:
+                    audio_file.save(original_audio_path)
+                    audio_file.seek(0) # Reset stream position
+                except Exception as save_err:
+                    logger.warning(f"Debug mode: Failed to save original audio to {original_audio_path}: {save_err}")
+
+            except Exception as e:
+                logger.warning(f"Debug mode: Error setting up debug save directory or saving original audio: {e}")
+                debug_save_dir = None # Skip saving later if setup failed
+        # --- Debug Saving End ---
+
         max_matches = int(request.form.get('max_matches', TOP_N_PREDICTIONS))
         min_confidence = float(request.form.get('min_confidence', 0.70))
-        
+
         result = process_audio_file(audio_file, for_ayah=True)
-        if isinstance(result[1], str):
+        if isinstance(result[1], str): # Check if processing failed
+            # --- Debug Saving for Error Response ---
+            if app.debug and debug_save_dir:
+                 error_response = {'error': result[1]}
+                 try:
+                     json_path = debug_save_dir / "response_audio_error.json"
+                     with open(json_path, 'w', encoding='utf-8') as f:
+                         json.dump(error_response, f, ensure_ascii=False, indent=4)
+                 except Exception as json_save_err:
+                     logger.warning(f"Debug mode: Failed to save audio error JSON response: {json_save_err}")
+            # --- Debug Saving End ---
             return jsonify({'error': result[1]}), 400
 
         audio_data, sample_rate = result
-        
+
+        # --- Debug Saving Processed Audio ---
+        if app.debug and debug_save_dir:
+            try:
+                processed_audio_path = debug_save_dir / "processed_audio.wav"
+                soundfile.write(processed_audio_path, audio_data, sample_rate)
+            except Exception as processed_save_err:
+                logger.warning(f"Debug mode: Failed to save processed audio: {processed_save_err}")
+        # --- Debug Saving End ---
+
         model = get_ayah_model()
         transcribed_text = model.transcribe(audio_data, sample_rate)
         if not transcribed_text:
+            # --- Debug Saving for Error Response ---
+            if app.debug and debug_save_dir:
+                 error_response = {'error': 'Failed to transcribe audio'}
+                 try:
+                     json_path = debug_save_dir / "response_transcription_error.json"
+                     with open(json_path, 'w', encoding='utf-8') as f:
+                         json.dump(error_response, f, ensure_ascii=False, indent=4)
+                 except Exception as json_save_err:
+                     logger.warning(f"Debug mode: Failed to save transcription error JSON response: {json_save_err}")
+            # --- Debug Saving End ---
             return jsonify({'error': 'Failed to transcribe audio'}), 500
-            
+
         matches = find_matching_ayah(
             transcribed_text,
             min_confidence=min_confidence,
@@ -109,14 +167,51 @@ def get_ayah():
                 }
             }
             response.update(debug_response)
-        
+
+        # --- Debug Saving Final JSON Response ---
+        if app.debug and debug_save_dir:
+            try:
+                json_path = debug_save_dir / "response.json"
+                with open(json_path, 'w', encoding='utf-8') as f:
+                    json.dump(response, f, ensure_ascii=False, indent=4)
+            except Exception as json_save_err:
+                logger.warning(f"Debug mode: Failed to save final JSON response: {json_save_err}")
+        # --- Debug Saving End ---
+
         return jsonify(response)
 
     except Exception as e:
         logger.error(f"Error in transcription or matching: {str(e)}")
-        return jsonify({
-            'error': f'Error in transcription or matching: {str(e)}'
-        }), 500
+        # --- Debug Saving for Server Error ---
+        error_response_server = {'error': f'Error in transcription or matching: {str(e)}'}
+        if app.debug and debug_save_dir: # Check if debug_save_dir was potentially created
+             try:
+                 # Attempt to create dir again just in case the error happened before creation
+                 if not debug_save_dir:
+                     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S_%f")
+                     debug_save_dir_base = Path("api-responses") / "getAyah"
+                     debug_save_dir = debug_save_dir_base / timestamp
+                     os.makedirs(debug_save_dir, exist_ok=True)
+
+                 json_path = debug_save_dir / "response_server_error.json"
+                 with open(json_path, 'w', encoding='utf-8') as f:
+                     json.dump(error_response_server, f, ensure_ascii=False, indent=4)
+
+                 # Attempt to save original audio if available
+                 if 'audio_file' in locals() and audio_file and hasattr(audio_file, 'save'):
+                    try:
+                        original_filename = audio_file.filename if audio_file.filename else 'audio_error.unknown'
+                        safe_filename = "".join(c for c in original_filename if c.isalnum() or c in ('.', '_')).rstrip()
+                        original_audio_path = debug_save_dir / f"original_error_{safe_filename}"
+                        audio_file.seek(0) # Ensure pointer is at start
+                        audio_file.save(original_audio_path)
+                    except Exception as save_err:
+                        logger.warning(f"Debug mode: Failed to save original audio on server error: {save_err}")
+
+             except Exception as json_save_err:
+                 logger.warning(f"Debug mode: Failed to save server error JSON response: {json_save_err}")
+        # --- Debug Saving End ---
+        return jsonify(error_response_server), 500
 
 @app.route('/getReciter', methods=['POST'])
 def identify_reciter():
