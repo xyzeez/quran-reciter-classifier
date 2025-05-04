@@ -43,31 +43,32 @@ The Quran Reciter Classifier system uses machine learning to identify Quran reci
 ├── data/                  # Training and test data
 │   ├── train/             # Training audio files
 │   ├── test/              # Test audio files
-│   └── test-ayah/         # Ayah identification test files
 ├── server/                # Flask server for API
-│   ├── endpoints/         # API endpoint implementations
-│   ├── utils/            # Server utility functions
-│   ├── app.py            # Main server application
-│   ├── config.py         # Server configuration
-│   └── requirements.txt   # Server-specific Python dependencies
-├── src/                   # Source code
-│   ├── models/           # ML models implementation
-│   ├── features/         # Feature extraction
-│   ├── utils/            # Utility functions
-│   ├── pipelines/        # Processing pipelines
-│   ├── evaluation/       # Model evaluation
-│   └── data/            # Data handling
-├── scripts/              # Scripts for training, testing, etc.
-├── processed/            # Preprocessed data (generated)
-│   ├── train/           # Processed training data
-│   └── test/            # Processed test data
-├── models/               # Saved models (generated)
-├── test_results/         # Test results (generated)
-│   └── ayah/            # Ayah identification results
-├── logs/                 # Log files (generated)
-├── tools/                # Project management and automation tools
-├── requirements.txt      # Python dependencies
-└── README.md            # This file
+│   ├── __init__.py        # Server package initializer
+│   ├── app.py             # Main server application entry point
+│   ├── app_factory.py     # Creates Flask app, initializes resources
+│   ├── config.py          # Server-specific configuration
+│   ├── requirements.txt   # Server-specific Python dependencies
+│   ├── routes/            # API endpoint Blueprints (ayah.py, reciter.py)
+│   ├── services/          # Business logic (ayah_service.py, reciter_service.py)
+│   └── utils/             # Server utility functions and classes
+├── src/                   # Source code for core ML pipeline
+│   ├── models/            # ML models implementation
+│   ├── features/          # Feature extraction
+│   ├── utils/             # Utility functions
+│   ├── pipelines/         # Processing pipelines
+│   ├── evaluation/        # Model evaluation
+│   └── data/              # Data handling
+├── scripts/               # Scripts for training, testing, etc.
+├── processed/             # Preprocessed data (generated)
+│   ├── train/             # Processed training data
+│   └── test/              # Processed test data
+├── models/                # Saved models (generated)
+├── test_results/          # Test results (generated)
+├── logs/                  # Log files (generated)
+├── tools/                 # Project management and automation tools
+├── requirements.txt       # Main project Python dependencies
+└── README.md              # This file
 ```
 
 ## 🔧 Installation
@@ -98,7 +99,6 @@ The Quran Reciter Classifier system uses machine learning to identify Quran reci
 4. Prepare your data:
    - Place training audio files in `data/train/`
    - Place test audio files in `data/test/`
-   - Place ayah test files in `data/test-ayah/`
 
 ## 🚀 Usage
 
@@ -228,16 +228,6 @@ Identifies the Quran reciter from an audio file.
 }
 ```
 
-**Debug Mode Behavior for `/getReciter`**:
-
-When the server is started with the `--debug` flag:
-
-1.  **Request/Response Saving**: For each request to `/getReciter`, the server will attempt to save debugging information into a timestamped sub-folder within `api-responses/getReciter/`. This includes:
-    - The original audio file received from the client.
-    - The processed audio (`processed_audio.wav`) after server-side preprocessing.
-    - The final JSON response (`response.json` or `response_error.json`).
-2.  **Unreliable Predictions**: The JSON response will _always_ include the `main_prediction` and `top_predictions` fields, even if the `reliable` field is `false`. In non-debug mode, these fields are omitted for unreliable predictions unless `show_unreliable_predictions=true` is specified in the request.
-
 **POST** `/getAyah`
 
 Identifies the Quranic verse from an audio recording.
@@ -247,11 +237,11 @@ Identifies the Quranic verse from an audio recording.
 - **Content-Type**: `multipart/form-data`
 - **Parameters**:
   - `audio`: Audio file (required)
-    - Format: MP3 or WAV
-    - Duration: 1-10 seconds
-    - Sample Rate: 22050 Hz (will be converted if different)
+    - Format: MP3 or WAV (or other ffmpeg-supported formats)
+    - Duration: 1-10 seconds (Recommended; Note: Limits exist in config but are not currently enforced by the endpoint)
+    - Sample Rate: Any (will be automatically converted to 16000 Hz for processing)
   - `max_matches`: Maximum number of matches to return (optional, default: 5)
-  - `min_confidence`: Minimum confidence threshold (optional, default: 0.70)
+  - `min_confidence`: Minimum confidence threshold (0.0 to 1.0) for fuzzy matching score (optional, default: 0.70)
 
 ##### Response Format
 
@@ -339,15 +329,20 @@ The system extracts the following features from audio:
 
 The system uses multiple configuration files:
 
-- `config/config.py`: Core system configuration
+- `config/config.py`: Core system configuration (Used by `scripts/` and `src/`)
 - `server/config.py`: API server configuration
-- `src/config.py`: Model and feature extraction configuration
+- `src/config.py`: Specific configurations for model/feature extraction within `src/` (Note: Some duplication might exist or be consolidated)
 
-### Server Configuration
+### Server Configuration (`server/config.py`)
 
-- `TOP_N_PREDICTIONS`: Number of predictions to return (default: 5)
-- `MIN_CONFIDENCE_THRESHOLD`: Minimum confidence for reliable predictions
-- `SHOW_UNRELIABLE_PREDICTIONS_IN_DEV`: Debug mode setting
+Key settings include:
+
+- `HOST`, `PORT`, `DEBUG`: Network settings for the server.
+- `MODEL_DIR`, `LATEST_MODEL_SYMLINK`, `MODEL_ID`: Paths and identifiers for loading the reciter model.
+- `TOP_N_PREDICTIONS`: Number of predictions to return in the `/getReciter` response (default: 5).
+- `CONFIDENCE_THRESHOLD`, `SECONDARY_CONFIDENCE_THRESHOLD`, `MAX_CONFIDENCE_DIFF`: Parameters related to the _original_ training and threshold calculations stored within the model. The actual reliability check in the service uses thresholds loaded _with the model_, not these specific config values directly at runtime for the check itself.
+- `MIN_AUDIO_DURATION`, `MAX_AUDIO_DURATION`: Duration limits for `/getReciter` audio.
+- `AYAH_MIN_DURATION`, `AYAH_MAX_DURATION`: Duration limits for `/getAyah` audio.
 
 ### Audio Processing Configuration
 

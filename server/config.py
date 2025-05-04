@@ -1,36 +1,27 @@
 """
-Server configuration settings.
+Server-specific configuration settings.
 """
 from pathlib import Path
-
-# Import model-related settings from main config
 from config import MODEL_OUTPUT_DIR
 
-# Server settings
-HOST = '0.0.0.0'  # Listen on all available interfaces
-PORT = 5000
+# --- Server Network Settings --- 
+HOST = '0.0.0.0'  
+PORT = 5000         
 
-# Debug settings
-# SHOW_DEBUG_INFO = args.show_debug # Removed this line - will be handled in app.py
+# --- Audio Processing Constraints --- 
+MIN_AUDIO_DURATION = 5  # Minimum audio duration in seconds for reciter ID
+MAX_AUDIO_DURATION = 15 # Maximum audio duration in seconds for reciter ID
+SAMPLE_RATE = 22050     # Target sample rate for reciter ID processing
 
-# Audio processing settings for reciter identification
-MIN_AUDIO_DURATION = 5  # Minimum audio duration in seconds
-MAX_AUDIO_DURATION = 15  # Maximum audio duration in seconds
-SAMPLE_RATE = 22050  # Audio sample rate
+# --- Reciter Model Loading Settings --- 
+MODEL_DIR = Path(MODEL_OUTPUT_DIR)  
+LATEST_MODEL_SYMLINK = MODEL_DIR / 'latest' 
+MODEL_ID = '20250417_023215_train'  
 
-# Audio processing settings for ayah identification
-AYAH_MIN_DURATION = 1  # Minimum audio duration in seconds for ayah identification
-AYAH_MAX_DURATION = 10  # Maximum audio duration in seconds for ayah identification
+# --- Prediction & Reliability Parameters --- 
+CONFIDENCE_THRESHOLD = 0.95  
+SECONDARY_CONFIDENCE_THRESHOLD = 0.10  
+MAX_CONFIDENCE_DIFF = 0.80  
 
-# Model settings
-MODEL_DIR = Path(MODEL_OUTPUT_DIR)  # Use the path from main config
-LATEST_MODEL_SYMLINK = MODEL_DIR / 'latest'
-MODEL_ID = '20250417_023215_train'  # Specific model ID to use (e.g., '20240306_152417_train'), if None use symlink/latest
-
-# Reliability Parameters
-CONFIDENCE_THRESHOLD = 0.95  # Primary confidence threshold
-SECONDARY_CONFIDENCE_THRESHOLD = 0.10  # Threshold for secondary predictions
-MAX_CONFIDENCE_DIFF = 0.80  # Required difference between top predictions
-
-# Server-specific prediction settings
-TOP_N_PREDICTIONS = 5  # Number of top predictions to return
+# Settings used by the server's response formatting
+TOP_N_PREDICTIONS = 5  

@@ -11,66 +11,62 @@ from rapidfuzz import process, fuzz
 from pathlib import Path
 
 # Import the utility for converting numbers to Arabic script
-# Assuming text_utils.py is in the same directory or accessible via PYTHONPATH
-# If text_utils is in server.utils, use: from .text_utils import to_arabic_number
-# If text_utils is in src.utils, use: from src.utils.text_utils import to_arabic_number 
-# Adjust based on actual location. Using relative import for now.
-from server.utils.text_utils import to_arabic_number
+# This assumes text_utils.py is in server/utils/
+from .text_utils import to_arabic_number
 
 logger = logging.getLogger(__name__)
 
 class QuranMatcher:
-    def __init__(self, loaded_quran_data):
+    """Identifies Quran verses in audio using Whisper and fuzzy matching."""
+
+    def __init__(self, loaded_quran_data: list):
+        """Initializes the matcher with a Whisper model and pre-loaded Quran data.
+
+        Args:
+            loaded_quran_data: A list of Surah dictionaries, matching the 
+                               structure expected (e.g., from quran.json).
+        """
         self.model_id = "tarteel-ai/whisper-base-ar-quran"
         self.device = "cuda" if torch.cuda.is_available() else "cpu"
         logger.info(f"[QuranMatcher] Initializing model {self.model_id} on {self.device.upper()} device")
 
-        # load Whisper model
+        # Load Whisper model
         try:
             self.processor = WhisperProcessor.from_pretrained(self.model_id)
             self.model = WhisperForConditionalGeneration.from_pretrained(self.model_id).to(self.device)
         except Exception as e:
-            logger.error(f"[QuranMatcher] Failed to load Whisper model: {e}", exc_info=True)
+            logger.error(f"[QuranMatcher] Failed to load Whisper model {self.model_id}: {e}", exc_info=True)
             raise RuntimeError(f"Failed to load Whisper model {self.model_id}") from e
 
-        # Use the passed-in data
-        logger.info("[QuranMatcher] Using pre-loaded Quran data.")
-        self.quran_data = loaded_quran_data
+        # Process the passed-in data
+        logger.info("[QuranMatcher] Processing pre-loaded Quran data...")
+        self.quran_data = loaded_quran_data # Keep reference if needed later?
 
-        # load and prepare verses from the passed-in data
         try:
-            if not self.quran_data:
-                 logger.error("[QuranMatcher] Provided Quran data is empty or invalid.")
-                 raise ValueError("Provided Quran data is empty.")
+            if not self.quran_data or not isinstance(self.quran_data, list):
+                 logger.error("[QuranMatcher] Provided Quran data is empty, None, or not a list.")
+                 raise ValueError("Invalid or empty Quran data provided.")
                  
-            self.all_verses = self._prepare_verse_database()
+            self.all_verses = self._prepare_verse_database(self.quran_data)
             if not self.all_verses:
                 logger.error("[QuranMatcher] Verse database preparation resulted in an empty list.")
                 raise ValueError("Verse database is empty after preparation.")
 
-            # cache normalized strings for matching
             self.normalized_verses = [v["normalized"] for v in self.all_verses]
-            logger.info(f"[QuranMatcher] Prepared {len(self.all_verses)} verses from pre-loaded data.")
+            logger.info(f"[QuranMatcher] Prepared {len(self.all_verses)} verses internal database.")
         except Exception as e:
-            logger.error(f"[QuranMatcher] Failed to process pre-loaded Quran data: {e}", exc_info=True)
+            logger.error(f"[QuranMatcher] Failed during internal data preparation: {e}", exc_info=True)
             self.quran_data = []
             self.all_verses = []
             self.normalized_verses = []
-            raise RuntimeError("Failed to process pre-loaded Quran data") from e
+            raise RuntimeError("Failed to prepare internal verse database") from e
 
-    def _prepare_verse_database(self):
-        """Flatten and normalize all verses from the loaded data"""
+    def _prepare_verse_database(self, quran_data_list: list) -> list:
+        """Flattens and normalizes verses from the loaded Quran data list."""
         verses = []
-        if not self.quran_data:
-            logger.error("[QuranMatcher] Cannot prepare verse database: Quran data is empty.")
-            return []
-            
-        # Check if quran_data is a list of dictionaries (expected format)
-        if not isinstance(self.quran_data, list):
-             logger.error(f"[QuranMatcher] Expected quran_data to be a list, but got {type(self.quran_data)}")
-             return []
+        # Data validation happens in __init__ before calling this
 
-        for chapter in self.quran_data:
+        for chapter in quran_data_list:
             if not isinstance(chapter, dict):
                 logger.warning(f"[QuranMatcher] Skipping invalid chapter data item (expected dict): {type(chapter)}")
                 continue
@@ -101,7 +97,7 @@ class QuranMatcher:
                     "surah_name_en": surah_name_en,
                     "ayah_num": ayah_num,
                     "original": orig_text,
-                    "normalized": self._normalize_text(orig_text) # Pass orig_text here
+                    "normalized": self._normalize_text(orig_text)
                 })
         return verses
 
@@ -196,50 +192,49 @@ class QuranMatcher:
 
         logger.info(f"[QuranMatcher] Processing {len(sorted_res)} potential fuzzy matches...")
         for choice, score, idx in sorted_res:
-            # Ensure idx is within bounds (safety check)
+            # Safety check
             if idx >= len(self.all_verses):
                 logger.warning(f"[QuranMatcher] Fuzzy match index {idx} out of bounds for all_verses (len={len(self.all_verses)}). Skipping.")
                 continue
                 
-            # Apply threshold check early
+            # Threshold check
             if score < score_threshold:
-                 # Since list is sorted, we can break early
                  logger.info(f"[QuranMatcher] Score {score:.2f} below threshold {score_threshold}. Stopping match processing.")
                  break 
 
             verse = self.all_verses[idx]
             key = (verse['surah_num'], verse['ayah_num'])
             
-            # Skip if we've already added this exact verse
+            # Skip duplicates
             if key in seen:
                 continue
 
-            # Check if we have reached the desired number of unique matches
+            # Stop if desired number of unique matches found
             if len(matches) >= top_n:
                 logger.info(f"[QuranMatcher] Reached top_n limit ({top_n}) for unique matches.")
                 break
                 
             seen.add(key)
-            # Prepare data structure for the endpoint (internal representation)
+            # Prepare internal representation for the service layer
             match_data = {
                 'surah_number': verse['surah_num'],
-                'surah_name': verse['surah_name'], # Use name stored during _prepare_verse_database
-                'surah_name_en': verse['surah_name_en'], # Use name stored during _prepare_verse_database
+                'surah_name': verse['surah_name'],
+                'surah_name_en': verse['surah_name_en'],
                 'ayah_number': verse['ayah_num'], 
-                'ayah_text': verse['original'], # Use original text stored during _prepare_verse_database
+                'ayah_text': verse['original'], 
                 'confidence_score': float(score), 
-                'unicode': '' # Placeholder - will be added by endpoint using global data
+                'unicode': '' # Placeholder added by service
             }
             matches.append(match_data)
             
-            # Add normalized match info for debug
+            # Add debug info
             normalized_matches_debug.append({
-                'normalized_text': choice, # The matched normalized verse text from rapidfuzz
+                'normalized_text': choice, 
                 'score': score,
                 'surah': verse['surah_num'],
                 'ayah': verse['ayah_num']
             })
-            logger.info(f"[QuranMatcher] Match added: S{key[0]}:A{key[1]} ({verse['surah_name_en']}) Score={score:.2f}")
+            logger.debug(f"[QuranMatcher] Match added: S{key[0]}:A{key[1]} ({verse['surah_name_en']}) Score={score:.2f}") # Debug level
 
         logger.info(f"[QuranMatcher] Found {len(matches)} final unique matches meeting threshold.")
         return matches, clean, normalized_matches_debug 

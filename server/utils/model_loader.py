@@ -7,7 +7,6 @@ from pathlib import Path
 from typing import Optional, Tuple
 
 from src.models.model_factory import load_model
-# from src.models.ayah_model_factory import load_ayah_model # Removed - factory file deleted
 from server.config import (
     MODEL_DIR,
     MODEL_ID,
@@ -18,7 +17,7 @@ logger = logging.getLogger(__name__)
 
 # Global model instances
 reciter_model = None
-# ayah_model = None # Ayah model handled by QuranMatcher now
+# Ayah model handled by QuranMatcher
 
 def find_model_path() -> Optional[Path]:
     """
@@ -71,18 +70,16 @@ def find_model_path() -> Optional[Path]:
         logger.error(f"Error finding model path: {str(e)}")
         return None
 
-def initialize_models() -> Tuple[bool, bool]: # Keep return type signature for now, though second bool is unused
+def initialize_models() -> Tuple[bool, bool]:
     """
     Load the reciter identification model at startup.
     (Ayah model loading is handled by QuranMatcher)
-    Uses configured paths and model types.
     
     Returns:
-        (reciter_success, True) # Second value is always True as Ayah model isn't handled here
+        (reciter_success, True) # Second value is a placeholder
     """
-    global reciter_model # Removed ayah_model from global access here
+    global reciter_model
     reciter_success = False
-    # ayah_success = False # Ayah model loading not handled here
     
     try:
         # Initialize reciter model
@@ -92,7 +89,7 @@ def initialize_models() -> Tuple[bool, bool]: # Keep return type signature for n
             reciter_model = load_model(model_path)
             if reciter_model:
                 model_info = reciter_model.get_model_info()
-                logger.info(f"Reciter model loaded successfully")
+                logger.info(f"Reciter model loaded successfully from {model_path}")
                 logger.info(f"Model type: {model_info['model_type']}")
                 logger.info(f"Number of classes: {len(reciter_model.classes_)}")
                 reciter_success = True
@@ -101,11 +98,7 @@ def initialize_models() -> Tuple[bool, bool]: # Keep return type signature for n
         else:
             logger.error("No valid model path found for reciter model")
             
-        # Remove Ayah model initialization block
-        # logger.info("Initializing ayah identification model...")
-        # ayah_model = load_ayah_model()
-        # logger.info("Ayah model loaded successfully")
-        # ayah_success = True
+        # Ayah model loading is handled elsewhere
             
     except Exception as e:
         logger.error(f"Error initializing reciter model: {str(e)}", exc_info=True)
@@ -127,19 +120,3 @@ def get_reciter_model():
     if reciter_model is None:
         raise RuntimeError("Reciter model not initialized")
     return reciter_model
-
-# Remove get_ayah_model function
-# def get_ayah_model():
-#     """
-#     Get the global verse identification model.
-#     
-#     Returns:
-#         Loaded verse model instance
-#         
-#     Raises:
-#         RuntimeError: If model not initialized
-#     """
-#     global ayah_model
-#     if ayah_model is None:
-#         raise RuntimeError("Ayah model not initialized")
-#     return ayah_model 
