@@ -1,0 +1,15 @@
+# Core libraries
+joblib
+numpy
+
+# Audio processing
+librosa
+soundfile
+
+# Deep learning
+openai-whisper
+tensorflow
+transformers
+
+# Web Framework
+Flask 

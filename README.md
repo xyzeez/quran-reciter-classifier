@@ -37,6 +37,7 @@ The Quran Reciter Classifier system uses machine learning to identify Quran reci
 ```
 .
 ├── api-responses/          # API response cache and examples
+│   ├── getReciter/        # Contains timestamped folders with debug data (audio, JSON) when server runs in debug mode
 │   └── getAyah/           # Ayah identification responses
 ├── config/                # Configuration settings
 ├── data/                  # Training and test data
@@ -47,7 +48,8 @@ The Quran Reciter Classifier system uses machine learning to identify Quran reci
 │   ├── endpoints/         # API endpoint implementations
 │   ├── utils/            # Server utility functions
 │   ├── app.py            # Main server application
-│   └── config.py         # Server configuration
+│   ├── config.py         # Server configuration
+│   └── requirements.txt   # Server-specific Python dependencies
 ├── src/                   # Source code
 │   ├── models/           # ML models implementation
 │   ├── features/         # Feature extraction
@@ -167,7 +169,7 @@ Options:
 
 ### Using the API
 
-First, install the API-specific dependencies:
+First, ensure you have installed the main project dependencies from `requirements.txt`. Then, install the API-specific dependencies:
 
 ```bash
 pip install -r server/requirements.txt
@@ -225,6 +227,16 @@ Identifies the Quran reciter from an audio file.
   ]
 }
 ```
+
+**Debug Mode Behavior for `/getReciter`**:
+
+When the server is started with the `--debug` flag:
+
+1.  **Request/Response Saving**: For each request to `/getReciter`, the server will attempt to save debugging information into a timestamped sub-folder within `api-responses/getReciter/`. This includes:
+    - The original audio file received from the client.
+    - The processed audio (`processed_audio.wav`) after server-side preprocessing.
+    - The final JSON response (`response.json` or `response_error.json`).
+2.  **Unreliable Predictions**: The JSON response will _always_ include the `main_prediction` and `top_predictions` fields, even if the `reliable` field is `false`. In non-debug mode, these fields are omitted for unreliable predictions unless `show_unreliable_predictions=true` is specified in the request.
 
 **POST** `/getAyah`
 
