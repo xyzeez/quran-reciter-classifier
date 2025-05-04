@@ -3,8 +3,8 @@
     "id": 1,
     "name": "الفاتحة",
     "transliteration": "Al-Fatihah",
+    "unicode": "\ue901",
     "type": "meccan",
-    "unicode": "\uE901",
     "total_verses": 7,
     "verses": [
       {
@@ -41,8 +41,8 @@
     "id": 2,
     "name": "البقرة",
     "transliteration": "Al-Baqarah",
+    "unicode": "\ue902",
     "type": "medinan",
-    "unicode": "\uE902",
     "total_verses": 286,
     "verses": [
       {
@@ -1195,8 +1195,8 @@
     "id": 3,
     "name": "آل عمران",
     "transliteration": "Ali 'Imran",
+    "unicode": "\ue903",
     "type": "medinan",
-    "unicode": "\uE903",
     "total_verses": 200,
     "verses": [
       {
@@ -2005,8 +2005,8 @@
     "id": 4,
     "name": "النساء",
     "transliteration": "An-Nisa",
+    "unicode": "\ue904",
     "type": "medinan",
-    "unicode": "\uE904",
     "total_verses": 176,
     "verses": [
       {
@@ -2719,8 +2719,8 @@
     "id": 5,
     "name": "المائدة",
     "transliteration": "Al-Ma'idah",
+    "unicode": "\ue905",
     "type": "medinan",
-    "unicode": "\uE905",
     "total_verses": 120,
     "verses": [
       {
@@ -3209,8 +3209,8 @@
     "id": 6,
     "name": "الأنعام",
     "transliteration": "Al-An'am",
+    "unicode": "\ue906",
     "type": "meccan",
-    "unicode": "\uE906",
     "total_verses": 165,
     "verses": [
       {
@@ -3879,8 +3879,8 @@
     "id": 7,
     "name": "الأعراف",
     "transliteration": "Al-A'raf",
+    "unicode": "\ue907",
     "type": "meccan",
-    "unicode": "\uE907",
     "total_verses": 206,
     "verses": [
       {
@@ -4713,8 +4713,8 @@
     "id": 8,
     "name": "الأنفال",
     "transliteration": "Al-Anfal",
+    "unicode": "\ue908",
     "type": "medinan",
-    "unicode": "\uE908",
     "total_verses": 75,
     "verses": [
       {
@@ -5023,8 +5023,8 @@
     "id": 9,
     "name": "التوبة",
     "transliteration": "At-Tawbah",
+    "unicode": "\ue909",
     "type": "medinan",
-    "unicode": "\uE909",
     "total_verses": 129,
     "verses": [
       {
@@ -5549,8 +5549,8 @@
     "id": 10,
     "name": "يونس",
     "transliteration": "Yunus",
+    "unicode": "\ue90a",
     "type": "meccan",
-    "unicode": "\uE90A",
     "total_verses": 109,
     "verses": [
       {
@@ -5995,8 +5995,8 @@
     "id": 11,
     "name": "هود",
     "transliteration": "Hud",
+    "unicode": "\ue90b",
     "type": "meccan",
-    "unicode": "\uE90B",
     "total_verses": 123,
     "verses": [
       {
@@ -6497,8 +6497,8 @@
     "id": 12,
     "name": "يوسف",
     "transliteration": "Yusuf",
+    "unicode": "\ue90c",
     "type": "meccan",
-    "unicode": "\uE90C",
     "total_verses": 111,
     "verses": [
       {
@@ -6951,8 +6951,8 @@
     "id": 13,
     "name": "الرعد",
     "transliteration": "Ar-Ra'd",
+    "unicode": "\ue90d",
     "type": "medinan",
-    "unicode": "\uE90D",
     "total_verses": 43,
     "verses": [
       {
@@ -7133,8 +7133,8 @@
     "id": 14,
     "name": "ابراهيم",
     "transliteration": "Ibrahim",
+    "unicode": "\ue90e",
     "type": "meccan",
-    "unicode": "\uE90E",
     "total_verses": 52,
     "verses": [
       {
@@ -7351,8 +7351,8 @@
     "id": 15,
     "name": "الحجر",
     "transliteration": "Al-Hijr",
+    "unicode": "\ue90f",
     "type": "meccan",
-    "unicode": "\uE90F",
     "total_verses": 99,
     "verses": [
       {
@@ -7757,8 +7757,8 @@
     "id": 16,
     "name": "النحل",
     "transliteration": "An-Nahl",
+    "unicode": "\ue910",
     "type": "meccan",
-    "unicode": "\uE910",
     "total_verses": 128,
     "verses": [
       {
@@ -8279,8 +8279,8 @@
     "id": 17,
     "name": "الإسراء",
     "transliteration": "Al-Isra",
+    "unicode": "\ue911",
     "type": "meccan",
-    "unicode": "\uE911",
     "total_verses": 111,
     "verses": [
       {
@@ -8733,8 +8733,8 @@
     "id": 18,
     "name": "الكهف",
     "transliteration": "Al-Kahf",
+    "unicode": "\ue912",
     "type": "meccan",
-    "unicode": "\uE912",
     "total_verses": 110,
     "verses": [
       {
@@ -9183,8 +9183,8 @@
     "id": 19,
     "name": "مريم",
     "transliteration": "Maryam",
+    "unicode": "\ue913",
     "type": "meccan",
-    "unicode": "\uE913",
     "total_verses": 98,
     "verses": [
       {
@@ -9585,8 +9585,8 @@
     "id": 20,
     "name": "طه",
     "transliteration": "Taha",
+    "unicode": "\ue914",
     "type": "meccan",
-    "unicode": "\uE914",
     "total_verses": 135,
     "verses": [
       {
@@ -10135,8 +10135,8 @@
     "id": 21,
     "name": "الأنبياء",
     "transliteration": "Al-Anbya",
+    "unicode": "\ue915",
     "type": "meccan",
-    "unicode": "\uE915",
     "total_verses": 112,
     "verses": [
       {
@@ -10593,8 +10593,8 @@
     "id": 22,
     "name": "الحج",
     "transliteration": "Al-Hajj",
+    "unicode": "\ue916",
     "type": "medinan",
-    "unicode": "\uE916",
     "total_verses": 78,
     "verses": [
       {
@@ -10915,8 +10915,8 @@
     "id": 23,
     "name": "المؤمنون",
     "transliteration": "Al-Mu'minun",
+    "unicode": "\ue917",
     "type": "meccan",
-    "unicode": "\uE917",
     "total_verses": 118,
     "verses": [
       {
@@ -11397,8 +11397,8 @@
     "id": 24,
     "name": "النور",
     "transliteration": "An-Nur",
+    "unicode": "\ue918",
     "type": "medinan",
-    "unicode": "\uE918",
     "total_verses": 64,
     "verses": [
       {
@@ -11663,8 +11663,8 @@
     "id": 25,
     "name": "الفرقان",
     "transliteration": "Al-Furqan",
+    "unicode": "\ue919",
     "type": "meccan",
-    "unicode": "\uE919",
     "total_verses": 77,
     "verses": [
       {
@@ -11981,8 +11981,8 @@
     "id": 26,
     "name": "الشعراء",
     "transliteration": "Ash-Shu'ara",
+    "unicode": "\ue91a",
     "type": "meccan",
-    "unicode": "\uE91A",
     "total_verses": 227,
     "verses": [
       {
@@ -12899,8 +12899,8 @@
     "id": 27,
     "name": "النمل",
     "transliteration": "An-Naml",
+    "unicode": "\ue91b",
     "type": "meccan",
-    "unicode": "\uE91B",
     "total_verses": 93,
     "verses": [
       {
@@ -13281,8 +13281,8 @@
     "id": 28,
     "name": "القصص",
     "transliteration": "Al-Qasas",
+    "unicode": "\ue91c",
     "type": "meccan",
-    "unicode": "\uE91C",
     "total_verses": 88,
     "verses": [
       {
@@ -13643,8 +13643,8 @@
     "id": 29,
     "name": "العنكبوت",
     "transliteration": "Al-'Ankabut",
+    "unicode": "\ue91d",
     "type": "meccan",
-    "unicode": "\uE91D",
     "total_verses": 69,
     "verses": [
       {
@@ -13929,8 +13929,8 @@
     "id": 30,
     "name": "الروم",
     "transliteration": "Ar-Rum",
+    "unicode": "\ue91e",
     "type": "meccan",
-    "unicode": "\uE91E",
     "total_verses": 60,
     "verses": [
       {
@@ -14179,8 +14179,8 @@
     "id": 31,
     "name": "لقمان",
     "transliteration": "Luqman",
+    "unicode": "\ue91f",
     "type": "meccan",
-    "unicode": "\uE91F",
     "total_verses": 34,
     "verses": [
       {
@@ -14325,8 +14325,8 @@
     "id": 32,
     "name": "السجدة",
     "transliteration": "As-Sajdah",
+    "unicode": "\ue920",
     "type": "meccan",
-    "unicode": "\uE920",
     "total_verses": 30,
     "verses": [
       {
@@ -14455,8 +14455,8 @@
     "id": 33,
     "name": "الأحزاب",
     "transliteration": "Al-Ahzab",
+    "unicode": "\ue921",
     "type": "medinan",
-    "unicode": "\uE921",
     "total_verses": 73,
     "verses": [
       {
@@ -14757,8 +14757,8 @@
     "id": 34,
     "name": "سبإ",
     "transliteration": "Saba",
+    "unicode": "\ue922",
     "type": "meccan",
-    "unicode": "\uE922",
     "total_verses": 54,
     "verses": [
       {
@@ -14983,8 +14983,8 @@
     "id": 35,
     "name": "فاطر",
     "transliteration": "Fatir",
+    "unicode": "\ue923",
     "type": "meccan",
-    "unicode": "\uE923",
     "total_verses": 45,
     "verses": [
       {
@@ -15173,8 +15173,8 @@
     "id": 36,
     "name": "يس",
     "transliteration": "Ya-Sin",
+    "unicode": "\ue924",
     "type": "meccan",
-    "unicode": "\uE924",
     "total_verses": 83,
     "verses": [
       {
@@ -15515,8 +15515,8 @@
     "id": 37,
     "name": "الصافات",
     "transliteration": "As-Saffat",
+    "unicode": "\ue925",
     "type": "meccan",
-    "unicode": "\uE925",
     "total_verses": 182,
     "verses": [
       {
@@ -16253,8 +16253,8 @@
     "id": 38,
     "name": "ص",
     "transliteration": "Sad",
+    "unicode": "\ue926",
     "type": "meccan",
-    "unicode": "\uE926",
     "total_verses": 88,
     "verses": [
       {
@@ -16615,8 +16615,8 @@
     "id": 39,
     "name": "الزمر",
     "transliteration": "Az-Zumar",
+    "unicode": "\ue927",
     "type": "meccan",
-    "unicode": "\uE927",
     "total_verses": 75,
     "verses": [
       {
@@ -16925,8 +16925,8 @@
     "id": 40,
     "name": "غافر",
     "transliteration": "Ghafir",
+    "unicode": "\ue928",
     "type": "meccan",
-    "unicode": "\uE928",
     "total_verses": 85,
     "verses": [
       {
@@ -17275,8 +17275,8 @@
     "id": 41,
     "name": "فصلت",
     "transliteration": "Fussilat",
+    "unicode": "\ue929",
     "type": "meccan",
-    "unicode": "\uE929",
     "total_verses": 54,
     "verses": [
       {
@@ -17501,8 +17501,8 @@
     "id": 42,
     "name": "الشورى",
     "transliteration": "Ash-Shuraa",
+    "unicode": "\ue92a",
     "type": "meccan",
-    "unicode": "\uE92A",
     "total_verses": 53,
     "verses": [
       {
@@ -17723,8 +17723,8 @@
     "id": 43,
     "name": "الزخرف",
     "transliteration": "Az-Zukhruf",
+    "unicode": "\ue92b",
     "type": "meccan",
-    "unicode": "\uE92B",
     "total_verses": 89,
     "verses": [
       {
@@ -18089,8 +18089,8 @@
     "id": 44,
     "name": "الدخان",
     "transliteration": "Ad-Dukhan",
+    "unicode": "\ue92c",
     "type": "meccan",
-    "unicode": "\uE92C",
     "total_verses": 59,
     "verses": [
       {
@@ -18335,8 +18335,8 @@
     "id": 45,
     "name": "الجاثية",
     "transliteration": "Al-Jathiyah",
+    "unicode": "\ue92d",
     "type": "meccan",
-    "unicode": "\uE92D",
     "total_verses": 37,
     "verses": [
       {
@@ -18493,8 +18493,8 @@
     "id": 46,
     "name": "الأحقاف",
     "transliteration": "Al-Ahqaf",
+    "unicode": "\ue92e",
     "type": "meccan",
-    "unicode": "\uE92E",
     "total_verses": 35,
     "verses": [
       {
@@ -18643,8 +18643,8 @@
     "id": 47,
     "name": "محمد",
     "transliteration": "Muhammad",
+    "unicode": "\ue92f",
     "type": "medinan",
-    "unicode": "\uE92F",
     "total_verses": 38,
     "verses": [
       {
@@ -18805,8 +18805,8 @@
     "id": 48,
     "name": "الفتح",
     "transliteration": "Al-Fath",
+    "unicode": "\ue930",
     "type": "medinan",
-    "unicode": "\uE930",
     "total_verses": 29,
     "verses": [
       {
@@ -18931,8 +18931,8 @@
     "id": 49,
     "name": "الحجرات",
     "transliteration": "Al-Hujurat",
+    "unicode": "\ue931",
     "type": "medinan",
-    "unicode": "\uE931",
     "total_verses": 18,
     "verses": [
       {
@@ -19013,8 +19013,8 @@
     "id": 50,
     "name": "ق",
     "transliteration": "Qaf",
+    "unicode": "\ue932",
     "type": "meccan",
-    "unicode": "\uE932",
     "total_verses": 45,
     "verses": [
       {
@@ -19203,8 +19203,8 @@
     "id": 51,
     "name": "الذاريات",
     "transliteration": "Adh-Dhariyat",
+    "unicode": "\ue933",
     "type": "meccan",
-    "unicode": "\uE933",
     "total_verses": 60,
     "verses": [
       {
@@ -19453,8 +19453,8 @@
     "id": 52,
     "name": "الطور",
     "transliteration": "At-Tur",
+    "unicode": "\ue934",
     "type": "meccan",
-    "unicode": "\uE934",
     "total_verses": 49,
     "verses": [
       {
@@ -19659,8 +19659,8 @@
     "id": 53,
     "name": "النجم",
     "transliteration": "An-Najm",
+    "unicode": "\ue935",
     "type": "meccan",
-    "unicode": "\uE935",
     "total_verses": 62,
     "verses": [
       {
@@ -19917,8 +19917,8 @@
     "id": 54,
     "name": "القمر",
     "transliteration": "Al-Qamar",
+    "unicode": "\ue936",
     "type": "meccan",
-    "unicode": "\uE936",
     "total_verses": 55,
     "verses": [
       {
@@ -20147,8 +20147,8 @@
     "id": 55,
     "name": "الرحمن",
     "transliteration": "Ar-Rahman",
+    "unicode": "\ue937",
     "type": "medinan",
-    "unicode": "\uE937",
     "total_verses": 78,
     "verses": [
       {
@@ -20469,8 +20469,8 @@
     "id": 56,
     "name": "الواقعة",
     "transliteration": "Al-Waqi'ah",
+    "unicode": "\ue938",
     "type": "meccan",
-    "unicode": "\uE938",
     "total_verses": 96,
     "verses": [
       {
@@ -20863,8 +20863,8 @@
     "id": 57,
     "name": "الحديد",
     "transliteration": "Al-Hadid",
+    "unicode": "\ue939",
     "type": "medinan",
-    "unicode": "\uE939",
     "total_verses": 29,
     "verses": [
       {
@@ -20989,8 +20989,8 @@
     "id": 58,
     "name": "المجادلة",
     "transliteration": "Al-Mujadila",
+    "unicode": "\ue93a",
     "type": "medinan",
-    "unicode": "\uE93A",
     "total_verses": 22,
     "verses": [
       {
@@ -21087,8 +21087,8 @@
     "id": 59,
     "name": "الحشر",
     "transliteration": "Al-Hashr",
+    "unicode": "\ue93b",
     "type": "medinan",
-    "unicode": "\uE93B",
     "total_verses": 24,
     "verses": [
       {
@@ -21193,8 +21193,8 @@
     "id": 60,
     "name": "الممتحنة",
     "transliteration": "Al-Mumtahanah",
+    "unicode": "\ue93c",
     "type": "medinan",
-    "unicode": "\uE93C",
     "total_verses": 13,
     "verses": [
       {
@@ -21255,8 +21255,8 @@
     "id": 61,
     "name": "الصف",
     "transliteration": "As-Saf",
+    "unicode": "\ue93d",
     "type": "medinan",
-    "unicode": "\uE93D",
     "total_verses": 14,
     "verses": [
       {
@@ -21321,8 +21321,8 @@
     "id": 62,
     "name": "الجمعة",
     "transliteration": "Al-Jumu'ah",
+    "unicode": "\ue93e",
     "type": "medinan",
-    "unicode": "\uE93E",
     "total_verses": 11,
     "verses": [
       {
@@ -21375,8 +21375,8 @@
     "id": 63,
     "name": "المنافقون",
     "transliteration": "Al-Munafiqun",
+    "unicode": "\ue93f",
     "type": "medinan",
-    "unicode": "\uE93F",
     "total_verses": 11,
     "verses": [
       {
@@ -21429,8 +21429,8 @@
     "id": 64,
     "name": "التغابن",
     "transliteration": "At-Taghabun",
+    "unicode": "\ue940",
     "type": "medinan",
-    "unicode": "\uE940",
     "total_verses": 18,
     "verses": [
       {
@@ -21511,8 +21511,8 @@
     "id": 65,
     "name": "الطلاق",
     "transliteration": "At-Talaq",
+    "unicode": "\ue941",
     "type": "medinan",
-    "unicode": "\uE941",
     "total_verses": 12,
     "verses": [
       {
@@ -21569,8 +21569,8 @@
     "id": 66,
     "name": "التحريم",
     "transliteration": "At-Tahrim",
+    "unicode": "\ue942",
     "type": "medinan",
-    "unicode": "\uE942",
     "total_verses": 12,
     "verses": [
       {
@@ -21627,8 +21627,8 @@
     "id": 67,
     "name": "الملك",
     "transliteration": "Al-Mulk",
+    "unicode": "\ue943",
     "type": "meccan",
-    "unicode": "\uE943",
     "total_verses": 30,
     "verses": [
       {
@@ -21757,8 +21757,8 @@
     "id": 68,
     "name": "القلم",
     "transliteration": "Al-Qalam",
+    "unicode": "\ue944",
     "type": "meccan",
-    "unicode": "\uE944",
     "total_verses": 52,
     "verses": [
       {
@@ -21975,8 +21975,8 @@
     "id": 69,
     "name": "الحاقة",
     "transliteration": "Al-Haqqah",
+    "unicode": "\ue945",
     "type": "meccan",
-    "unicode": "\uE945",
     "total_verses": 52,
     "verses": [
       {
@@ -22193,8 +22193,8 @@
     "id": 70,
     "name": "المعارج",
     "transliteration": "Al-Ma'arij",
+    "unicode": "\ue946",
     "type": "meccan",
-    "unicode": "\uE946",
     "total_verses": 44,
     "verses": [
       {
@@ -22379,8 +22379,8 @@
     "id": 71,
     "name": "نوح",
     "transliteration": "Nuh",
+    "unicode": "\ue947",
     "type": "meccan",
-    "unicode": "\uE947",
     "total_verses": 28,
     "verses": [
       {
@@ -22501,8 +22501,8 @@
     "id": 72,
     "name": "الجن",
     "transliteration": "Al-Jinn",
+    "unicode": "\ue948",
     "type": "meccan",
-    "unicode": "\uE948",
     "total_verses": 28,
     "verses": [
       {
@@ -22623,8 +22623,8 @@
     "id": 73,
     "name": "المزمل",
     "transliteration": "Al-Muzzammil",
+    "unicode": "\ue949",
     "type": "meccan",
-    "unicode": "\uE949",
     "total_verses": 20,
     "verses": [
       {
@@ -22713,8 +22713,8 @@
     "id": 74,
     "name": "المدثر",
     "transliteration": "Al-Muddaththir",
+    "unicode": "\ue94a",
     "type": "meccan",
-    "unicode": "\uE94A",
     "total_verses": 56,
     "verses": [
       {
@@ -22947,8 +22947,8 @@
     "id": 75,
     "name": "القيامة",
     "transliteration": "Al-Qiyamah",
+    "unicode": "\ue94b",
     "type": "meccan",
-    "unicode": "\uE94B",
     "total_verses": 40,
     "verses": [
       {
@@ -23117,8 +23117,8 @@
     "id": 76,
     "name": "الانسان",
     "transliteration": "Al-Insan",
+    "unicode": "\ue94c",
     "type": "medinan",
-    "unicode": "\uE94C",
     "total_verses": 31,
     "verses": [
       {
@@ -23251,8 +23251,8 @@
     "id": 77,
     "name": "المرسلات",
     "transliteration": "Al-Mursalat",
+    "unicode": "\ue94d",
     "type": "meccan",
-    "unicode": "\uE94D",
     "total_verses": 50,
     "verses": [
       {
@@ -23461,8 +23461,8 @@
     "id": 78,
     "name": "النبإ",
     "transliteration": "An-Naba",
+    "unicode": "\ue94e",
     "type": "meccan",
-    "unicode": "\uE94E",
     "total_verses": 40,
     "verses": [
       {
@@ -23631,8 +23631,8 @@
     "id": 79,
     "name": "النازعات",
     "transliteration": "An-Nazi'at",
+    "unicode": "\ue94f",
     "type": "meccan",
-    "unicode": "\uE94F",
     "total_verses": 46,
     "verses": [
       {
@@ -23825,8 +23825,8 @@
     "id": 80,
     "name": "عبس",
     "transliteration": "'Abasa",
+    "unicode": "\ue950",
     "type": "meccan",
-    "unicode": "\uE950",
     "total_verses": 42,
     "verses": [
       {
@@ -24003,8 +24003,8 @@
     "id": 81,
     "name": "التكوير",
     "transliteration": "At-Takwir",
+    "unicode": "\ue951",
     "type": "meccan",
-    "unicode": "\uE951",
     "total_verses": 29,
     "verses": [
       {
@@ -24129,8 +24129,8 @@
     "id": 82,
     "name": "الإنفطار",
     "transliteration": "Al-Infitar",
+    "unicode": "\ue952",
     "type": "meccan",
-    "unicode": "\uE952",
     "total_verses": 19,
     "verses": [
       {
@@ -24215,8 +24215,8 @@
     "id": 83,
     "name": "المطففين",
     "transliteration": "Al-Mutaffifin",
+    "unicode": "\ue953",
     "type": "meccan",
-    "unicode": "\uE953",
     "total_verses": 36,
     "verses": [
       {
@@ -24369,8 +24369,8 @@
     "id": 84,
     "name": "الإنشقاق",
     "transliteration": "Al-Inshiqaq",
+    "unicode": "\ue954",
     "type": "meccan",
-    "unicode": "\uE954",
     "total_verses": 25,
     "verses": [
       {
@@ -24479,8 +24479,8 @@
     "id": 85,
     "name": "البروج",
     "transliteration": "Al-Buruj",
+    "unicode": "\ue955",
     "type": "meccan",
-    "unicode": "\uE955",
     "total_verses": 22,
     "verses": [
       {
@@ -24577,8 +24577,8 @@
     "id": 86,
     "name": "الطارق",
     "transliteration": "At-Tariq",
+    "unicode": "\ue956",
     "type": "meccan",
-    "unicode": "\uE956",
     "total_verses": 17,
     "verses": [
       {
@@ -24655,8 +24655,8 @@
     "id": 87,
     "name": "الأعلى",
     "transliteration": "Al-A'la",
+    "unicode": "\ue957",
     "type": "meccan",
-    "unicode": "\uE957",
     "total_verses": 19,
     "verses": [
       {
@@ -24741,8 +24741,8 @@
     "id": 88,
     "name": "الغاشية",
     "transliteration": "Al-Ghashiyah",
+    "unicode": "\ue958",
     "type": "meccan",
-    "unicode": "\uE958",
     "total_verses": 26,
     "verses": [
       {
@@ -24855,8 +24855,8 @@
     "id": 89,
     "name": "الفجر",
     "transliteration": "Al-Fajr",
+    "unicode": "\ue959",
     "type": "meccan",
-    "unicode": "\uE959",
     "total_verses": 30,
     "verses": [
       {
@@ -24985,8 +24985,8 @@
     "id": 90,
     "name": "البلد",
     "transliteration": "Al-Balad",
+    "unicode": "\ue95a",
     "type": "meccan",
-    "unicode": "\uE95A",
     "total_verses": 20,
     "verses": [
       {
@@ -25075,8 +25075,8 @@
     "id": 91,
     "name": "الشمس",
     "transliteration": "Ash-Shams",
+    "unicode": "\ue95b",
     "type": "meccan",
-    "unicode": "\uE95B",
     "total_verses": 15,
     "verses": [
       {
@@ -25145,8 +25145,8 @@
     "id": 92,
     "name": "الليل",
     "transliteration": "Al-Layl",
+    "unicode": "\ue95c",
     "type": "meccan",
-    "unicode": "\uE95C",
     "total_verses": 21,
     "verses": [
       {
@@ -25239,8 +25239,8 @@
     "id": 93,
     "name": "الضحى",
     "transliteration": "Ad-Duhaa",
+    "unicode": "\ue95d",
     "type": "meccan",
-    "unicode": "\uE95D",
     "total_verses": 11,
     "verses": [
       {
@@ -25293,8 +25293,8 @@
     "id": 94,
     "name": "الشرح",
     "transliteration": "Ash-Sharh",
+    "unicode": "\ue95e",
     "type": "meccan",
-    "unicode": "\uE95E",
     "total_verses": 8,
     "verses": [
       {
@@ -25335,8 +25335,8 @@
     "id": 95,
     "name": "التين",
     "transliteration": "At-Tin",
+    "unicode": "\ue95f",
     "type": "meccan",
-    "unicode": "\uE95F",
     "total_verses": 8,
     "verses": [
       {
@@ -25377,8 +25377,8 @@
     "id": 96,
     "name": "العلق",
     "transliteration": "Al-'Alaq",
+    "unicode": "\ue960",
     "type": "meccan",
-    "unicode": "\uE960",
     "total_verses": 19,
     "verses": [
       {
@@ -25463,8 +25463,8 @@
     "id": 97,
     "name": "القدر",
     "transliteration": "Al-Qadr",
+    "unicode": "\ue961",
     "type": "meccan",
-    "unicode": "\uE961",
     "total_verses": 5,
     "verses": [
       {
@@ -25493,8 +25493,8 @@
     "id": 98,
     "name": "البينة",
     "transliteration": "Al-Bayyinah",
+    "unicode": "\ue962",
     "type": "medinan",
-    "unicode": "\uE962",
     "total_verses": 8,
     "verses": [
       {
@@ -25535,8 +25535,8 @@
     "id": 99,
     "name": "الزلزلة",
     "transliteration": "Az-Zalzalah",
+    "unicode": "\ue963",
     "type": "medinan",
-    "unicode": "\uE963",
     "total_verses": 8,
     "verses": [
       {
@@ -25577,8 +25577,8 @@
     "id": 100,
     "name": "العاديات",
     "transliteration": "Al-'Adiyat",
+    "unicode": "\ue964",
     "type": "meccan",
-    "unicode": "\uE964",
     "total_verses": 11,
     "verses": [
       {
@@ -25631,8 +25631,8 @@
     "id": 101,
     "name": "القارعة",
     "transliteration": "Al-Qari'ah",
+    "unicode": "\ue965",
     "type": "meccan",
-    "unicode": "\uE965",
     "total_verses": 11,
     "verses": [
       {
@@ -25685,8 +25685,8 @@
     "id": 102,
     "name": "التكاثر",
     "transliteration": "At-Takathur",
+    "unicode": "\ue966",
     "type": "meccan",
-    "unicode": "\uE966",
     "total_verses": 8,
     "verses": [
       {
@@ -25727,8 +25727,8 @@
     "id": 103,
     "name": "العصر",
     "transliteration": "Al-'Asr",
+    "unicode": "\ue967",
     "type": "meccan",
-    "unicode": "\uE967",
     "total_verses": 3,
     "verses": [
       {
@@ -25749,8 +25749,8 @@
     "id": 104,
     "name": "الهمزة",
     "transliteration": "Al-Humazah",
+    "unicode": "\ue968",
     "type": "meccan",
-    "unicode": "\uE968",
     "total_verses": 9,
     "verses": [
       {
@@ -25795,8 +25795,8 @@
     "id": 105,
     "name": "الفيل",
     "transliteration": "Al-Fil",
+    "unicode": "\ue969",
     "type": "meccan",
-    "unicode": "\uE969",
     "total_verses": 5,
     "verses": [
       {
@@ -25825,8 +25825,8 @@
     "id": 106,
     "name": "قريش",
     "transliteration": "Quraysh",
+    "unicode": "\ue96a",
     "type": "meccan",
-    "unicode": "\uE96A",
     "total_verses": 4,
     "verses": [
       {
@@ -25851,8 +25851,8 @@
     "id": 107,
     "name": "الماعون",
     "transliteration": "Al-Ma'un",
+    "unicode": "\ue96b",
     "type": "meccan",
-    "unicode": "\uE96B",
     "total_verses": 7,
     "verses": [
       {
@@ -25889,8 +25889,8 @@
     "id": 108,
     "name": "الكوثر",
     "transliteration": "Al-Kawthar",
+    "unicode": "\ue96c",
     "type": "meccan",
-    "unicode": "\uE96C",
     "total_verses": 3,
     "verses": [
       {
@@ -25911,8 +25911,8 @@
     "id": 109,
     "name": "الكافرون",
     "transliteration": "Al-Kafirun",
+    "unicode": "\ue96d",
     "type": "meccan",
-    "unicode": "\uE96D",
     "total_verses": 6,
     "verses": [
       {
@@ -25945,8 +25945,8 @@
     "id": 110,
     "name": "النصر",
     "transliteration": "An-Nasr",
+    "unicode": "\ue96e",
     "type": "medinan",
-    "unicode": "\uE96E",
     "total_verses": 3,
     "verses": [
       {
@@ -25967,8 +25967,8 @@
     "id": 111,
     "name": "المسد",
     "transliteration": "Al-Masad",
+    "unicode": "\ue96f",
     "type": "meccan",
-    "unicode": "\uE96F",
     "total_verses": 5,
     "verses": [
       {
@@ -25997,8 +25997,8 @@
     "id": 112,
     "name": "الإخلاص",
     "transliteration": "Al-Ikhlas",
+    "unicode": "\ue970",
     "type": "meccan",
-    "unicode": "\uE970",
     "total_verses": 4,
     "verses": [
       {
@@ -26023,8 +26023,8 @@
     "id": 113,
     "name": "الفلق",
     "transliteration": "Al-Falaq",
+    "unicode": "\ue971",
     "type": "meccan",
-    "unicode": "\uE971",
     "total_verses": 5,
     "verses": [
       {
@@ -26053,8 +26053,8 @@
     "id": 114,
     "name": "الناس",
     "transliteration": "An-Nas",
+    "unicode": "\ue972",
     "type": "meccan",
-    "unicode": "\uE972",
     "total_verses": 6,
     "verses": [
       {

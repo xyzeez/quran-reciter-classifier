@@ -5,11 +5,18 @@ numpy
 # Audio processing
 librosa
 soundfile
+ffmpeg-python
 
 # Deep learning
 openai-whisper
 tensorflow
 transformers
+torch
+torchaudio
 
-# Web Framework
-Flask 
+# Matching
+rapidfuzz
+
+# Web/API
+Flask
+requests 
