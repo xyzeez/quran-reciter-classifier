@@ -312,7 +312,6 @@ class BLSTMModel(BaseModel):
             mode='min',
             factor=BLSTM_LR_SCHEDULER_FACTOR,
             patience=BLSTM_LR_SCHEDULER_PATIENCE,
-            verbose=True,
             min_lr=BLSTM_MIN_LR
         )
 
