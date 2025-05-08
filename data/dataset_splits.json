@@ -2,16 +2,21 @@
   "surah_range": "1, 78-114",
   "train_data_range": "78-103",
   "test_data_range": "104-114",
-  "total_reciters": 10,
-  "n_training_reciters": 5,
-  "n_testing_reciters": 7,
-  "n_remaining_reciters": 5,
+  "total_reciters": 28,
+  "n_training_reciters": 10,
+  "n_testing_reciters": 15,
+  "n_remaining_reciters": 18,
   "training": [
     "Abdulbasit Abdulsamad",
     "Mishary Alafasi",
     "Mohammed Siddiq Al-Minshawi",
     "Saud Al-Shuraim",
-    "Mahmoud Khalil Al-Hussary"
+    "Mahmoud Khalil Al-Hussary",
+    "Mohammad Al-Tablaway",
+    "Maher Al Meaqli",
+    "Abdulrahman Alsudaes",
+    "Mohammed Ayyub",
+    "Ali Jaber"
   ],
   "testing": [
     "Abdulbasit Abdulsamad",
@@ -20,13 +25,34 @@
     "Saud Al-Shuraim",
     "Mahmoud Khalil Al-Hussary",
     "Mohammad Al-Tablaway",
-    "Mohammed Ayyub"
-  ],
-  "remaining": [
+    "Maher Al Meaqli",
     "Abdulrahman Alsudaes",
     "Mohammed Ayyub",
+    "Ali Jaber",
     "Ahmad Al-Ajmy",
-    "Mohammad Al-Tablaway",
-    "Maher Al Meaqli"
+    "Saad Al-Ghamdi",
+    "Abdullah Al-Johany",
+    "Khalifa Altunaiji",
+    "Mustafa Ismail"
+  ],
+  "remaining": [
+    "Yasser Al-Dosari",
+    "Ali Alhuthaifi",
+    "Saad Al-Ghamdi",
+    "Abdullah Al-Johany",
+    "Abdullah Basfer",
+    "Ibrahim Al-Akdar",
+    "Fares Abbad",
+    "Shaik Abu Bakr Al Shatri",
+    "Ahmad Al-Ajmy",
+    "Yasser Salamah",
+    "Nasser Alqatami",
+    "Mohammed Jibreel",
+    "Mustafa Ismail",
+    "Hani Arrifai",
+    "Abdulmohsen Al-Qasim",
+    "Khalifa Altunaiji",
+    "Yassin Al-Jazaery",
+    "Mahmoud Ali Albanna"
   ]
 }
