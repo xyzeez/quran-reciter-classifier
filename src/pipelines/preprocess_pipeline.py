@@ -16,6 +16,7 @@ import warnings
 import shutil
 import matplotlib.pyplot as plt
 import seaborn as sns
+from tqdm import tqdm
 from config import *
 from src.data import preprocess_audio_with_logic, preprocess_audio, augment_audio
 from src.features import extract_features
@@ -132,8 +133,6 @@ def preprocess_pipeline(mode="train", augment=True):
         # Process each reciter's folder
         for index, sub_folder in enumerate(sub_folders, 1):
             reciter_start_time = time.time()
-            logger.info(
-                f'Processing {sub_folder.name} ({index}/{reciter_count})')
 
             # Create reciter directory in output
             reciter_output_dir = output_dir / sub_folder.name
@@ -163,8 +162,8 @@ def preprocess_pipeline(mode="train", augment=True):
             reciter_features = []
             reciter_metadata = []
 
-            for file_mp3 in files_mp3:
-                logger.info(f'Processing {file_mp3.name}')
+            # Wrap the file iteration with tqdm
+            for file_mp3 in tqdm(files_mp3, desc=f"Processing {sub_folder.name} ({index}/{reciter_count})", unit="file", leave=True):
                 file_size = file_mp3.stat().st_size
                 processing_start = time.time()
 
