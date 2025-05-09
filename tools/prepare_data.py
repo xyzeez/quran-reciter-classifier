@@ -13,6 +13,8 @@ dataset_DIR = Path("dataset")  # Updated path to dataset directory
 TRAIN_DIR = DATA_DIR / "train"
 TEST_DIR = DATA_DIR / "test"
 CONFIG_FILE = DATA_DIR / "dataset_splits.json"
+RECITER_ALL_JSON_PATH = DATA_DIR / "recitersAll.json"
+RECITER_JSON_PATH = DATA_DIR / "reciters.json"
 
 def parse_args():
     """Parse command line arguments"""
@@ -259,6 +261,36 @@ def prepare_testing_data(config, use_all_versions=False):
     print(f"✓ Prepared surahs {start_surah}-{end_surah} for {len(config['testing'])} reciters using {version_mode}")
     return config
 
+def update_training_reciters_json(config):
+    """Update reciters.json with data for selected training reciters."""
+    print("\n🔄 Updating reciters.json with training reciters...")
+
+    try:
+        with open(RECITER_ALL_JSON_PATH, 'r', encoding='utf-8') as f:
+            all_reciters_data = json.load(f)
+    except FileNotFoundError:
+        print(f"Error: {RECITER_ALL_JSON_PATH} not found.")
+        return
+    except json.JSONDecodeError:
+        print(f"Error: Could not decode JSON from {RECITER_ALL_JSON_PATH}.")
+        return
+
+    training_reciter_names = config.get("training", [])
+    selected_training_reciters_data = {}
+
+    for reciter_name in training_reciter_names:
+        if reciter_name in all_reciters_data:
+            selected_training_reciters_data[reciter_name] = all_reciters_data[reciter_name]
+        else:
+            print(f"Warning: Training reciter '{reciter_name}' not found in {RECITER_ALL_JSON_PATH}.")
+
+    try:
+        with open(RECITER_JSON_PATH, 'w', encoding='utf-8') as f:
+            json.dump(selected_training_reciters_data, f, ensure_ascii=False, indent=2)
+        print(f"✓ Successfully updated {RECITER_JSON_PATH} with {len(selected_training_reciters_data)} training reciters.")
+    except IOError:
+        print(f"Error: Could not write to {RECITER_JSON_PATH}.")
+
 def main():
     print("\n🚀 Starting data preparation process...")
     
@@ -274,6 +306,9 @@ def main():
     # Update statistics after testing selection
     config["n_testing_reciters"] = len(config["testing"])
     save_config(config)
+    
+    # Update reciters.json with the selected training reciters
+    update_training_reciters_json(config)
     
     # Process training data
     config = prepare_training_data(config, use_all_versions=args.use_all_versions)
