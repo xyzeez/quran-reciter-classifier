@@ -37,35 +37,5 @@
     "nationality": "Egypt",
     "flagUrl": "https://flagcdn.com/w40/eg.png",
     "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg/449px-Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg"
-  },
-  "Mohammad Al-Tablaway": {
-    "servers": "https://everyayah.com/data/Mohammad_al_Tablaway_128kbps/",
-    "nationality": "Egypt",
-    "flagUrl": "https://flagcdn.com/w40/eg.png",
-    "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg/449px-Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg"
-  },
-  "Maher Al Meaqli": {
-    "servers": "https://everyayah.com/data/MaherAlMuaiqly128kbps/",
-    "nationality": "Saudi Arabia",
-    "flagUrl": "https://flagcdn.com/w40/sa.png",
-    "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg/449px-Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg"
-  },
-  "Abdulrahman Alsudaes": {
-    "servers": "https://everyayah.com/data/Abdurrahmaan_As-Sudais_192kbps/",
-    "nationality": "Saudi Arabia",
-    "flagUrl": "https://flagcdn.com/w40/sa.png",
-    "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg/449px-Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg"
-  },
-  "Mohammed Ayyub": {
-    "servers": "https://everyayah.com/data/Muhammad_Ayyoub_128kbps/",
-    "nationality": "Saudi Arabia",
-    "flagUrl": "https://flagcdn.com/w40/sa.png",
-    "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg/449px-Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg"
-  },
-  "Ali Jaber": {
-    "servers": "https://everyayah.com/data/Ali_Jaber_64kbps/",
-    "nationality": "Saudi Arabia",
-    "flagUrl": "https://flagcdn.com/w40/sa.png",
-    "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg/449px-Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg"
   }
 }
