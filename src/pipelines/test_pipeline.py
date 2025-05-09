@@ -372,6 +372,27 @@ def test_pipeline(model_path=None, model_run_id_for_reporting=None):
             r['is_training_reciter'] for r in all_results)
         non_training_reciters_processed = total_files - training_reciters_processed
 
+        # Calculate False Positive Identification Rate for Non-Training Reciters
+        false_positive_identifications_nontraining = 0
+        reliable_false_positive_identifications_nontraining = 0
+
+        for r_data in all_results:
+            if not r_data['is_training_reciter']:
+                # Check if the final prediction was one of the known training reciters
+                if r_data['final_prediction'] in training_reciter_names_set:
+                    false_positive_identifications_nontraining += 1
+                    if r_data['is_reliable']:
+                        reliable_false_positive_identifications_nontraining += 1
+
+        fp_id_rate_nontraining = float(
+            false_positive_identifications_nontraining / non_training_reciters_processed
+            if non_training_reciters_processed > 0 else 0
+        )
+        reliable_fp_id_rate_nontraining = float(
+            reliable_false_positive_identifications_nontraining / non_training_reciters_processed
+            if non_training_reciters_processed > 0 else 0
+        )
+
         # Calculate new accuracy metrics
         prediction_accuracy = float(
             correct_predictions / total_files if total_files > 0 else 0)
@@ -426,7 +447,9 @@ def test_pipeline(model_path=None, model_run_id_for_reporting=None):
             'prediction_accuracy': prediction_accuracy,
             'reliable_prediction_accuracy': reliable_prediction_accuracy,
             'test_duration_seconds': test_duration,
-            'per_reciter_statistics': reciter_stats
+            'per_reciter_statistics': reciter_stats,
+            'false_positive_identification_rate_nontraining': fp_id_rate_nontraining,
+            'reliable_false_positive_identification_rate_nontraining': reliable_fp_id_rate_nontraining
         }
 
         # Save summary report
@@ -454,6 +477,8 @@ def test_pipeline(model_path=None, model_run_id_for_reporting=None):
             f"  Accuracy rate: {summary['accuracy_rate']:.2%}",
             f"  Prediction accuracy: {prediction_accuracy:.2%}",
             f"  Reliable prediction accuracy: {reliable_prediction_accuracy:.2%}",
+            f"  False Positive ID Rate (Non-Training): {fp_id_rate_nontraining:.2%}",
+            f"  Reliable False Positive ID Rate (Non-Training): {reliable_fp_id_rate_nontraining:.2%}",
             f"  Test duration: {format_duration(test_duration)}",
             f"",
             f"Per-Reciter Statistics:"
@@ -532,6 +557,8 @@ def test_pipeline(model_path=None, model_run_id_for_reporting=None):
         logger.info(f"Prediction accuracy: {prediction_accuracy:.2%}")
         logger.info(
             f"Reliable prediction accuracy: {reliable_prediction_accuracy:.2%}")
+        logger.info(f"False Positive ID Rate (Non-Training): {fp_id_rate_nontraining:.2%}")
+        logger.info(f"Reliable False Positive ID Rate (Non-Training): {reliable_fp_id_rate_nontraining:.2%}")
         logger.info(f"Test duration: {format_duration(test_duration)}")
         logger.info(f"\nDetailed results saved to: {output_dir}")
 
