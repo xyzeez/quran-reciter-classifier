@@ -16,7 +16,7 @@ QURAN_DATA_PATH = "data/quran.json" # Path to the Quran text data file
 RECITERS_DATA_PATH = "data/reciters.json" # Path to the reciters metadata file
 
 # Audio Processing Parameters
-DEFAULT_SAMPLE_RATE = 22050  # Hz
+DEFAULT_SAMPLE_RATE = 44100  # Hz
 AYAH_MIN_DURATION = 1.0  # Minimum duration for an Ayah segment in seconds
 AYAH_MAX_DURATION = 10.0  # Maximum duration for an Ayah segment in seconds
 RECITER_MIN_DURATION = 5.0  # Minimum audio duration for reciter identification in seconds
