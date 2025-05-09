@@ -1,0 +1,107 @@
+{
+    "run_id": "20250509_165244_train",
+    "timestamp": "2025-05-09T16:52:44.880614",
+    "model_type": "random_forest",
+    "preprocessing_info": {
+        "directory": "processed\\train\\20250509_124842_preprocess",
+        "run_id": "20250509_124842_preprocess",
+        "timestamp": "2025-05-09T12:48:42.797772",
+        "sample_count": 5070
+    },
+    "config": {
+        "test_size": 0.2,
+        "random_state": 42,
+        "model_specific": {
+            "n_estimators": 100,
+            "max_depth": 10,
+            "n_folds": 5
+        }
+    },
+    "system_info": {
+        "platform": "Windows-10-10.0.19045-SP0",
+        "python_version": "3.9.13",
+        "cpu_count": 4,
+        "use_gpu_config": true,
+        "gpu_available": false
+    },
+    "performance": {
+        "accuracy": 0.9911242603550295,
+        "training_time": 28.11465811729431,
+        "class_report": {
+            "Abdulbasit Abdulsamad": {
+                "precision": 0.9901960784313726,
+                "recall": 1.0,
+                "f1-score": 0.9950738916256158,
+                "support": 101.0
+            },
+            "Abdulrahman Alsudaes": {
+                "precision": 0.9805825242718447,
+                "recall": 1.0,
+                "f1-score": 0.9901960784313726,
+                "support": 101.0
+            },
+            "Ali Jaber": {
+                "precision": 1.0,
+                "recall": 1.0,
+                "f1-score": 1.0,
+                "support": 101.0
+            },
+            "Maher Al Meaqli": {
+                "precision": 1.0,
+                "recall": 0.9901960784313726,
+                "f1-score": 0.9950738916256158,
+                "support": 102.0
+            },
+            "Mahmoud Khalil Al-Hussary": {
+                "precision": 1.0,
+                "recall": 0.9803921568627451,
+                "f1-score": 0.9900990099009901,
+                "support": 102.0
+            },
+            "Mishary Alafasi": {
+                "precision": 0.9900990099009901,
+                "recall": 0.9900990099009901,
+                "f1-score": 0.9900990099009901,
+                "support": 101.0
+            },
+            "Mohammad Al-Tablaway": {
+                "precision": 1.0,
+                "recall": 1.0,
+                "f1-score": 1.0,
+                "support": 102.0
+            },
+            "Mohammed Ayyub": {
+                "precision": 1.0,
+                "recall": 1.0,
+                "f1-score": 1.0,
+                "support": 101.0
+            },
+            "Mohammed Siddiq Al-Minshawi": {
+                "precision": 0.9795918367346939,
+                "recall": 0.9504950495049505,
+                "f1-score": 0.964824120603015,
+                "support": 101.0
+            },
+            "Saud Al-Shuraim": {
+                "precision": 0.9714285714285714,
+                "recall": 1.0,
+                "f1-score": 0.9855072463768116,
+                "support": 102.0
+            },
+            "accuracy": 0.9911242603550295,
+            "macro avg": {
+                "precision": 0.9911898020767472,
+                "recall": 0.9911182294700058,
+                "f1-score": 0.9910873248464412,
+                "support": 1014.0
+            },
+            "weighted avg": {
+                "precision": 0.9911963793579323,
+                "recall": 0.9911242603550295,
+                "f1-score": 0.9910935682867937,
+                "support": 1014.0
+            }
+        }
+    },
+    "total_time": 30.076159477233887
+}
