@@ -111,87 +111,114 @@ def select_versions_evenly(ayah_groups):
     return selected_files
 
 def load_split_config():
-    """Load and validate the split configuration"""
+    """Load and validate the split configuration based on recitersAll.json"""
     print("\n📚 Loading split configuration...")
-    with open(CONFIG_FILE, 'r', encoding='utf-8') as f:
-        config = json.load(f)
-    
-    # Get lists directly from JSON
-    training_reciters = config.get("training", [])
-    testing_reciters_from_json = config.get("testing", []) 
-    remaining_reciters_from_json = config.get("remaining", [])
 
-    # --- Validation and Cleaning ---
-    training_set = set(training_reciters)
+    # 1. Load All Available Reciters from recitersAll.json
+    try:
+        with open(RECITER_ALL_JSON_PATH, 'r', encoding='utf-8') as f:
+            all_reciters_data = json.load(f)
+        all_available_reciters_set = set(all_reciters_data.keys())
+        print(f"✓ Found {len(all_available_reciters_set)} total available reciters in {RECITER_ALL_JSON_PATH.name}.")
+    except FileNotFoundError:
+        print(f"🛑 Error: {RECITER_ALL_JSON_PATH} not found. Cannot proceed.")
+        exit(1) # Exit if the master list is missing
+    except json.JSONDecodeError:
+        print(f"🛑 Error: Could not decode JSON from {RECITER_ALL_JSON_PATH}. Cannot proceed.")
+        exit(1) # Exit if the master list is malformed
+
+    # 2. Load user-defined splits from dataset_splits.json
+    try:
+        with open(CONFIG_FILE, 'r', encoding='utf-8') as f:
+            user_config = json.load(f)
+    except FileNotFoundError:
+        print(f"🛑 Error: {CONFIG_FILE} not found. Please ensure it exists with 'training' and 'testing' lists.")
+        exit(1)
+    except json.JSONDecodeError:
+        print(f"🛑 Error: Could not decode JSON from {CONFIG_FILE}. Please check its format.")
+        exit(1)
+
+    # Get user-defined training and testing lists
+    training_reciters_from_json = user_config.get("training", [])
+    testing_reciters_from_json = user_config.get("testing", [])
     
-    # 1. Validate testing_reciters: 
-    #    They must come from the union of reciters in the training list 
-    #    and reciters in the remaining list (as defined in the JSON).
-    #    "potential_sources_for_testing_from_remaining" are those in json's remaining list
-    #    that are NOT already in the training list (to avoid double counting sources).
-    potential_sources_for_testing_from_remaining = set(r for r in remaining_reciters_from_json if r not in training_set)
-    valid_sources_for_testing = training_set | potential_sources_for_testing_from_remaining
-    
-    validated_testing_reciters = []
-    invalid_testing_entries = []
-    for reciter in testing_reciters_from_json:
-        if reciter in valid_sources_for_testing:
-            validated_testing_reciters.append(reciter)
+    print(f"ℹ️ User-defined training reciters (from {CONFIG_FILE.name}): {len(training_reciters_from_json)}")
+    print(f"ℹ️ User-defined testing reciters (from {CONFIG_FILE.name}): {len(testing_reciters_from_json)}")
+
+    # --- Validation and Final List Determination ---
+
+    # 3. Training Reciters (taken as is from user config, but we can validate if they are in all_available_reciters_set)
+    validated_training_reciters = []
+    invalid_training_entries = []
+    for reciter in training_reciters_from_json:
+        if reciter in all_available_reciters_set:
+            validated_training_reciters.append(reciter)
         else:
-            invalid_testing_entries.append(reciter)
+            invalid_training_entries.append(reciter)
     
-    if invalid_testing_entries:
-        print(f"⚠️ Warning: The following reciters in the 'testing' list are not found in 'training' or 'remaining' lists from JSON and will be removed:")
-        for entry in invalid_testing_entries:
+    if invalid_training_entries:
+        print(f"⚠️ Warning: The following reciters in your 'training' list (from {CONFIG_FILE.name}) are NOT found in {RECITER_ALL_JSON_PATH.name} and will be EXCLUDED:")
+        for entry in invalid_training_entries:
             print(f"  - {entry}")
+    training_set = set(validated_training_reciters)
+    final_training_reciters = validated_training_reciters # Use the validated list
+
+    # 4. Validate Testing Reciters
+    validated_testing_reciters = []
+    invalid_testing_entries_in_test = []
+    for reciter in testing_reciters_from_json:
+        if reciter in all_available_reciters_set:
+            if reciter not in validated_testing_reciters: # Avoid duplicates in testing list
+                 validated_testing_reciters.append(reciter)
+        else:
+            invalid_testing_entries_in_test.append(reciter)
             
-    testing_set = set(validated_testing_reciters)
+    if invalid_testing_entries_in_test:
+        print(f"⚠️ Warning: The following reciters in your 'testing' list (from {CONFIG_FILE.name}) are NOT found in {RECITER_ALL_JSON_PATH.name} and will be EXCLUDED:")
+        for entry in invalid_testing_entries_in_test:
+            print(f"  - {entry}")
+    # final_testing_reciters will be validated_testing_reciters.
+    # No need for a separate testing_set for calculation if we just use the list length.
 
-    # 2. Clean remaining_reciters: 
-    #    Remove any reciters that are in the training list or in the (validated) testing list.
-    #    Start from the raw remaining list from JSON.
-    cleaned_remaining_reciters = []
-    removed_from_remaining_count = 0
-    for reciter in remaining_reciters_from_json:
-        if reciter not in training_set and reciter not in testing_set:
-            cleaned_remaining_reciters.append(reciter)
-        elif reciter in training_set or reciter in testing_set:
-            removed_from_remaining_count +=1
-            
-    if removed_from_remaining_count > 0:
-        print(f"ℹ️ Info: {removed_from_remaining_count} reciter(s) were removed from the 'remaining' list because they are present in 'training' or 'testing'.")
+    # 5. Determine Remaining Reciters
+    # Remaining = All_Available - Training_Set
+    remaining_reciters_set = all_available_reciters_set - training_set
+    final_remaining_reciters = sorted(list(remaining_reciters_set))
+    
+    # --- Construct the final config object to be used and saved ---
+    # Preserve other keys from user_config if they exist (e.g., ranges)
+    final_config = user_config.copy() 
+    
+    final_config["training"] = final_training_reciters
+    final_config["testing"] = validated_testing_reciters # Use the validated list for testing
+    final_config["remaining"] = final_remaining_reciters
+    
+    # Update statistics
+    final_config["n_training_reciters"] = len(final_config["training"])
+    final_config["n_testing_reciters"] = len(final_config["testing"])
+    final_config["n_remaining_reciters"] = len(final_config["remaining"])
+    final_config["total_available_reciters"] = len(all_available_reciters_set) # New stat: total from recitersAll.json
+    
+    # This 'total_reciters' might be misleading if it's meant to be unique across train/test/remaining.
+    # The sum of n_training, n_testing, n_remaining can be > total_available if there's overlap (e.g. test can be in remaining)
+    # Let's define it as the total unique reciters effectively being *considered* by the split config.
+    # For this new logic, it should be total_available_reciters.
+    final_config["total_reciters_in_split_config"] = len(all_available_reciters_set)
 
-    # Update config with validated and cleaned lists
-    config["training"] = training_reciters # training list is taken as is
-    config["testing"] = validated_testing_reciters
-    config["remaining"] = cleaned_remaining_reciters
-    
-    # Update statistics based on the validated and cleaned lists
-    config["n_training_reciters"] = len(config["training"])
-    config["n_testing_reciters"] = len(config["testing"])
-    config["n_remaining_reciters"] = len(config["remaining"])
-    
-    # Calculate total_reciters as the count of unique reciters across all three final lists
-    all_defined_reciters = set(config["training"]) | set(config["testing"]) | set(config["remaining"])
-    config["total_reciters"] = len(all_defined_reciters)
-    
-    print(f"✓ Loaded {config['n_training_reciters']} training reciters (as per JSON).")
-    if invalid_testing_entries:
-        print(f"✓ Loaded {config['n_testing_reciters']} testing reciters after validation (removed {len(invalid_testing_entries)} invalid entries).")
-    else:
-        print(f"✓ Loaded {config['n_testing_reciters']} testing reciters (as per JSON, all valid).")
-    print(f"✓ Effective {config['n_remaining_reciters']} remaining reciters after cleaning.")
-    print(f"✓ Total unique reciters to be used in data preparation: {config['total_reciters']}.")
-    
-    # Clean up any existing directories (should happen AFTER config is finalized)
-    cleanup_directories(config)
-    
-    # Save updated configuration (should also happen AFTER config is finalized)
-    save_config(config)
-    
-    return config
+    print(f"✓ Final training reciters: {final_config['n_training_reciters']} (after validation against {RECITER_ALL_JSON_PATH.name})")
+    print(f"✓ Final testing reciters: {final_config['n_testing_reciters']} (after validation against {RECITER_ALL_JSON_PATH.name})")
+    print(f"✓ Final remaining reciters: {final_config['n_remaining_reciters']} (calculated as All - Training)")
+    print(f"✓ Total reciters available in {RECITER_ALL_JSON_PATH.name}: {final_config['total_available_reciters']}")
 
-def cleanup_directories(config):
+    # Clean up directories based on the new config understanding
+    cleanup_directories(final_config) # Pass the fully formed final_config
+    
+    # Save the final, validated, and augmented configuration
+    save_config(final_config) # Pass the fully formed final_config
+    
+    return final_config
+
+def cleanup_directories(config_to_use):
     """Remove and recreate data directories for a fresh start"""
     print("\n🧹 Cleaning up directories...")
     
@@ -209,11 +236,11 @@ def cleanup_directories(config):
     
     print("✓ Directories cleaned and recreated")
 
-def save_config(config):
+def save_config(config_to_save):
     """Save the updated configuration"""
     print("\n💾 Saving configuration...")
     with open(CONFIG_FILE, 'w', encoding='utf-8') as f:
-        json.dump(config, f, ensure_ascii=False, indent=2)
+        json.dump(config_to_save, f, ensure_ascii=False, indent=2)
     print("✓ Configuration saved")
 
 def prepare_training_data(config, use_all_versions=False):
@@ -320,10 +347,11 @@ def main():
     # Parse command line arguments
     args = parse_args()
     
-    # Load and prepare configuration (includes cleanup and initial save)
-    config = load_split_config()
+    # Load and prepare configuration (includes validation, cleanup, and saving the final config)
+    # load_split_config now handles its own saving of the *finalized* config.
+    config = load_split_config() 
     
-    # Update reciters.json with the selected training reciters
+    # Update reciters.json with the selected training reciters from the *finalized* config
     update_training_reciters_json(config)
     
     # Process training data
@@ -338,7 +366,7 @@ def main():
     print(f"  - Training reciters: {config['n_training_reciters']}")
     print(f"  - Testing reciters: {config['n_testing_reciters']}")
     print(f"  - Remaining reciters: {config['n_remaining_reciters']}")
-    print(f"  - Total reciters: {config['total_reciters']}")
+    print(f"  - Total reciters: {config['total_reciters_in_split_config']}")
     print(f"  - Training range: {config['train_data_range']}")
     print(f"  - Testing range: {config['test_data_range']}")
 
