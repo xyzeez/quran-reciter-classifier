@@ -6,6 +6,7 @@ Evaluates model performance against test data and generates metrics/visualizatio
 import sys
 import argparse
 from pathlib import Path
+import json
 
 # Add project root to Python path when running script directly
 if __name__ == "__main__":
@@ -39,46 +40,36 @@ def parse_args():
 
 def find_model_path(model_id=None):
     """
-    Find the model file we want to test.
+    Find the model file we want to test and its canonical run ID.
 
     If no model_id is provided, we'll try to use the latest model.
     The latest model should be pointed to by a symlink, but we'll
     fall back to timestamp-based search if needed.
+    It prioritizes run_id from training_metadata.json for reporting.
 
-    Returns None if we can't find a suitable model - you might need
-    to train one first!
+    Returns:
+        tuple: (Path to model.joblib, str run_id_for_reporting) or None
     """
     models_dir = Path(MODEL_OUTPUT_DIR)
 
-    # No models? No testing.
     if not models_dir.exists():
         print(f"Error: Models directory '{MODEL_OUTPUT_DIR}' not found.")
         print("Please train a model first: python scripts/train.py")
         return None
 
-    # Find dirs that look like training runs
-    model_dirs = [d for d in models_dir.iterdir()
-                  if d.is_dir() and d.name.endswith("_train")]
+    model_dirs_in_root = [d for d in models_dir.iterdir()
+                          if d.is_dir() and d.name.endswith("_train")]
 
-    if not model_dirs:
-        print(f"Error: No trained models found in {MODEL_OUTPUT_DIR}")
-        print("Please train a model first: python scripts/train.py")
-        return None
+    probed_dir_path = None
+    specified_model_id = model_id
 
-    if model_id:
-        # User asked for a specific model
-        target_dir = models_dir / model_id
-        if target_dir.exists():
-            # Look for the serialized model file - naming convention: model_random_forest.joblib
-            model_files = list(target_dir.glob('model_*.joblib'))
-            if model_files:
-                return model_files[0]
-            else:
-                print(f"Error: No model file found in {target_dir}")
-                return None
+    if specified_model_id:
+        candidate_dir = models_dir / specified_model_id
+        if candidate_dir.exists() and candidate_dir.is_dir():
+            probed_dir_path = candidate_dir
         else:
             print(
-                f"Error: Training run '{model_id}' not found in {models_dir}")
+                f"Error: Specified training run '{specified_model_id}' not found in {models_dir}")
             print("Use --list-models to see available training runs")
             return None
     else:
@@ -86,26 +77,102 @@ def find_model_path(model_id=None):
         latest_link = models_dir / "latest"
         if latest_link.exists():
             if latest_link.is_symlink():
-                target_dir = latest_link.resolve()
-            else:
-                target_dir = latest_link
-
-            # Now find the actual model file
-            model_files = list(target_dir.glob('model_*.joblib'))
-            if model_files:
-                return model_files[0]
-            else:
-                print(f"Error: No model file found in {target_dir}")
+                try:
+                    probed_dir_path = latest_link.resolve(strict=True)
+                    print(f"Info: 'latest' symlink resolved to {probed_dir_path}")
+                except FileNotFoundError:
+                    print(f"Error: 'latest' symlink points to a non-existent location: {latest_link.readlink()}")
+                    return None
+                except Exception as e:
+                    print(f"Error resolving 'latest' symlink: {e}")
+                    return None # Or fallback to directory search? For now, error.
+            elif latest_link.is_dir(): # 'latest' is an actual directory
+                probed_dir_path = latest_link
+                print(f"Info: Using 'latest' as a directory: {probed_dir_path}")
+            else: # 'latest' exists but is not a symlink or dir (e.g. a file)
+                print(f"Error: 'latest' exists but is not a symlink or a directory at {latest_link}")
                 return None
+        
+        if not probed_dir_path: # Fallback if 'latest' link/dir didn't yield a path
+            if not model_dirs_in_root:
+                print(f"Error: No trained models found in {MODEL_OUTPUT_DIR}")
+                print("Please train a model first: python scripts/train.py")
+                return None
+            probed_dir_path = max(model_dirs_in_root, key=lambda d: d.stat().st_mtime)
+            print(f"Info: No 'latest' link/dir found or resolved. Using most recent model by timestamp: {probed_dir_path}")
 
-        # No 'latest' link? Fall back to timestamps
-        latest_dir = max(model_dirs, key=lambda d: d.stat().st_mtime)
-        model_files = list(latest_dir.glob('model_*.joblib'))
-        if model_files:
-            return model_files[0]
+    if not probed_dir_path or not probed_dir_path.exists():
+        print(f"Error: Could not determine a valid model directory to probe.")
+        return None
+
+    # Now we have probed_dir_path, find model file and metadata
+    model_files_in_probed_dir = list(probed_dir_path.glob('model_*.joblib'))
+    if not model_files_in_probed_dir:
+        print(f"Error: No model file (model_*.joblib) found in {probed_dir_path}")
+        return None
+    
+    model_joblib_in_probed_dir = model_files_in_probed_dir[0]
+    model_joblib_name = model_joblib_in_probed_dir.name
+
+    # Attempt to get canonical run_id from metadata in probed_dir_path
+    run_id_from_meta = None
+    training_meta_file = probed_dir_path / "training_metadata.json"
+    if training_meta_file.exists():
+        try:
+            with open(training_meta_file, 'r') as f_meta:
+                training_meta = json.load(f_meta)
+            if 'run_id' in training_meta and training_meta['run_id']:
+                run_id_from_meta = training_meta['run_id']
+                print(f"Info: Found run_id '{run_id_from_meta}' in {training_meta_file}")
+            else:
+                print(f"Warning: 'run_id' not found or empty in {training_meta_file}.")
+        except Exception as e:
+            print(f"Warning: Could not read or parse {training_meta_file}: {e}.")
+    else:
+        print(f"Info: {training_meta_file} not found in {probed_dir_path}.")
+
+    # Determine final paths and run ID for reporting
+    final_model_joblib_to_load = model_joblib_in_probed_dir
+    final_run_id_to_report = probed_dir_path.name # Fallback to directory name
+
+    if run_id_from_meta:
+        # If metadata run_id is different from current probed_dir name,
+        # or if we want to ensure reported ID is always from metadata if available.
+        final_run_id_to_report = run_id_from_meta # Prioritize metadata's run_id for reporting
+        
+        # Attempt to use canonical path based on metadata's run_id
+        candidate_joblib_path = models_dir / run_id_from_meta / model_joblib_name
+        if candidate_joblib_path.exists():
+            final_model_joblib_to_load = candidate_joblib_path
+            print(f"Info: Using model file '{final_model_joblib_to_load}' based on metadata's run_id '{run_id_from_meta}'.")
         else:
-            print(f"Error: No model file found in {latest_dir}")
-            return None
+            print(f"Warning: Metadata in {probed_dir_path} suggested run_id '{run_id_from_meta}', "
+                  f"but model file {candidate_joblib_path} was not found. "
+                  f"Using model directly from {model_joblib_in_probed_dir}.")
+            # Keep final_model_joblib_to_load as model_joblib_in_probed_dir
+            # final_run_id_to_report is already set to run_id_from_meta
+            # If probed_dir_path.name was 'latest' and run_id_from_meta was 'actual_id',
+            # we report 'actual_id' but load from 'latest' dir if 'actual_id' dir model is missing.
+            # This ensures we use the metadata ID for reporting if possible.
+            # The joblib path is the one we can actually load.
+
+    # If specified_model_id was given, ensure reported run_id matches it.
+    if specified_model_id and final_run_id_to_report != specified_model_id:
+        print(f"Warning: Specified model_id was '{specified_model_id}' but effective run_id for reporting is '{final_run_id_to_report}'. This might happen if metadata inside '{specified_model_id}' points elsewhere.")
+        # We trust specified_model_id more for reporting if it was directly given.
+        # final_run_id_to_report = specified_model_id
+        # final_model_joblib_to_load needs to be from specified_model_id dir in this case.
+        # The logic above should handle this if probed_dir_path was set to specified_model_id dir and metadata was consistent.
+        # If metadata pointed elsewhere and that was used, this warning is appropriate. For now, we'll stick with run_id from meta or probed_dir.name.
+
+    if not final_model_joblib_to_load.exists():
+        # This should be rare given previous checks, but as a safeguard:
+        print(f"Error: Final model joblib path to load does not exist: {final_model_joblib_to_load}")
+        return None
+        
+    print(f"Selected model file for loading: {final_model_joblib_to_load}")
+    print(f"Run ID for reporting: {final_run_id_to_report}")
+    return final_model_joblib_to_load, final_run_id_to_report
 
 
 def list_available_models():
@@ -188,7 +255,6 @@ def list_test_runs():
 
         if summary_file.exists():
             try:
-                import json
                 with open(summary_file, 'r') as f:
                     summary = json.load(f)
                 model_type = summary.get('model_type', 'unknown')
@@ -266,21 +332,21 @@ def main():
         return 1
 
     # Figure out which model to test
-    model_path = find_model_path(args.model_file_id)
-    if not model_path:
-        # Error already shown to user
+    print("\nFinding model to test...")
+    model_info = find_model_path(args.model_file_id)
+
+    if not model_info:
+        print("Could not find a suitable model to test.")
         return 1
 
-    print(f"\n{'='*80}")
-    print(f"Starting testing pipeline")
-    print(f"Using model: {model_path}")
-    if args.model_file_id:
-        print(f"From training run: {args.model_file_id}")
-    print(f"Results will be saved to the '{TEST_RESULTS_DIR}' directory")
-    print(f"{'='*80}\n")
+    model_path_to_test, model_run_id_for_report = model_info
+    
+    print(f"\nResolved model path for testing: {model_path_to_test}")
+    print(f"Resolved model run ID for reporting: {model_run_id_for_report}")
 
-    # Run the test pipeline with the model path
-    status = test_pipeline(str(model_path))
+    # Run the test pipeline with the model path and the resolved run ID for reporting
+    print(f"\nInitiating test pipeline for model: {model_path_to_test.name} (from run {model_run_id_for_report})")
+    status = test_pipeline(model_path=str(model_path_to_test), model_run_id_for_reporting=model_run_id_for_report)
 
     if status == 0:
         print(f"\n{'='*80}")
