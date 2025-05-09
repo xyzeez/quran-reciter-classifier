@@ -116,55 +116,78 @@ def load_split_config():
     with open(CONFIG_FILE, 'r', encoding='utf-8') as f:
         config = json.load(f)
     
-    # Store original training reciters
-    training_reciters = config["training"]
+    # Get lists directly from JSON
+    training_reciters = config.get("training", [])
+    testing_reciters_from_json = config.get("testing", []) 
+    remaining_reciters_from_json = config.get("remaining", [])
+
+    # --- Validation and Cleaning ---
+    training_set = set(training_reciters)
     
-    # Clean remaining array
-    config["remaining"] = [r for r in config["remaining"] if r not in training_reciters]
+    # 1. Validate testing_reciters: 
+    #    They must come from the union of reciters in the training list 
+    #    and reciters in the remaining list (as defined in the JSON).
+    #    "potential_sources_for_testing_from_remaining" are those in json's remaining list
+    #    that are NOT already in the training list (to avoid double counting sources).
+    potential_sources_for_testing_from_remaining = set(r for r in remaining_reciters_from_json if r not in training_set)
+    valid_sources_for_testing = training_set | potential_sources_for_testing_from_remaining
     
-    # Empty testing array
-    config["testing"] = []
+    validated_testing_reciters = []
+    invalid_testing_entries = []
+    for reciter in testing_reciters_from_json:
+        if reciter in valid_sources_for_testing:
+            validated_testing_reciters.append(reciter)
+        else:
+            invalid_testing_entries.append(reciter)
     
-    # Update statistics
-    config["total_reciters"] = len(training_reciters) + len(config['remaining'])
-    config["n_training_reciters"] = len(training_reciters)
-    config["n_testing_reciters"] = 0  # Will be updated after selection
-    config["n_remaining_reciters"] = len(config['remaining'])
+    if invalid_testing_entries:
+        print(f"⚠️ Warning: The following reciters in the 'testing' list are not found in 'training' or 'remaining' lists from JSON and will be removed:")
+        for entry in invalid_testing_entries:
+            print(f"  - {entry}")
+            
+    testing_set = set(validated_testing_reciters)
+
+    # 2. Clean remaining_reciters: 
+    #    Remove any reciters that are in the training list or in the (validated) testing list.
+    #    Start from the raw remaining list from JSON.
+    cleaned_remaining_reciters = []
+    removed_from_remaining_count = 0
+    for reciter in remaining_reciters_from_json:
+        if reciter not in training_set and reciter not in testing_set:
+            cleaned_remaining_reciters.append(reciter)
+        elif reciter in training_set or reciter in testing_set:
+            removed_from_remaining_count +=1
+            
+    if removed_from_remaining_count > 0:
+        print(f"ℹ️ Info: {removed_from_remaining_count} reciter(s) were removed from the 'remaining' list because they are present in 'training' or 'testing'.")
+
+    # Update config with validated and cleaned lists
+    config["training"] = training_reciters # training list is taken as is
+    config["testing"] = validated_testing_reciters
+    config["remaining"] = cleaned_remaining_reciters
     
-    print(f"✓ Found {len(training_reciters)} training reciters")
-    print(f"✓ Found {len(config['remaining'])} remaining reciters")
+    # Update statistics based on the validated and cleaned lists
+    config["n_training_reciters"] = len(config["training"])
+    config["n_testing_reciters"] = len(config["testing"])
+    config["n_remaining_reciters"] = len(config["remaining"])
     
-    # Clean up any existing directories
+    # Calculate total_reciters as the count of unique reciters across all three final lists
+    all_defined_reciters = set(config["training"]) | set(config["testing"]) | set(config["remaining"])
+    config["total_reciters"] = len(all_defined_reciters)
+    
+    print(f"✓ Loaded {config['n_training_reciters']} training reciters (as per JSON).")
+    if invalid_testing_entries:
+        print(f"✓ Loaded {config['n_testing_reciters']} testing reciters after validation (removed {len(invalid_testing_entries)} invalid entries).")
+    else:
+        print(f"✓ Loaded {config['n_testing_reciters']} testing reciters (as per JSON, all valid).")
+    print(f"✓ Effective {config['n_remaining_reciters']} remaining reciters after cleaning.")
+    print(f"✓ Total unique reciters to be used in data preparation: {config['total_reciters']}.")
+    
+    # Clean up any existing directories (should happen AFTER config is finalized)
     cleanup_directories(config)
     
-    # Save initial configuration
+    # Save updated configuration (should also happen AFTER config is finalized)
     save_config(config)
-    
-    return config
-
-def select_testing_reciters(config):
-    """Select reciters for testing set"""
-    print("\n🎯 Selecting testing reciters...")
-    
-    # Calculate number of additional reciters needed
-    n_training = len(config["training"])
-    n_additional_needed = n_training // 2
-    n_available = len(config["remaining"])
-    
-    # Determine how many we can actually select
-    n_to_select = min(n_additional_needed, n_available)
-    
-    print(f"✓ Will select {n_to_select} additional reciters from remaining pool")
-    
-    # Select random reciters from remaining
-    selected_additional = random.sample(config["remaining"], n_to_select)
-    
-    # Build testing array
-    config["testing"] = config["training"] + selected_additional
-    
-    print(f"✓ Testing set contains {len(config['testing'])} reciters")
-    print(f"  - {len(config['training'])} from training set")
-    print(f"  - {len(selected_additional)} additional reciters")
     
     return config
 
@@ -299,13 +322,6 @@ def main():
     
     # Load and prepare configuration (includes cleanup and initial save)
     config = load_split_config()
-    
-    # Select testing reciters
-    config = select_testing_reciters(config)
-    
-    # Update statistics after testing selection
-    config["n_testing_reciters"] = len(config["testing"])
-    save_config(config)
     
     # Update reciters.json with the selected training reciters
     update_training_reciters_json(config)
