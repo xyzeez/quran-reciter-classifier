@@ -5,6 +5,9 @@ import logging
 from rich.logging import RichHandler
 from rich.console import Console
 
+# Import config
+# from server.config import LOG_LEVEL_PRODUCTION # Removed import
+
 # --- Module Level Variables ---
 _handler_configured = False
 _console = Console() # Shared console instance
@@ -52,7 +55,9 @@ def setup_logging(debug_mode: bool = False):
         logging.debug("Logger already configured by RichHandler.")
         return
 
-    log_level = logging.DEBUG if debug_mode else logging.CRITICAL
+    # Determine log level based on debug flag
+    log_level = logging.DEBUG if debug_mode else logging.INFO
+    
     root_logger = logging.getLogger() # Get root logger
 
     # Remove any pre-existing handlers (e.g., basicConfig from imports)

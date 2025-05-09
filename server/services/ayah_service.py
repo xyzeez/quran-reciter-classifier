@@ -13,6 +13,9 @@ from server.utils.audio_processor_matcher import AudioProcessor
 from server.utils.quran_matcher import QuranMatcher
 from server.utils.text_utils import to_arabic_number
 
+# Import defaults from config
+from server.config import AYAH_DEFAULT_MAX_MATCHES, AYAH_DEFAULT_MIN_CONFIDENCE
+
 logger = logging.getLogger(__name__)
 
 # These would typically be passed via dependency injection in a larger app,
@@ -49,8 +52,9 @@ def identify_ayah_from_audio(
     processed_audio_temp_dir = None
 
     try:
-        max_matches = int(params.get('max_matches') or 5)
-        min_confidence = float(params.get('min_confidence') or 0.70)
+        # Use configured defaults if params are not provided
+        max_matches = int(params.get('max_matches') or AYAH_DEFAULT_MAX_MATCHES)
+        min_confidence = float(params.get('min_confidence') or AYAH_DEFAULT_MIN_CONFIDENCE)
         score_threshold = int(min_confidence * 100)
         if debug:
             logging.debug(f"[AyahService-Debug] Parameters: max_matches={max_matches}, min_confidence={min_confidence}, score_threshold={score_threshold}")

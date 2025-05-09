@@ -10,20 +10,20 @@ import torch
 from pathlib import Path
 from typing import Tuple, Union, BinaryIO, Optional
 from pydub import AudioSegment
-from config import USE_GPU
+from config import (
+    USE_GPU,
+    DEFAULT_SAMPLE_RATE,
+    AYAH_MIN_DURATION,
+    AYAH_MAX_DURATION,
+    RECITER_MIN_DURATION,
+    RECITER_MAX_DURATION
+)
 
 # Configure logging
 logger = logging.getLogger(__name__)
 
 # Use GPU if available and enabled in config
 DEVICE = torch.device("cuda" if torch.cuda.is_available() and USE_GPU else "cpu")
-
-# Audio constraints
-DEFAULT_SAMPLE_RATE = 22050
-AYAH_MIN_DURATION = 1.0  # seconds
-AYAH_MAX_DURATION = 10.0  # seconds
-RECITER_MIN_DURATION = 5.0  # seconds
-RECITER_MAX_DURATION = 30.0  # seconds
 
 def process_audio_file(
     file: Union[str, Path, BinaryIO], 
@@ -88,51 +88,7 @@ def process_audio_file(
         logger.error(f"Error processing audio file: {str(e)}")
         return None, f"Error processing audio file: {str(e)}"
 
-def extract_features(
-    audio_data: np.ndarray, 
-    sample_rate: int,
-    n_mels: int = 128,
-    n_fft: int = 2048,
-    hop_length: int = 512,
-    fmax: int = 8000
-) -> np.ndarray:
-    """
-    Extract log-scaled mel spectrogram features from audio.
-    
-    Args:
-        audio_data: Audio time series
-        sample_rate: Audio sample rate
-        n_mels: Number of mel frequency bands
-        n_fft: FFT window size
-        hop_length: Samples between frames
-        fmax: Maximum frequency
-        
-    Returns:
-        Log-scaled mel spectrogram features
-    """
-    try:
-        mel_spec = librosa.feature.melspectrogram(
-            y=audio_data,
-            sr=sample_rate,
-            n_mels=n_mels,
-            n_fft=n_fft,
-            hop_length=hop_length,
-            fmax=fmax
-        )
-        
-        mel_spec_db = librosa.power_to_db(mel_spec, ref=np.max)
-        
-        # Add batch dimension if needed
-        if len(mel_spec_db.shape) < 3:
-            mel_spec_db = np.expand_dims(mel_spec_db, axis=0)
-            
-        return mel_spec_db
-        
-    except Exception as e:
-        logger.error(f"Error extracting features: {str(e)}")
-        raise RuntimeError(f"Error extracting features: {str(e)}")
 
-def prepare_audio_batch(features: np.ndarray) -> torch.Tensor:
     """
     Convert audio features to PyTorch tensor for model input.
     

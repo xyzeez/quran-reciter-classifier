@@ -2,7 +2,13 @@ import librosa
 import numpy as np
 import torch
 import logging
-from config import *
+from config import (
+    USE_GPU,
+    N_MFCC,
+    N_CHROMA,
+    N_MEL_BANDS,
+    MFCC_DELTA_ORDER
+)
 
 logger = logging.getLogger(__name__)
 
@@ -37,7 +43,7 @@ def extract_features(X: np.ndarray, sample_rate: int) -> np.ndarray:
                                              sr=sample_rate,
                                              n_mfcc=N_MFCC).T, axis=0)
         delta_mfccs = np.mean(librosa.feature.delta(mfccs).T, axis=0)
-        delta2_mfccs = np.mean(librosa.feature.delta(mfccs, order=2).T, axis=0)
+        delta2_mfccs = np.mean(librosa.feature.delta(mfccs, order=MFCC_DELTA_ORDER).T, axis=0)
         features.extend([mfccs, delta_mfccs, delta2_mfccs])
 
         # Spectral features help identify unique aspects of voice timbre

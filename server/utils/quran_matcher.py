@@ -10,6 +10,10 @@ from transformers import WhisperProcessor, WhisperForConditionalGeneration
 from rapidfuzz import process, fuzz
 from pathlib import Path
 
+# Import config values
+from config import USE_GPU # Import global GPU setting
+from server.config import WHISPER_MODEL_ID # Import server-specific Whisper model
+
 # Import the utility for converting numbers to Arabic script
 # This assumes text_utils.py is in server/utils/
 from .text_utils import to_arabic_number
@@ -26,8 +30,9 @@ class QuranMatcher:
             loaded_quran_data: A list of Surah dictionaries, matching the 
                                structure expected (e.g., from quran.json).
         """
-        self.model_id = "tarteel-ai/whisper-base-ar-quran"
-        self.device = "cuda" if torch.cuda.is_available() else "cpu"
+        self.model_id = WHISPER_MODEL_ID # Use configured model ID
+        # Respect global USE_GPU setting
+        self.device = "cuda" if torch.cuda.is_available() and USE_GPU else "cpu"
         logger.info(f"[QuranMatcher] Initializing model {self.model_id} on {self.device.upper()} device")
 
         # Load Whisper model

@@ -51,11 +51,11 @@ The Quran Reciter Classifier system uses machine learning to identify Quran reci
 │   ├── requirements.txt   # Server-specific Python dependencies
 │   ├── routes/            # API endpoint Blueprints (ayah.py, reciter.py)
 │   ├── services/          # Business logic (ayah_service.py, reciter_service.py)
-│   └── utils/             # Server utility functions and classes
+│   └── utils/             # Server utility functions and classes (e.g., audio_utils.py, quran_matcher.py, model_loader.py)
 ├── src/                   # Source code for core ML pipeline
 │   ├── models/            # ML models implementation
 │   ├── features/          # Feature extraction
-│   ├── utils/             # Utility functions
+│   ├── utils/             # Utility functions (e.g., distance_utils.py, gpu_utils.py, logging_utils.py)
 │   ├── pipelines/         # Processing pipelines
 │   ├── evaluation/        # Model evaluation
 │   └── data/              # Data handling
@@ -331,7 +331,6 @@ The system uses multiple configuration files:
 
 - `config/config.py`: Core system configuration (Used by `scripts/` and `src/`)
 - `server/config.py`: API server configuration
-- `src/config.py`: Specific configurations for model/feature extraction within `src/` (Note: Some duplication might exist or be consolidated)
 
 ### Server Configuration (`server/config.py`)
 
@@ -364,3 +363,189 @@ Key settings include:
 - `TIME_STRETCH_RATES`: [0.9, 1.1]
 - `NOISE_FACTOR`: 0.005
 - `VOLUME_ADJUST`: 0.8
+
+## 🚀 Usage
+
+### Preprocessing Data
+
+```bash
+python scripts/preprocess.py [--mode {train,test}] [--no-augment]
+```
+
+Options:
+
+- `--mode`: Mode to run in (`train` or `test`), default is `train`
+- `--no-augment`: Skip data augmentation (saves time but reduces diversity)
+
+Output:
+
+- Creates a timestamped directory (e.g., `20240306_143208_preprocess`)
+- Saves processed data to `processed/{mode}/TIMESTAMP_preprocess/`
+- Creates a `latest` symlink to the most recent run
+
+### Training Models
+
+```bash
+python scripts/train.py [--model-type MODEL_TYPE] [--preprocess-file-id PREPROCESS_FILE_ID]
+```
+
+Options:
+
+- `--model-type`: Model type to use (`random_forest` or `blstm`). If not specified, uses default from config
+- `--preprocess-file-id`: Specific preprocessing run ID to use (e.g., `20240306_143208_preprocess`). If not specified, uses the latest
+
+Output:
+
+- Creates a timestamped directory in `models/` (e.g., `20240306_152417_train`)
+- Saves model file as `model_{type}.joblib`
+- Creates a `latest` symlink to the most recent model
+
+### Testing Models
+
+```bash
+python scripts/test.py [--model-file-id MODEL_FILE_ID] [--list-models] [--list-tests]
+```
+
+Options:
+
+- `--model-file-id`: Training run ID to use (e.g., `20240306_152417_train`). If not specified, uses the latest
+- `--list-models`: List all available model runs with their types and creation timestamps
+- `--list-tests`: List all previous test runs with their accuracies
+
+Output:
+
+- Creates a timestamped directory in `test_results/` (e.g., `20240306_153012_test`)
+- Generates performance metrics and visualizations
+- Creates a `summary_report.json` with test results
+
+### Making Predictions
+
+```bash
+python scripts/predict.py [--audio AUDIO_FILE] [--model-file-id MODEL_FILE_ID] [--true-label RECITER_NAME] [--list-models]
+```
+
+Options:
+
+- `--audio`: Path to audio file to analyze (required)
+- `--model-file-id`: Training run ID to use, uses latest if not specified
+- `--true-label`: True reciter name for verification (optional)
+- `--list-models`: List all available model runs
+
+### Using the API
+
+First, ensure you have installed the main project dependencies from `requirements.txt`. Then, install the API-specific dependencies:
+
+```bash
+pip install -r server/requirements.txt
+```
+
+Start the Flask server:
+
+```bash
+python -m server.app [--debug]
+```
+
+The server will start on `http://localhost:5000` by default.
+
+#### API Endpoints
+
+**POST** `/getReciter`
+
+Identifies the Quran reciter from an audio file.
+
+##### Request Format
+
+- **Content-Type**: `multipart/form-data`
+- **Parameters**:
+  - `audio`: Audio file (required)
+    - Format: MP3 or WAV
+    - Duration: 5-15 seconds
+    - Sample Rate: 22050 Hz (will be converted if different)
+  - `show_unreliable_predictions`: Boolean (optional)
+    - Default: false
+    - When true, returns predictions even if reliability criteria aren't met
+
+##### Response Format
+
+```json
+{
+  "reliable": true,
+  "main_prediction": {
+    "name": "Reciter Name",
+    "confidence": 95.5,
+    "nationality": "Country",
+    "serverUrl": "https://example.com",
+    "flagUrl": "https://example.com/flag.png",
+    "imageUrl": "https://example.com/image.jpg"
+  },
+  "top_predictions": [
+    {
+      "name": "Reciter Name 1",
+      "confidence": 95.5,
+      "nationality": "Country 1",
+      "serverUrl": "https://example.com/1",
+      "flagUrl": "https://example.com/flag1.png",
+      "imageUrl": "https://example.com/image1.jpg"
+    }
+    // ... more predictions
+  ]
+}
+```
+
+**POST** `/getAyah`
+
+Identifies the Quranic verse from an audio recording.
+
+##### Request Format
+
+- **Content-Type**: `multipart/form-data`
+- **Parameters**:
+  - `audio`: Audio file (required)
+    - Format: MP3 or WAV (or other ffmpeg-supported formats)
+    - Duration: 1-10 seconds (Recommended; Note: Limits exist in config but are not currently enforced by the endpoint)
+    - Sample Rate: Any (will be automatically converted to 16000 Hz for processing)
+  - `max_matches`: Maximum number of matches to return (optional, default: 5)
+  - `min_confidence`: Minimum confidence threshold (0.0 to 1.0) for fuzzy matching score (optional, default: 0.70)
+
+##### Response Format
+
+```json
+{
+  "matches_found": true,
+  "total_matches": 5,
+  "matches": [
+    {
+      "surah_number": 105,
+      "surah_name": "الفيل",
+      "surah_name_en": "Al-Fil",
+      "ayah_number": 5,
+      "ayah_text": "فَجَعَلَهُمۡ كَعَصۡفٖ مَّأۡكُولِۭ",
+      "confidence_score": 0.7749
+    }
+    // ... more matches sorted by confidence
+  ],
+  "best_match": {
+    // highest confidence match that meets threshold
+  }
+}
+```
+
+Debug Mode Fields (when server started with --debug):
+
+```json
+{
+  "transcription": "فَجَعَلَهُمْ كَعَصْفٍ مَأْكُوهُ",
+  "debug_info": {
+    "transcription": "فَجَعَلَهُمْ كَعَصْفٍ مَأْكُوهُ",
+    "normalized_transcription": "فجعلهم كعصف ماكوه",
+    "normalized_matches": [
+      {
+        "transcription": "فجعلهم كعصف ماكوه",
+        "verse": "فجعلهم كعصف ماكول",
+        "score": 0.7749
+      }
+      // ... more matches with normalization details
+    ]
+  }
+}
+```

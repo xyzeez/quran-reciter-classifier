@@ -7,6 +7,9 @@ from pathlib import Path
 from typing import Dict, Optional
 import re
 
+# Import the configured path
+from config import QURAN_DATA_PATH
+
 logger = logging.getLogger(__name__)
 
 # Global cache for Quran data to avoid reloading
@@ -76,16 +79,18 @@ def load_quran_data(force_reload: bool = False) -> Optional[Dict]:
         # Determine the path relative to this file's location
         # Assumes this file is in server/utils/, data/ is ../../data/
         # Adjust if structure is different. Using Path.cwd() as a fallback might be needed.
-        base_path = Path(__file__).resolve().parent.parent.parent
-        quran_file = base_path / 'data' / 'quran.json'
+        # base_path = Path(__file__).resolve().parent.parent.parent # Removed calculation
+        # quran_file = base_path / 'data' / 'quran.json' # Removed old path construction
+
+        quran_file = Path(QURAN_DATA_PATH)
 
         if not quran_file.exists():
              # Fallback to searching from CWD (useful if run differently)
-             logger.warning(f"Quran data not found at {quran_file}, trying relative to CWD.")
-             quran_file = Path.cwd() / 'data' / 'quran.json'
+             logger.warning(f"Quran data not found at configured path {quran_file}, trying relative to CWD.")
+             quran_file = Path.cwd() / QURAN_DATA_PATH # Use config path relative to CWD
              if not quran_file.exists():
-                logger.error(f"Could not find quran.json at primary path or relative to CWD ({Path.cwd()}).")
-                raise FileNotFoundError(f"Could not find quran.json")
+                logger.error(f"Could not find {QURAN_DATA_PATH} at configured path or relative to CWD ({Path.cwd()}).")
+                raise FileNotFoundError(f"Could not find {QURAN_DATA_PATH}")
 
         logger.info(f"Loading Quran data from: {quran_file}")
         with open(quran_file, 'r', encoding='utf-8') as f:

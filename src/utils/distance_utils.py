@@ -1,6 +1,12 @@
 import numpy as np
 import logging
-from config import *
+from config import (
+    CONFIDENCE_THRESHOLD,
+    SECONDARY_CONFIDENCE_THRESHOLD,
+    MAX_CONFIDENCE_DIFF,
+    INTRA_CLASS_THRESHOLD_PERCENTILE,
+    MAX_DISTANCE_RATIO_THRESHOLD
+)
 
 logger = logging.getLogger(__name__)
 
@@ -26,7 +32,7 @@ def calculate_centroids(features, labels):
     return centroids
 
 
-def calculate_intra_class_thresholds(features, labels, centroids, percentile=95):
+def calculate_intra_class_thresholds(features, labels, centroids, percentile=INTRA_CLASS_THRESHOLD_PERCENTILE):
     """
     Calculate distance thresholds for each class based on training data.
 
@@ -103,7 +109,7 @@ def analyze_prediction_reliability(probabilities, distances, thresholds, pred_cl
         top_confidence >= CONFIDENCE_THRESHOLD and
         second_confidence < SECONDARY_CONFIDENCE_THRESHOLD and
         confidence_diff >= MAX_CONFIDENCE_DIFF and
-        distance_ratio <= 1.0  # Distance within threshold
+        distance_ratio <= MAX_DISTANCE_RATIO_THRESHOLD  # Distance within threshold
     )
 
     reliability_info = {
@@ -126,7 +132,7 @@ def analyze_prediction_reliability(probabilities, distances, thresholds, pred_cl
     if confidence_diff < MAX_CONFIDENCE_DIFF:
         reliability_info['failure_reasons'].append(
             f"Not enough distinction between predictions (diff: {confidence_diff:.2%})")
-    if distance_ratio > 1.0:
+    if distance_ratio > MAX_DISTANCE_RATIO_THRESHOLD:
         reliability_info['failure_reasons'].append(
             f"Distance ({distance_to_pred:.2f}) exceeds threshold ({threshold_pred:.2f})")
 

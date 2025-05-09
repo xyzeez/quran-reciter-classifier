@@ -22,12 +22,14 @@ warnings.filterwarnings('ignore')
 logger = logging.getLogger(__name__)
 
 
-def test_pipeline(model_path=None):
+def test_pipeline(model_path=None, model_run_id_for_reporting=None):
     """
     Run the testing pipeline.
 
     Args:
         model_path (str, optional): Path to model file. If None, uses the latest model.
+                                  This should be the canonical path to the .joblib file.
+        model_run_id_for_reporting (str, optional): The canonical run ID of the model, for reporting.
 
     Returns:
         int: 0 for success, 1 for failure
@@ -64,11 +66,24 @@ def test_pipeline(model_path=None):
             # Get model info and save path
             model_info = model.get_model_info()
             model_file_path = Path(model_path)
-            model_dir = model_file_path.parent
+            actual_model_dir = model_file_path.parent
 
             logger.info(f"Model type: {model_info['model_type']}")
-            logger.info(f"Model directory: {model_dir}")
+            logger.info(f"Model .joblib path: {model_file_path}")
+            logger.info(f"Actual model directory containing .joblib: {actual_model_dir}")
             logger.info(f"Number of classes: {model_info['n_classes']}")
+
+            # Determine the model directory path to be used in reports
+            reported_model_parent_dir = Path(MODEL_OUTPUT_DIR)
+            
+            final_reported_model_dir_str = ""
+            if model_run_id_for_reporting:
+                final_reported_model_dir_str = str(reported_model_parent_dir / model_run_id_for_reporting)
+                logger.info(f"Reporting model directory as: {final_reported_model_dir_str} (from provided run ID)")
+            else:
+                # Fallback if model_run_id_for_reporting was not provided (should be rare with updated scripts/test.py)
+                final_reported_model_dir_str = str(actual_model_dir)
+                logger.warning(f"model_run_id_for_reporting not provided. Reporting model directory as actual .joblib parent: {final_reported_model_dir_str}")
 
             # For BLSTM model, log additional info
             if model_info['model_type'] == 'BLSTM':
@@ -323,7 +338,7 @@ def test_pipeline(model_path=None):
             'timestamp': timestamp,
             'model_path': str(model_path),
             'model_type': model_info['model_type'],
-            'model_directory': str(model_dir),
+            'model_directory': final_reported_model_dir_str,
             'preprocessing_path': str(preprocessed_path),
             'preprocessing_run_id': preprocess_info.get('run_id', 'unknown'),
             'total_files': int(total_files),
@@ -350,7 +365,7 @@ def test_pipeline(model_path=None):
         summary_text = [
             f"Test Run Summary ({run_id})",
             f"=====================================",
-            f"Model: {Path(model_path).name}",
+            f"Model: {Path(model_path).name} (from run {model_run_id_for_reporting if model_run_id_for_reporting else actual_model_dir.name})",
             f"Model Type: {model_info['model_type']}",
             f"Preprocessing: {preprocessed_path.name}",
             f"",
@@ -396,7 +411,7 @@ def test_pipeline(model_path=None):
             'timestamp': timestamp,
             'model': {
                 'path': str(model_path),
-                'directory': str(model_dir),
+                'directory': final_reported_model_dir_str,
                 'type': model_info['model_type'],
                 'n_classes': model_info['n_classes'],
                 'classes': list(model.classes_)
@@ -426,7 +441,7 @@ def test_pipeline(model_path=None):
 
         # Log final summary
         logger.info("\nFinal Test Summary:")
-        logger.info(f"Model: {Path(model_path).name}")
+        logger.info(f"Model .joblib: {Path(model_path).name} (from run {model_run_id_for_reporting if model_run_id_for_reporting else actual_model_dir.name})")
         logger.info(f"Model Type: {model_info['model_type']}")
         logger.info(f"Preprocessing: {preprocessed_path}")
         logger.info(f"Total files processed: {total_files}")

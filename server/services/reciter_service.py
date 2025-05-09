@@ -7,8 +7,11 @@ from pathlib import Path
 import numpy as np
 from typing import Dict, List, Optional, Tuple
 
+# Import config for data path
+from config import RECITERS_DATA_PATH
+
 # Assuming these are the correct paths after refactoring
-from src.utils.audio_utils import process_audio_file 
+from server.utils.audio_utils import process_audio_file 
 from src.features import extract_features
 from src.utils.distance_utils import calculate_distances, analyze_prediction_reliability
 from server.config import TOP_N_PREDICTIONS
@@ -192,13 +195,15 @@ def _load_reciters_metadata() -> Optional[Dict]:
     """Loads reciter metadata from data/reciters.json."""
     reciters_file = None # Define for use in exception logging
     try:
-        base_path = Path(__file__).resolve().parent.parent.parent
-        reciters_file = base_path / 'data' / 'reciters.json'
+        # Use configured path first
+        reciters_file = Path(RECITERS_DATA_PATH)
         
         if not reciters_file.exists():
-             reciters_file = Path.cwd() / 'data' / 'reciters.json'
+             # Fallback to searching from CWD
+             logger.warning(f"Reciters metadata not found at configured path {reciters_file}, trying relative to CWD.")
+             reciters_file = Path.cwd() / RECITERS_DATA_PATH # Use config path relative to CWD
              if not reciters_file.exists():
-                  logging.error(f"Reciters metadata file not found at primary path or relative to CWD ({Path.cwd()}).")
+                  logger.error(f"Could not find {RECITERS_DATA_PATH} at configured path or relative to CWD ({Path.cwd()}).")
                   return None
 
         with open(reciters_file, 'r', encoding='utf-8') as f:
@@ -206,5 +211,5 @@ def _load_reciters_metadata() -> Optional[Dict]:
             
     except Exception as e:
         path_str = str(reciters_file) if reciters_file else "unknown path"
-        logging.error(f"Could not load or parse reciters metadata from {path_str}: {e}", exc_info=True)
+        logger.error(f"Could not load or parse reciters metadata from {path_str}: {e}", exc_info=True)
         return None 
