@@ -279,15 +279,89 @@ def test_pipeline(model_path=None, model_run_id_for_reporting=None):
         results_df.to_csv(results_file, index=False)
         logger.info(f"Detailed results saved to {results_file}")
 
-        # Generate and save confusion matrix
-        confusion_matrix_file = output_dir / 'test_confusion_matrix.png'
-        plot_confusion_matrix(
-            true_labels,
-            predicted_labels,
-            classes=sorted(set(true_labels) | set(predicted_labels)),
-            output_path=str(confusion_matrix_file)
-        )
-        logger.info(f"Confusion matrix saved to {confusion_matrix_file}")
+        # Separate data for training and non-training reciter confusion matrices
+        true_labels_training = []
+        predicted_labels_training = []
+        true_labels_nontraining = []
+        predicted_labels_nontraining = []
+
+        # Known training reciter names from the model
+        training_reciter_names_set = set(model.classes_)
+
+        for r_idx, r_data in enumerate(all_results):
+            # Use true_labels[r_idx] and predicted_labels[r_idx] which were already collected
+            # or r_data['true_label'] and r_data['final_prediction']
+            current_true_label = true_labels[r_idx] # or r_data['true_label']
+            current_predicted_label = predicted_labels[r_idx] # or r_data['final_prediction']
+
+            if r_data['is_training_reciter']:
+                true_labels_training.append(current_true_label)
+                predicted_labels_training.append(current_predicted_label)
+            else:
+                true_labels_nontraining.append(current_true_label)
+                predicted_labels_nontraining.append(current_predicted_label)
+
+        # Generate and save confusion matrix for TRAINING reciters
+        if true_labels_training:
+            confusion_matrix_training_file = output_dir / 'confusion_matrix_training_reciters.png'
+            # Classes for training CM: all training reciters + "Unknown" if it appears in predictions for this subset
+            training_cm_actual_classes = sorted(list(set(true_labels_training) | set(predicted_labels_training)))
+            
+            # To ensure the CM axes include all *possible* training reciters and "Unknown",
+            # even if not all are present in this specific test subset's true/predicted labels for training data.
+            # This helps maintain a consistent structure if desired.
+            # The `labels` param in sklearn.metrics.confusion_matrix will handle this.
+            training_cm_display_classes = sorted(list(training_reciter_names_set | {"Unknown"}))
+
+
+            plot_confusion_matrix(
+                true_labels_training,
+                predicted_labels_training,
+                classes=training_cm_display_classes, # Use this comprehensive list for axes
+                title='Confusion Matrix (Training Reciters)',
+                output_path=str(confusion_matrix_training_file)
+            )
+            logger.info(f"Confusion matrix for training reciters saved to {confusion_matrix_training_file}")
+        else:
+            logger.info("No training reciter samples found in the test set to generate their confusion matrix.")
+
+        # Generate and save confusion matrix for NON-TRAINING reciters
+        if true_labels_nontraining:
+            confusion_matrix_nontraining_file = output_dir / 'confusion_matrix_nontraining_reciters.png'
+            
+            # For non-training, true labels are the actual non-training reciter names.
+            # Predictions can be any of the training reciters or "Unknown".
+            # The classes for the CM should include all true non-training reciters present in the test data,
+            # plus all training reciters (as they are potential misclassifications) and "Unknown".
+            
+            non_training_true_reciter_names_in_test = sorted(list(set(true_labels_nontraining)))
+            
+            # Potential predicted classes include all training reciters and "Unknown"
+            # and any of the non_training_true_reciter_names_in_test (if model somehow predicts them by name - unlikely for 'Unknown' logic)
+            # More practically, predicted labels for non-training data will be training reciters or "Unknown".
+            nontraining_cm_all_possible_classes = sorted(list(
+                set(non_training_true_reciter_names_in_test) | # True non-training reciters
+                training_reciter_names_set |                 # All possible (mis)classifications into known reciters
+                {"Unknown"}                                    # The "Unknown" category
+            ))
+            
+            # However, to make the CM readable, often it's better to list true non-training reciters on Y-axis
+            # and training reciters + "Unknown" on X-axis.
+            # The current plot_confusion_matrix expects symmetrical classes.
+            # Let's use the union of true and predicted labels for this subset for now.
+            nontraining_cm_actual_classes = sorted(list(set(true_labels_nontraining) | set(predicted_labels_nontraining)))
+
+
+            plot_confusion_matrix(
+                true_labels_nontraining,
+                predicted_labels_nontraining,
+                classes=nontraining_cm_all_possible_classes, # Use the comprehensive list for axes
+                title='Confusion Matrix (Non-Training Reciters)',
+                output_path=str(confusion_matrix_nontraining_file)
+            )
+            logger.info(f"Confusion matrix for non-training reciters saved to {confusion_matrix_nontraining_file}")
+        else:
+            logger.info("No non-training reciter samples found in the test set to generate their confusion matrix.")
 
         # Calculate statistics
         total_files = len(all_results)
