@@ -1,0 +1,20 @@
+
+Training Summary:
+Run ID: 20250509_161442_train
+Model Type: blstm
+Preprocessing Directory: processed\train\20250509_011741_preprocess
+Preprocessing Run ID: 20250509_011741_preprocess
+Total Samples: 35490
+Training Samples: 28392
+Testing Samples: 7098
+Number of Features: 511
+Number of Classes: 10
+Model Training Time: 37m 35s
+Total Processing Time: 37m 38s
+Test Accuracy: 0.9834
+
+BLSTM Model Details:
+Feature Count: First 13 MFCCs
+LSTM Units: 64
+Dropout Rate: 0.3
+Learning Rate: 0.001
