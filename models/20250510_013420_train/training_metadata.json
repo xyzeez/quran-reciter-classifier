@@ -1,0 +1,77 @@
+{
+    "run_id": "20250510_013420_train",
+    "timestamp": "2025-05-10T01:34:20.867618",
+    "model_type": "random_forest",
+    "preprocessing_info": {
+        "directory": "processed\\train\\latest",
+        "run_id": "20250509_221619_preprocess",
+        "timestamp": "2025-05-09T22:16:19.715823",
+        "sample_count": 17745
+    },
+    "config": {
+        "test_size": 0.2,
+        "random_state": 42,
+        "model_specific": {
+            "n_estimators": 100,
+            "max_depth": 10,
+            "n_folds": 5
+        }
+    },
+    "system_info": {
+        "platform": "Windows-10-10.0.19045-SP0",
+        "python_version": "3.9.13",
+        "cpu_count": 4,
+        "use_gpu_config": true,
+        "gpu_available": false
+    },
+    "performance": {
+        "accuracy": 0.9938010707241477,
+        "training_time": 79.93530559539795,
+        "class_report": {
+            "Abdulbasit Abdulsamad": {
+                "precision": 0.995774647887324,
+                "recall": 0.995774647887324,
+                "f1-score": 0.995774647887324,
+                "support": 710.0
+            },
+            "Mahmoud Khalil Al-Hussary": {
+                "precision": 0.9971711456859972,
+                "recall": 0.9943582510578279,
+                "f1-score": 0.9957627118644068,
+                "support": 709.0
+            },
+            "Mishary Alafasi": {
+                "precision": 0.9943899018232819,
+                "recall": 0.9985915492957746,
+                "f1-score": 0.9964862965565706,
+                "support": 710.0
+            },
+            "Mohammed Siddiq Al-Minshawi": {
+                "precision": 0.9929178470254958,
+                "recall": 0.9873239436619718,
+                "f1-score": 0.9901129943502824,
+                "support": 710.0
+            },
+            "Saud Al-Shuraim": {
+                "precision": 0.9887798036465638,
+                "recall": 0.9929577464788732,
+                "f1-score": 0.9908643710470836,
+                "support": 710.0
+            },
+            "accuracy": 0.9938010707241477,
+            "macro avg": {
+                "precision": 0.9938066692137324,
+                "recall": 0.9938012276763543,
+                "f1-score": 0.9938002043411334,
+                "support": 3549.0
+            },
+            "weighted avg": {
+                "precision": 0.9938057212068371,
+                "recall": 0.9938010707241477,
+                "f1-score": 0.9937996513663453,
+                "support": 3549.0
+            }
+        }
+    },
+    "total_time": 81.84519290924072
+}
