@@ -1,5 +1,6 @@
 """
-Random Forest model implementation for Quran reciter identification.
+Random Forest classifier for Quran reciter identification.
+Uses calibrated probabilities and distance-based verification.
 """
 import joblib
 import os
@@ -19,11 +20,12 @@ logger = logging.getLogger(__name__)
 
 class RandomForestModel(BaseModel):
     """
-    Random Forest model with calibrated probabilities and distance-based verification.
+    Random Forest classifier with probability calibration.
+    Uses feature space distances for prediction verification.
     """
 
     def __init__(self):
-        """Initialize the Random Forest model with default parameters."""
+        """Initialize model with configuration parameters."""
         self.rf_model = RandomForestClassifier(
             n_estimators=N_ESTIMATORS,
             max_depth=MAX_DEPTH,
@@ -40,21 +42,19 @@ class RandomForestModel(BaseModel):
 
     def train(self, X_train, y_train):
         """
-        Train the Random Forest model.
+        Train and calibrate the model.
 
         Args:
             X_train: Training features
             y_train: Training labels
 
         Returns:
-            self: Trained model
+            self: Trained model instance
         """
         logger.info("Training Random Forest model...")
-
-        # Record training start time
         start_time = datetime.now()
 
-        # Cross-validation
+        # Validate model performance
         logger.info("Performing cross-validation...")
         kfold = KFold(n_splits=N_FOLDS, shuffle=True,
                       random_state=RANDOM_STATE)
@@ -64,29 +64,28 @@ class RandomForestModel(BaseModel):
         logger.info(
             f"Mean CV score: {cv_scores.mean():.4f} (+/- {cv_scores.std() * 2:.4f})")
 
-        # Train the base model
+        # Train base model
         self.rf_model.fit(X_train, y_train)
 
-        # Calibrate probabilities
+        # Calibrate prediction probabilities
         logger.info("Calibrating probabilities...")
         self.calibrated_model = CalibratedClassifierCV(
             self.rf_model, method='sigmoid', cv='prefit')
         self.calibrated_model.fit(X_train, y_train)
 
-        # Store classes and feature importances
+        # Store model attributes
         self.classes_ = self.calibrated_model.classes_
         self.feature_importances_ = self.rf_model.feature_importances_
 
-        # Calculate centroids and thresholds
+        # Calculate verification metrics
         logger.info("Calculating centroids and distance thresholds...")
         self.centroids = calculate_centroids(X_train, y_train)
         self.thresholds = calculate_intra_class_thresholds(
             X_train, y_train, self.centroids)
 
-        # Record training end time
         end_time = datetime.now()
 
-        # Store training information
+        # Record training metadata
         self.training_info = {
             'n_samples': len(X_train),
             'n_features': X_train.shape[1],
@@ -110,13 +109,13 @@ class RandomForestModel(BaseModel):
 
     def predict(self, X):
         """
-        Make predictions.
+        Predict reciter labels for new samples.
 
         Args:
-            X: Input features
+            X: Audio features matrix
 
         Returns:
-            Predicted labels
+            Predicted reciter labels
         """
         if self.calibrated_model is None:
             raise ValueError("Model has not been trained yet.")
@@ -124,13 +123,13 @@ class RandomForestModel(BaseModel):
 
     def predict_proba(self, X):
         """
-        Get prediction probabilities.
+        Get calibrated prediction probabilities.
 
         Args:
-            X: Input features
+            X: Audio features matrix
 
         Returns:
-            Prediction probabilities
+            Probability distribution over reciters
         """
         if self.calibrated_model is None:
             raise ValueError("Model has not been trained yet.")
@@ -138,14 +137,14 @@ class RandomForestModel(BaseModel):
 
     def evaluate(self, X_test, y_test):
         """
-        Evaluate the model.
+        Evaluate model performance.
 
         Args:
-            X_test: Test features
-            y_test: Test labels
+            X_test: Test features matrix
+            y_test: True reciter labels
 
         Returns:
-            Evaluation metrics
+            Dict of performance metrics
         """
         if self.calibrated_model is None:
             raise ValueError("Model has not been trained yet.")
@@ -153,25 +152,23 @@ class RandomForestModel(BaseModel):
         y_pred = self.predict(X_test)
         report = classification_report(y_test, y_pred, output_dict=True)
 
-        metrics = {
+        return {
             'accuracy': report['accuracy'],
             'classification_report': report,
             'test_samples': len(X_test)
         }
 
-        return metrics
-
     def save(self, filepath):
         """
-        Save the model.
+        Save model to disk.
 
         Args:
-            filepath: Path to save the model
+            filepath: Output path
         """
         if self.calibrated_model is None:
             raise ValueError("Model has not been trained yet.")
 
-        # Create model package
+        # Package model data
         model_package = {
             'model': self.calibrated_model,
             'centroids': self.centroids,
@@ -180,23 +177,20 @@ class RandomForestModel(BaseModel):
             'feature_importances': self.feature_importances_
         }
 
-        # Ensure directory exists
         Path(filepath).parent.mkdir(parents=True, exist_ok=True)
-
-        # Save model package
         joblib.dump(model_package, filepath)
         logger.info(f"Model saved to {filepath}")
 
     @classmethod
     def load(cls, filepath):
         """
-        Load a saved model.
+        Load model from disk.
 
         Args:
-            filepath: Path to the saved model
+            filepath: Path to saved model
 
         Returns:
-            Loaded model
+            Loaded model instance
         """
         if not os.path.exists(filepath):
             raise FileNotFoundError(f"Model file not found: {filepath}")

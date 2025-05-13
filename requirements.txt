@@ -17,8 +17,10 @@ seaborn>=0.11.0
 # Deep learning
 torch>=1.10.0
 tensorflow>=2.8.0
-keras>=2.8.0
+transformers
+openai-whisper
 
 # Utilities
 tqdm>=4.62.0
 pathlib>=1.0.1
+requests

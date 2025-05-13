@@ -33,7 +33,7 @@ def log_success(message):
 def load_reciters():
     """Load reciters information from reciters.json"""
     try:
-        with open('data/reciters.json', 'r', encoding='utf-8') as f:
+        with open('data/recitersAll.json', 'r', encoding='utf-8') as f:
             reciters_data = json.load(f)
             
             # Convert the new format to the format expected by the rest of the code

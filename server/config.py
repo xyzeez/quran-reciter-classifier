@@ -1,31 +1,45 @@
 """
-Server configuration settings.
+Server-specific configuration settings.
 """
 from pathlib import Path
-
-# Import model-related settings from main config
 from config import (
     MODEL_OUTPUT_DIR,
-    CONFIDENCE_THRESHOLD,
-    SECONDARY_CONFIDENCE_THRESHOLD,
-    MAX_CONFIDENCE_DIFF
+    DEFAULT_SAMPLE_RATE,
+    CONFIDENCE_THRESHOLD as SRC_CONFIDENCE_THRESHOLD,  # Alias to avoid direct name clash if needed locally
+    SECONDARY_CONFIDENCE_THRESHOLD as SRC_SECONDARY_CONFIDENCE_THRESHOLD,
+    MAX_CONFIDENCE_DIFF as SRC_MAX_CONFIDENCE_DIFF,
+    RECITER_MIN_DURATION,
+    RECITER_MAX_DURATION
 )
 
-# Server settings
-HOST = '0.0.0.0'  # Listen on all available interfaces
-PORT = 5000
-DEBUG = False
-SHOW_UNRELIABLE_PREDICTIONS_IN_DEV = True  # When True, shows unreliable predictions regardless of debug mode
+# --- Server Network Settings --- 
+HOST = '0.0.0.0'  
+PORT = 5000         
 
-# Audio processing settings
-MIN_AUDIO_DURATION = 5  # Minimum audio duration in seconds
-MAX_AUDIO_DURATION = 15  # Maximum audio duration in seconds
-SAMPLE_RATE = 22050  # Audio sample rate
+# --- Audio Processing Constraints --- 
+MIN_AUDIO_DURATION = RECITER_MIN_DURATION  # Minimum audio duration in seconds for reciter ID
+MAX_AUDIO_DURATION = RECITER_MAX_DURATION # Maximum audio duration in seconds for reciter ID
+# Use the sample rate defined in the main config
+SAMPLE_RATE = DEFAULT_SAMPLE_RATE     # Target sample rate for reciter ID processing
 
-# Model settings
-MODEL_DIR = Path(MODEL_OUTPUT_DIR)
-LATEST_MODEL_SYMLINK = MODEL_DIR / 'latest'
-MODEL_ID = '20250417_023215_train'  # Specific model ID to use (e.g., '20240306_152417_train'), if None use symlink/latest
+# --- Reciter Model Loading Settings --- 
+MODEL_DIR = Path(MODEL_OUTPUT_DIR)  
+LATEST_MODEL_SYMLINK = MODEL_DIR / 'latest' 
+MODEL_ID = '20250417_023215_train'  
 
-# Server-specific prediction settings
-TOP_N_PREDICTIONS = 5  # Number of top predictions to return
+# --- Ayah Matching Settings --- 
+WHISPER_MODEL_ID = "tarteel-ai/whisper-base-ar-quran" # Whisper model for transcription
+AYAH_DEFAULT_MAX_MATCHES = 5 # Default number of matches to return
+AYAH_DEFAULT_MIN_CONFIDENCE = 0.70 # Default minimum confidence score (0.0 to 1.0)
+
+# --- Logging Settings --- 
+# LOG_LEVEL_PRODUCTION = "INFO"  # Log level when debug mode is OFF (e.g., INFO, WARNING, ERROR) # Removed
+
+# --- Prediction & Reliability Parameters --- 
+# Use reliability parameters from the main config
+CONFIDENCE_THRESHOLD = SRC_CONFIDENCE_THRESHOLD  
+SECONDARY_CONFIDENCE_THRESHOLD = SRC_SECONDARY_CONFIDENCE_THRESHOLD  
+MAX_CONFIDENCE_DIFF = SRC_MAX_CONFIDENCE_DIFF  
+
+# Settings used by the server's response formatting
+TOP_N_PREDICTIONS = 5  

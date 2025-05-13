@@ -1,13 +1,24 @@
-# Server dependencies
-Flask>=2.0.0
-Werkzeug>=2.0.0
+# Core libraries
+joblib
+numpy
 
 # Audio processing
-librosa>=0.9.0
-pydub>=0.25.1
-soundfile>=0.10.3
+librosa
+soundfile
+ffmpeg-python
 
-# Core dependencies
-numpy>=1.20.0
-scikit-learn>=1.0.0  # For model loading and prediction
-torch>=2.0.0  # Deep learning framework
+# Deep learning
+openai-whisper
+tensorflow
+transformers
+torch
+torchaudio
+
+# Matching
+rapidfuzz
+
+# Web/API
+Flask
+
+# Added for enhanced CLI logging
+rich 

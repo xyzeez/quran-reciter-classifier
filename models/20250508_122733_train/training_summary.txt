@@ -1,0 +1,14 @@
+
+Training Summary:
+Run ID: 20250508_122733_train
+Model Type: random_forest
+Preprocessing Directory: processed\train\latest
+Preprocessing Run ID: 20250508_112635_preprocess
+Total Samples: 5070
+Training Samples: 4056
+Testing Samples: 1014
+Number of Features: 511
+Number of Classes: 10
+Model Training Time: 27s
+Total Processing Time: 29s
+Test Accuracy: 0.9911

@@ -12,14 +12,22 @@ PROCESSED_DIR = "processed"  # Directory for preprocessed data
 LOGS_DIR = "logs"  # Directory for logs
 MODEL_OUTPUT_DIR = "models"  # Directory for saved models
 TEST_RESULTS_DIR = "test_results"  # Directory for test results
+QURAN_DATA_PATH = "data/quran.json" # Path to the Quran text data file
+RECITERS_DATA_PATH = "data/reciters.json" # Path to the reciters metadata file
 
 # Audio Processing Parameters
 DEFAULT_SAMPLE_RATE = 22050  # Hz
+AYAH_MIN_DURATION = 1.0  # Minimum duration for an Ayah segment in seconds
+AYAH_MAX_DURATION = 10.0  # Maximum duration for an Ayah segment in seconds
+RECITER_MIN_DURATION = 5.0  # Minimum audio duration for reciter identification in seconds
+RECITER_MAX_DURATION = 30.0  # Maximum audio duration for reciter identification in seconds
+AUDIO_FILE_PATTERN = '*.mp3' # Glob pattern for audio files to process
 
 # Feature Extraction Parameters
 N_MFCC = 32  # Number of MFCC features
 N_CHROMA = 12  # Number of Chroma features
 N_MEL_BANDS = 64  # Number of Mel bands
+MFCC_DELTA_ORDER = 2  # Order for delta MFCC features (e.g., 2 for delta-delta)
 WINDOW_SIZE_MS = 20  # Window size in milliseconds
 STEP_SIZE_MS = 8  # Step size in milliseconds
 
@@ -68,6 +76,15 @@ BLSTM_GRADIENT_CLIP_NORM = 1.0  # Maximum norm for gradient clipping
 CONFIDENCE_THRESHOLD = 0.95  # Primary confidence threshold
 SECONDARY_CONFIDENCE_THRESHOLD = 0.10  # Threshold for secondary predictions
 MAX_CONFIDENCE_DIFF = 0.80  # Required difference between top predictions
+INTRA_CLASS_THRESHOLD_PERCENTILE = 95  # Percentile for intra-class distance threshold calculation
+MAX_DISTANCE_RATIO_THRESHOLD = 1.0  # Maximum allowed ratio of distance to threshold for reliability
+
+# Visualization Parameters
+PLOT_FIGSIZE = (15, 10)
+PLOT_PALETTE = 'viridis'
+PLOT_BINS = 50
+PLOT_CORR_FIGSIZE = (12, 10)
+PLOT_CORR_FEATURE_LIMIT = 20 # Max features for correlation matrix plot
 
 # GPU Usage
 USE_GPU = True  # Whether to use GPU if available

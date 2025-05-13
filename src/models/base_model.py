@@ -1,63 +1,73 @@
 """
-Base model interface for Quran Reciter Classifier.
+Base interface that all Quran reciter classifier models must implement.
 """
 from abc import ABC, abstractmethod
 
 
 class BaseModel(ABC):
     """
-    Abstract base class that all our reciter models should inherit from.
-    This enforces a common interface for different model implementations.
+    Abstract base class defining the common interface for all reciter models.
+    Ensures consistent behavior across different model implementations.
     """
 
     @abstractmethod
     def train(self, X_train, y_train):
         """
-        Train the model on the provided dataset.
+        Train model on audio features.
 
-        X_train: Features extracted from audio samples
-        y_train: Corresponding reciter labels
+        Args:
+            X_train: Audio features matrix
+            y_train: Reciter labels
         """
         pass
 
     @abstractmethod
     def predict(self, X):
         """
-        Run inference on new audio samples.
+        Predict reciter for new audio samples.
 
-        X: Extracted features from new audio
-        Returns the most likely reciter label for each sample
+        Args:
+            X: Audio features matrix
+            
+        Returns:
+            Predicted reciter labels
         """
         pass
 
     @abstractmethod
     def predict_proba(self, X):
         """
-        Get confidence scores for each possible reciter.
+        Get confidence scores for each reciter.
 
-        X: Features from audio sample(s)
-        Returns probability distribution across all reciters
+        Args:
+            X: Audio features matrix
+            
+        Returns:
+            Probability distribution over all reciters
         """
         pass
 
     @abstractmethod
     def evaluate(self, X_test, y_test):
         """
-        Check how well the model performs on test data.
+        Evaluate model performance on test data.
 
-        X_test: Test set features
-        y_test: Ground truth labels
-
-        Returns various metrics like accuracy, F1, etc.
+        Args:
+            X_test: Test features matrix
+            y_test: True reciter labels
+            
+        Returns:
+            Dict of performance metrics (accuracy, F1, etc.)
         """
         pass
 
     @abstractmethod
     def save(self, filepath):
         """
-        Save the trained model to disk.
+        Save model to disk.
 
-        filepath: Where to save the model
+        Args:
+            filepath: Path to save model file
         """
         pass
 
@@ -65,19 +75,22 @@ class BaseModel(ABC):
     @abstractmethod
     def load(cls, filepath):
         """
-        Restore a model from a saved file.
+        Load model from disk.
 
-        filepath: Location of the saved model
-
-        Returns a ready-to-use model instance
+        Args:
+            filepath: Path to saved model file
+            
+        Returns:
+            Loaded model instance
         """
         pass
 
     @abstractmethod
     def get_model_info(self):
         """
-        Return a summary of this model's configuration.
-
-        Useful for logging and comparing different models.
+        Get model configuration summary.
+        
+        Returns:
+            Dict of model parameters and settings
         """
         pass

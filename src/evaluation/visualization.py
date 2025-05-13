@@ -9,7 +9,7 @@ from config import *
 logger = logging.getLogger(__name__)
 
 
-def plot_confusion_matrix(y_true, y_pred, classes, output_path):
+def plot_confusion_matrix(y_true, y_pred, classes, output_path, title='Confusion Matrix'):
     """
     Plot and save confusion matrix.
 
@@ -18,13 +18,14 @@ def plot_confusion_matrix(y_true, y_pred, classes, output_path):
         y_pred (array-like): Predicted labels
         classes (array-like): Class labels
         output_path (str): Path to save the plot
+        title (str, optional): Title for the confusion matrix plot. Defaults to 'Confusion Matrix'.
     """
     try:
-        cm = confusion_matrix(y_true, y_pred)
+        cm = confusion_matrix(y_true, y_pred, labels=classes)
         plt.figure(figsize=(12, 8))
         sns.heatmap(cm, annot=True, fmt='d', cmap='Blues',
                     xticklabels=classes, yticklabels=classes)
-        plt.title('Confusion Matrix')
+        plt.title(title)
         plt.ylabel('True Label')
         plt.xlabel('Predicted Label')
         plt.tight_layout()

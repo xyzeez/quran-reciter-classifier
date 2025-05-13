@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
-Prediction script for the Quran Reciter Classifier system.
-Given an audio file, identifies the most likely Quran reciter.
+Command-line tool for Quran reciter identification.
+Loads a trained model and predicts the reciter from an audio file.
 """
 import sys
 import argparse
@@ -18,7 +18,16 @@ from config import MODEL_OUTPUT_DIR
 
 
 def parse_args():
-    """Process command line options for prediction."""
+    """
+    Parse command line arguments.
+    
+    Returns:
+        Namespace with:
+        - model_file_id: Training run ID (optional)
+        - audio: Path to audio file
+        - true_label: Expected reciter name (optional)
+        - list_models: Show available models flag
+    """
     parser = argparse.ArgumentParser(
         description="Identify reciter from audio file using Quran Reciter Classifier")
 
@@ -43,12 +52,14 @@ def parse_args():
 
 def find_model_path(model_id=None):
     """
-    Locate the model we want to use for prediction.
-
-    If you don't specify a model_id, we'll try to use the latest model.
-    This is usually what you want unless you're comparing model versions.
-
-    For reproducible results, specify a specific model_id.
+    Locate model file for prediction.
+    
+    Args:
+        model_id: Training run ID (e.g., '20240306_152417_train')
+                 Uses latest model if None
+                 
+    Returns:
+        Path to model file or None if not found
     """
     models_dir = Path(MODEL_OUTPUT_DIR)
 
@@ -106,10 +117,11 @@ def find_model_path(model_id=None):
 
 def list_available_models():
     """
-    Show which models are available to use for prediction.
-
-    Useful when you want to compare different model versions
-    or use a specific model for consistent results.
+    Display available trained models.
+    Shows run ID, model type, and creation timestamp.
+    
+    Returns:
+        0 on success, 1 on error
     """
     models_dir = Path(MODEL_OUTPUT_DIR)
     if not models_dir.exists():
@@ -151,7 +163,13 @@ def list_available_models():
 
 
 def main():
-    """Run reciter prediction on an audio file."""
+    """
+    Run reciter identification on an audio file.
+    Handles model selection, audio loading, and prediction.
+    
+    Returns:
+        0 on success, 1 on error
+    """
     args = parse_args()
 
     # Show model list if requested

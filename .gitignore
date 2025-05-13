@@ -20,6 +20,7 @@ dataset
 # Data
 data/test
 data/train
+data/test-ayah
 
 # Development Artifacts and Logs
 logs/
@@ -51,3 +52,7 @@ processed/**/reciter_profiles.json
 processed/**/visualizations/
 processed/test/**/[A-Z]*/
 processed/train/**/[A-Z]*/
+
+# API Responses
+api-responses/
+

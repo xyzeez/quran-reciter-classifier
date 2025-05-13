@@ -16,7 +16,13 @@ import warnings
 import shutil
 import matplotlib.pyplot as plt
 import seaborn as sns
-from config import *
+from tqdm import tqdm
+from config import (
+    TRAIN_DATA_DIR, TEST_DATA_DIR, PROCESSED_DIR, DEFAULT_SAMPLE_RATE, 
+    N_MFCC, N_MEL_BANDS, N_CHROMA, USE_GPU, AUDIO_FILE_PATTERN, 
+    PLOT_FIGSIZE, PLOT_PALETTE, PLOT_BINS, PLOT_CORR_FIGSIZE, 
+    PLOT_CORR_FEATURE_LIMIT # Added plotting params
+)
 from src.data import preprocess_audio_with_logic, preprocess_audio, augment_audio
 from src.features import extract_features
 from src.utils import setup_logging, format_duration
@@ -132,8 +138,6 @@ def preprocess_pipeline(mode="train", augment=True):
         # Process each reciter's folder
         for index, sub_folder in enumerate(sub_folders, 1):
             reciter_start_time = time.time()
-            logger.info(
-                f'Processing {sub_folder.name} ({index}/{reciter_count})')
 
             # Create reciter directory in output
             reciter_output_dir = output_dir / sub_folder.name
@@ -149,7 +153,7 @@ def preprocess_pipeline(mode="train", augment=True):
                 "augmented_samples": 0
             }
 
-            files_mp3 = list(sub_folder.glob('*.mp3'))
+            files_mp3 = list(sub_folder.glob(AUDIO_FILE_PATTERN))
             reciter_profiles[sub_folder.name]["total_files"] = len(files_mp3)
 
             if not files_mp3:
@@ -163,8 +167,8 @@ def preprocess_pipeline(mode="train", augment=True):
             reciter_features = []
             reciter_metadata = []
 
-            for file_mp3 in files_mp3:
-                logger.info(f'Processing {file_mp3.name}')
+            # Wrap the file iteration with tqdm
+            for file_mp3 in tqdm(files_mp3, desc=f"Processing {sub_folder.name} ({index}/{reciter_count})", unit="file", leave=True):
                 file_size = file_mp3.stat().st_size
                 processing_start = time.time()
 
@@ -544,88 +548,64 @@ def calculate_feature_statistics(features, metadata_df):
             "sample_count": len(reciter_features)
         }
 
-    # Calculate correlation matrix for the first 20 features (to keep size manageable)
+    # Calculate correlation matrix for the first N features (to keep size manageable)
     if features.shape[1] > 1:
         corr_matrix = np.corrcoef(
-            features[:, :min(20, features.shape[1])], rowvar=False)
+            features[:, :min(PLOT_CORR_FEATURE_LIMIT, features.shape[1])], rowvar=False)
         # Convert to list of lists for JSON serialization
-        stats["feature_correlations"]["first_20_features"] = corr_matrix.tolist()
+        stats["feature_correlations"]["first_N_features"] = corr_matrix.tolist()
 
     return stats
 
 
 def generate_visualizations(features, metadata_df, viz_dir, run_id):
     """
-    Generate visualizations for the preprocessing run.
+    Generate and save visualizations related to the preprocessed data.
 
     Args:
         features (np.ndarray): All extracted features
         metadata_df (pd.DataFrame): Metadata for all processed files
         viz_dir (Path): Directory to save visualizations
-        run_id (str): Run identifier
+        run_id (str): Current run ID for titles/filenames
     """
-    # 1. Sample counts per reciter
-    plt.figure(figsize=(12, 6))
-    reciter_counts = metadata_df['reciter'].value_counts()
-    sns.barplot(x=reciter_counts.index, y=reciter_counts.values)
-    plt.title('Number of Samples per Reciter')
-    plt.ylabel('Sample Count')
-    plt.xlabel('Reciter')
-    plt.xticks(rotation=45)
-    plt.tight_layout()
-    plt.savefig(viz_dir / 'reciter_sample_counts.png', dpi=300)
-    plt.close()
+    logger.info(f"Generating visualizations in {viz_dir}")
 
-    # 2. Original vs. Augmented samples
-    plt.figure(figsize=(8, 6))
-    aug_counts = metadata_df['augmented'].value_counts()
-    labels = ['Original', 'Augmented']
-    values = [aug_counts.get(False, 0), aug_counts.get(True, 0)]
-    plt.pie(values, labels=labels, autopct='%1.1f%%',
-            colors=['#66b3ff', '#99ff99'])
-    plt.title('Original vs. Augmented Samples')
-    plt.savefig(viz_dir / 'augmentation_distribution.png', dpi=300)
-    plt.close()
-
-    # 3. Duration distribution
-    plt.figure(figsize=(10, 6))
-    sns.histplot(metadata_df['duration'], bins=30, kde=True)
-    plt.title('Distribution of Audio File Durations')
-    plt.xlabel('Duration (seconds)')
-    plt.ylabel('Count')
-    plt.savefig(viz_dir / 'duration_distribution.png', dpi=300)
-    plt.close()
-
-    # 4. Feature correlation heatmap (first 20 features only for readability)
-    if features.shape[1] > 1:
-        plt.figure(figsize=(12, 10))
-        corr_matrix = np.corrcoef(
-            features[:, :min(20, features.shape[1])], rowvar=False)
-        mask = np.triu(np.ones_like(corr_matrix, dtype=bool))
-        sns.heatmap(corr_matrix, mask=mask, cmap='coolwarm', center=0,
-                    square=True, linewidths=.5, annot=False)
-        plt.title('Feature Correlation Matrix (First 20 Features)')
-        plt.tight_layout()
-        plt.savefig(viz_dir / 'feature_correlation.png', dpi=300)
+    # 1. Feature Distribution Plot (Histogram for first few features)
+    try:
+        plt.figure(figsize=PLOT_FIGSIZE)
+        num_features_to_plot = min(5, features.shape[1])
+        for i in range(num_features_to_plot):
+            sns.histplot(features[:, i], kde=True, label=f'Feature {i+1}', bins=PLOT_BINS, palette=PLOT_PALETTE)
+        plt.title(f'Distribution of First {num_features_to_plot} Features ({run_id})')
+        plt.xlabel('Feature Value')
+        plt.ylabel('Frequency')
+        plt.legend()
+        plot_path = viz_dir / 'feature_distribution.png'
+        plt.savefig(plot_path)
         plt.close()
+        logger.info(f"Saved feature distribution plot to {plot_path}")
+    except Exception as e:
+        logger.warning(f"Could not generate feature distribution plot: {str(e)}")
 
-    # 5. Feature distributions (first 8 features)
-    n_features = min(8, features.shape[1])
-    if n_features > 0:
-        fig, axes = plt.subplots(
-            n_features, 1, figsize=(10, 2*n_features), sharex=True)
-        if n_features == 1:
-            axes = [axes]  # Make it iterable when there's only one feature
-
-        for i in range(n_features):
-            sns.histplot(features[:, i], kde=True, ax=axes[i])
-            axes[i].set_title(f'Feature {i+1} Distribution')
-            axes[i].set_xlabel('')
-
-        axes[-1].set_xlabel('Feature Value')
-        plt.tight_layout()
-        plt.savefig(viz_dir / 'feature_distributions.png', dpi=300)
-        plt.close()
+    # 2. Correlation Matrix Heatmap (for first N features)
+    try:
+        num_corr_features = min(PLOT_CORR_FEATURE_LIMIT, features.shape[1])
+        if num_corr_features > 1:
+            corr_matrix = np.corrcoef(features[:, :num_corr_features], rowvar=False)
+            plt.figure(figsize=PLOT_CORR_FIGSIZE)
+            sns.heatmap(corr_matrix, annot=True, cmap='coolwarm', fmt='.2f',
+                        xticklabels=[f'F{i+1}' for i in range(num_corr_features)],
+                        yticklabels=[f'F{i+1}' for i in range(num_corr_features)])
+            plt.title(f'Feature Correlation Matrix (First {num_corr_features} Features - {run_id})')
+            plt.tight_layout()
+            plot_path = viz_dir / 'feature_correlation.png'
+            plt.savefig(plot_path)
+            plt.close()
+            logger.info(f"Saved feature correlation heatmap to {plot_path}")
+        else:
+            logger.info("Skipping correlation matrix plot (less than 2 features)")
+    except Exception as e:
+        logger.warning(f"Could not generate feature correlation plot: {str(e)}")
 
 
 def convert_to_json_serializable(obj):

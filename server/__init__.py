@@ -1,16 +1,22 @@
 """
 Server package for Quran Reciter Classifier.
+Imports the application factory.
 """
-from server.app import app, run_server
-from server.config import *
-from server.audio_utils import process_audio_file, extract_features
-from server.prediction_utils import load_latest_model, get_predictions
+
+from server.app_factory import create_app
 
 __all__ = [
-    'app',
-    'run_server',
-    'process_audio_file',
-    'extract_features',
-    'load_latest_model',
-    'get_predictions'
+    'create_app'
 ]
+
+# Remove old code below if app is run via a separate run.py or WSGI server
+
+# def run_server():
+#     """Runs the Flask development server."""
+#     app = create_app()
+#     # Fetch host/port from config AFTER app creation
+#     host = app.config.get('HOST', '0.0.0.0')
+#     port = app.config.get('PORT', 5000)
+#     debug_mode = app.config.get('DEBUG', False)
+#     logger.info(f"Starting server on {host}:{port} (Debug: {debug_mode})")
+#     app.run(host=host, port=port, debug=debug_mode)
