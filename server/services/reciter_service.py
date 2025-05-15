@@ -6,17 +6,20 @@ import json
 from pathlib import Path
 import numpy as np
 from typing import Dict, List, Optional, Tuple
+import tempfile
+import os
 
 # Import config for data path
 from config import RECITERS_DATA_PATH
 
 # Assuming these are the correct paths after refactoring
-from server.utils.audio_utils import process_audio_file 
 from src.features import extract_features
 from src.utils.distance_utils import calculate_distances, analyze_prediction_reliability
 from server.config import TOP_N_PREDICTIONS
 # Import the model access function
 from server.utils.model_loader import get_reciter_model
+# Import the exact same preprocessing functions as @predict.py
+from src.data.preprocessing import preprocess_audio_with_logic, preprocess_audio
 
 logger = logging.getLogger(__name__)
 
@@ -27,63 +30,56 @@ def identify_reciter_from_audio(
 ) -> Tuple[Optional[Dict], Optional[np.ndarray], Optional[int], Optional[str], Optional[int]]:
     """Processes audio, identifies Reciter, formats result.
 
-    Args:
-        audio_file_storage: The FileStorage object from Flask request.
-        params: Dictionary containing request parameters (e.g., 'show_unreliable_predictions').
-        debug: Boolean indicating if debug mode is active.
-
-    Returns:
-        Tuple containing: (response_data, processed_audio_data, processed_sample_rate, error_message, status_code).
+    This function now uses the exact same preprocessing and feature extraction logic as @predict.py.
     """
-    logging.debug(f"Starting Reciter identification process (debug={debug})")
     processed_audio_data: Optional[np.ndarray] = None
     processed_sample_rate: Optional[int] = None
+    temp_audio_path = None
     try:
         show_unreliable = params.get('show_unreliable_predictions', '').lower() == 'true'
         if debug:
             logging.debug(f"[ReciterService-Debug] Parameters: show_unreliable={show_unreliable}")
-        
-        # --- Audio Processing --- 
-        if debug:
-            logging.debug("[ReciterService-Debug] Processing audio for reciter identification...")
-        result = process_audio_file(audio_file_storage, for_ayah=False)
-        if isinstance(result, tuple) and len(result) == 2 and isinstance(result[1], str):
-            error_msg = result[1]
-            logging.error(f"[ReciterService] Audio processing failed: {error_msg}")
-            return None, None, None, error_msg, 400
-        elif not isinstance(result, tuple) or len(result) != 2:
-             logging.error(f"[ReciterService] Unexpected return format from process_audio_file: {type(result)}")
-             return None, None, None, "Internal error during audio processing.", 500
-
-        processed_audio_data, processed_sample_rate = result
+        # --- Audio Processing (EXACTLY as in @predict.py) ---
+        # Save the uploaded FileStorage to a temporary file
+        with tempfile.NamedTemporaryFile(delete=False, suffix=os.path.splitext(audio_file_storage.filename or 'audio')[1]) as temp_audio_file:
+            audio_file_storage.seek(0)
+            temp_audio_file.write(audio_file_storage.read())
+            temp_audio_path = temp_audio_file.name
+        try:
+            # Use the same logic as @predict.py
+            raw_audio, sr = preprocess_audio_with_logic(temp_audio_path, mode="predict")
+            if raw_audio is None or sr is None:
+                error_msg = "Failed to load or preprocess audio file."
+                logging.error(f"[ReciterService] {error_msg}")
+                return None, None, None, error_msg, 400
+            processed_audio_data, processed_sample_rate = preprocess_audio(raw_audio, sr)
+            if processed_audio_data is None or processed_sample_rate is None:
+                error_msg = "Audio preprocessing failed."
+                logging.error(f"[ReciterService] {error_msg}")
+                return None, None, None, error_msg, 500
+        finally:
+            # Clean up the temporary file
+            if temp_audio_path and os.path.exists(temp_audio_path):
+                os.remove(temp_audio_path)
         if debug:
             logging.debug(f"[ReciterService-Debug] Audio processed successfully. Sample rate: {processed_sample_rate}, Data shape: {getattr(processed_audio_data, 'shape', 'N/A')}")
-
-        # --- Feature Extraction --- 
-        if debug:
-            logging.debug("[ReciterService-Debug] Extracting features...")
+        # --- Feature Extraction (EXACTLY as in @predict.py) ---
         features = extract_features(processed_audio_data, processed_sample_rate)
         if features is None:
             logging.error("[ReciterService] Feature extraction returned None.")
             return None, None, None, 'Feature extraction failed', 500
         if debug:
             logging.debug(f"[ReciterService-Debug] Features extracted. Shape: {features.shape}")
-
-        # --- Prediction --- 
-        if debug:
-            logging.debug("[ReciterService-Debug] Performing prediction...")
+        # --- Prediction ---
         model = get_reciter_model() # Get the loaded model instance
-
         if features.ndim == 1:
             features = features.reshape(1, -1)
-
         probabilities = model.predict_proba(features)[0]
         predicted_class_index = np.argmax(probabilities)
         predicted_class_name = str(model.classes_[predicted_class_index])
         if debug:
             logging.debug(f"[ReciterService-Debug] Raw prediction: {predicted_class_name}, Index: {predicted_class_index}")
-
-        # --- Reliability Analysis --- 
+        # --- Reliability Analysis ---
         if debug:
             logging.debug("[ReciterService-Debug] Analyzing reliability...")
         distances = calculate_distances(features[0], model.centroids)
@@ -92,28 +88,23 @@ def identify_reciter_from_audio(
         )
         if debug:
             logging.debug(f"[ReciterService-Debug] Prediction reliability: {reliability}")
-
-        # --- Format Response --- 
+        # --- Format Response ---
         if debug:
             logging.debug("[ReciterService-Debug] Formatting response...")
         sorted_indices = np.argsort(probabilities)[::-1][:TOP_N_PREDICTIONS]
         predictions_list = []
-        
         reciters_metadata = _load_reciters_metadata()
         if reciters_metadata is None:
              reciters_metadata = {}
              logging.warning("[ReciterService] Proceeding without reciters metadata.")
-
         for idx in sorted_indices:
             reciter_name = str(model.classes_[idx])
             confidence = float(probabilities[idx]) * 100 
-            
             reciter_info = reciters_metadata.get(reciter_name, {})
             servers = reciter_info.get('servers', [])
             server_url = servers[0] if isinstance(servers, list) and servers else ''
             if isinstance(servers, str):
                  server_url = servers
-
             predictions_list.append({
                 'name': reciter_name,
                 'confidence': confidence,
@@ -122,10 +113,7 @@ def identify_reciter_from_audio(
                 'flagUrl': reciter_info.get('flagUrl', ''),
                 'imageUrl': reciter_info.get('imageUrl', '')
             })
-
-        # Construct response based on reliability AND debug mode
         include_predictions = debug or reliability['is_reliable'] or show_unreliable
-
         if not include_predictions:
             response_data = {
                 'reliable': False,
@@ -144,10 +132,8 @@ def identify_reciter_from_audio(
                      logging.debug("[ReciterService-Debug] Showing unreliable predictions because debug mode is active.")
                  else:
                      logging.debug(f"[ReciterService-Debug] Reliable prediction or showing unreliable. Found {len(predictions_list)} predictions.")
-
         logging.debug("Reciter identification process completed successfully.")
         return response_data, processed_audio_data, processed_sample_rate, None, 200
-
     except RuntimeError as e:
          logging.error(f"[ReciterService] Runtime error: {e}", exc_info=debug)
          return None, None, None, f"Server runtime error: {e}", 500
