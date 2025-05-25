@@ -3,7 +3,8 @@ Application Factory for creating the Flask app instance.
 """
 import logging
 import os
-from flask import Flask
+import time # Import time module
+from flask import Flask, g, jsonify # Import g and jsonify
 from pathlib import Path
 from rich.progress import Progress, SpinnerColumn, TextColumn, BarColumn, TimeElapsedColumn
 from rich.panel import Panel
@@ -40,6 +41,29 @@ def create_app(config_object=None, debug_mode=False): # Accept debug_mode flag
     setup_logging(debug_mode=debug_mode)
 
     app = Flask(__name__)
+
+    # --- Request Timing --- 
+    @app.before_request
+    def before_request_timing():
+        g.start_time = time.perf_counter()
+
+    @app.after_request
+    def after_request_timing(response):
+        if hasattr(g, 'start_time'):
+            elapsed_ms = (time.perf_counter() - g.start_time) * 1000
+            response.headers["X-Response-Time-MS"] = f"{elapsed_ms:.2f}"
+            
+            # Try to add to JSON response body if applicable
+            if response.content_type == 'application/json':
+                try:
+                    data = response.get_json()
+                    if isinstance(data, dict): # Ensure data is a dict before adding
+                        data['response_time_ms'] = float(f"{elapsed_ms:.2f}")
+                        response.data = jsonify(data).data # Re-serialize with new field
+                except Exception as e:
+                    # Log error if modifying JSON fails, but don't break the response
+                    logging.getLogger(__name__).warning(f"Failed to add response_time_ms to JSON: {e}", exc_info=False)
+        return response
 
     # --- Flask App Configuration --- (Moved after logging setup)
     app.config.from_pyfile('config.py', silent=True)
