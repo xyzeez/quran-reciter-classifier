@@ -1,0 +1,22 @@
+Test Case TC-010 Summary: Ayah ID with Silence or Non-Speech Audio
+----------------------------------------------------------------------
+Total Audio Files Submitted: 16
+Files Processed Successfully (no errors): 15
+Files with Errors: 1
+
+Correctly Handled (No Matches Returned for Non-Speech): 8/15 (53.33%)
+Incorrectly Handled (Matches Returned for Non-Speech - False Positives): 7/15
+
+Avg. Server Response Time (Successful Files): 0.6988s
+
+Files with Errors Details (1):
+  - data\test-cases\tc-010\random-noises-fly\sample-10.wav: Processing error: Audio transcription failed
+
+Files with False Positive Ayah Matches (7):
+  - data\test-cases\tc-010\impulse_responses\718448__peter1955__ir-clap-20170924-bathroom-48k24b-stereo.wav (Type: impulse_responses) - Returned 1 matches
+  - data\test-cases\tc-010\impulse_responses\718449__peter1955__ir-clap-20180112-science-museum-london-wave-pipe-1-48k-16-bit-mono.wav (Type: impulse_responses) - Returned 1 matches
+  - data\test-cases\tc-010\impulse_responses\718451__peter1955__ir-clap-20180112-science-museum-london-wave-pipe-3-48k-16-bit-mono.wav (Type: impulse_responses) - Returned 1 matches
+  - data\test-cases\tc-010\impulse_responses\726525__peter1955__ir-sweepsource-samsung-a52-smartphone-stereo-48k24b-object_dc.wav (Type: impulse_responses) - Returned 1 matches
+  - data\test-cases\tc-010\impulse_responses\757865__peter1955__2024-09-14-ir-basement-museum-unterlinden-in-colmar-f-clap-48k24b-stereo.wav (Type: impulse_responses) - Returned 1 matches
+  - data\test-cases\tc-010\traffic-highway-vehicles\sample-5.wav (Type: traffic-highway-vehicles) - Returned 5 matches
+  - data\test-cases\tc-010\traffic-highway-vehicles\sample-6.wav (Type: traffic-highway-vehicles) - Returned 5 matches
