@@ -1,0 +1,389 @@
+{
+  "results": [
+    {
+      "file": "data\\test-cases\\tc-003\\104001.mp3",
+      "duration_seconds": 4.753809523809524,
+      "expected_surah": 104,
+      "expected_ayah": 1,
+      "status_code": 200,
+      "client_round_trip_time_s": 1.1143114566802979,
+      "server_response_time_s": 1.1103599999999998,
+      "transcription": "",
+      "top_match_surah": 104,
+      "top_match_ayah": 1,
+      "top_match_text": "وَيۡلٞ لِّكُلِّ هُمَزَةٖ لُّمَزَةٍ",
+      "top_match_confidence": 100.0,
+      "top_match_correct": true,
+      "found_in_matches": true,
+      "num_matches_returned": 1,
+      "all_matches": [
+        {
+          "ayah_number": "١",
+          "ayah_number_en": 1,
+          "ayah_text": "وَيۡلٞ لِّكُلِّ هُمَزَةٖ لُّمَزَةٍ",
+          "confidence_score": 100.0,
+          "surah_name": "الهمزة",
+          "surah_name_en": "Al-Humazah",
+          "surah_number": "١٠٤",
+          "surah_number_en": 104,
+          "unicode": ""
+        }
+      ],
+      "error": ""
+    },
+    {
+      "file": "data\\test-cases\\tc-003\\104002.mp3",
+      "duration_seconds": 5.276213151927438,
+      "expected_surah": 104,
+      "expected_ayah": 2,
+      "status_code": 200,
+      "client_round_trip_time_s": 1.0493190288543701,
+      "server_response_time_s": 1.04573,
+      "transcription": "",
+      "top_match_surah": 104,
+      "top_match_ayah": 2,
+      "top_match_text": "ٱلَّذِي جَمَعَ مَالٗا وَعَدَّدَهُۥ",
+      "top_match_confidence": 100.0,
+      "top_match_correct": true,
+      "found_in_matches": true,
+      "num_matches_returned": 1,
+      "all_matches": [
+        {
+          "ayah_number": "٢",
+          "ayah_number_en": 2,
+          "ayah_text": "ٱلَّذِي جَمَعَ مَالٗا وَعَدَّدَهُۥ",
+          "confidence_score": 100.0,
+          "surah_name": "الهمزة",
+          "surah_name_en": "Al-Humazah",
+          "surah_number": "١٠٤",
+          "surah_number_en": 104,
+          "unicode": ""
+        }
+      ],
+      "error": ""
+    },
+    {
+      "file": "data\\test-cases\\tc-003\\104003.mp3",
+      "duration_seconds": 6.138140589569161,
+      "expected_surah": 104,
+      "expected_ayah": 3,
+      "status_code": 200,
+      "client_round_trip_time_s": 1.080446481704712,
+      "server_response_time_s": 1.07677,
+      "transcription": "",
+      "top_match_surah": 104,
+      "top_match_ayah": 3,
+      "top_match_text": "يَحۡسَبُ أَنَّ مَالَهُۥٓ أَخۡلَدَهُۥ",
+      "top_match_confidence": 100.0,
+      "top_match_correct": true,
+      "found_in_matches": true,
+      "num_matches_returned": 1,
+      "all_matches": [
+        {
+          "ayah_number": "٣",
+          "ayah_number_en": 3,
+          "ayah_text": "يَحۡسَبُ أَنَّ مَالَهُۥٓ أَخۡلَدَهُۥ",
+          "confidence_score": 100.0,
+          "surah_name": "الهمزة",
+          "surah_name_en": "Al-Humazah",
+          "surah_number": "١٠٤",
+          "surah_number_en": 104,
+          "unicode": ""
+        }
+      ],
+      "error": ""
+    },
+    {
+      "file": "data\\test-cases\\tc-003\\104004.mp3",
+      "duration_seconds": 5.239478458049887,
+      "expected_surah": 104,
+      "expected_ayah": 4,
+      "status_code": 200,
+      "client_round_trip_time_s": 1.172562599182129,
+      "server_response_time_s": 1.16875,
+      "transcription": "",
+      "top_match_surah": 104,
+      "top_match_ayah": 4,
+      "top_match_text": "كَلَّاۖ لَيُنۢبَذَنَّ فِي ٱلۡحُطَمَةِ",
+      "top_match_confidence": 100.0,
+      "top_match_correct": true,
+      "found_in_matches": true,
+      "num_matches_returned": 1,
+      "all_matches": [
+        {
+          "ayah_number": "٤",
+          "ayah_number_en": 4,
+          "ayah_text": "كَلَّاۖ لَيُنۢبَذَنَّ فِي ٱلۡحُطَمَةِ",
+          "confidence_score": 100.0,
+          "surah_name": "الهمزة",
+          "surah_name_en": "Al-Humazah",
+          "surah_number": "١٠٤",
+          "surah_number_en": 104,
+          "unicode": ""
+        }
+      ],
+      "error": ""
+    },
+    {
+      "file": "data\\test-cases\\tc-003\\104005.mp3",
+      "duration_seconds": 4.266666666666667,
+      "expected_surah": 104,
+      "expected_ayah": 5,
+      "status_code": 200,
+      "client_round_trip_time_s": 1.0090503692626953,
+      "server_response_time_s": 1.00532,
+      "transcription": "",
+      "top_match_surah": 104,
+      "top_match_ayah": 5,
+      "top_match_text": "وَمَآ أَدۡرَىٰكَ مَا ٱلۡحُطَمَةُ",
+      "top_match_confidence": 94.73684210526315,
+      "top_match_correct": true,
+      "found_in_matches": true,
+      "num_matches_returned": 2,
+      "all_matches": [
+        {
+          "ayah_number": "٥",
+          "ayah_number_en": 5,
+          "ayah_text": "وَمَآ أَدۡرَىٰكَ مَا ٱلۡحُطَمَةُ",
+          "confidence_score": 94.73684210526315,
+          "surah_name": "الهمزة",
+          "surah_name_en": "Al-Humazah",
+          "surah_number": "١٠٤",
+          "surah_number_en": 104,
+          "unicode": ""
+        },
+        {
+          "ayah_number": "٣",
+          "ayah_number_en": 3,
+          "ayah_text": "وَمَآ أَدۡرَىٰكَ مَا ٱلۡحَآقَّةُ",
+          "confidence_score": 84.21052631578948,
+          "surah_name": "الحاقة",
+          "surah_name_en": "Al-Haqqah",
+          "surah_number": "٦٩",
+          "surah_number_en": 69,
+          "unicode": ""
+        }
+      ],
+      "error": ""
+    },
+    {
+      "file": "data\\test-cases\\tc-003\\104006.mp3",
+      "duration_seconds": 3.157437641723356,
+      "expected_surah": 104,
+      "expected_ayah": 6,
+      "status_code": 200,
+      "client_round_trip_time_s": 0.7603394985198975,
+      "server_response_time_s": 0.7565599999999999,
+      "transcription": "",
+      "top_match_surah": 104,
+      "top_match_ayah": 6,
+      "top_match_text": "نَارُ ٱللَّهِ ٱلۡمُوقَدَةُ",
+      "top_match_confidence": 100.0,
+      "top_match_correct": true,
+      "found_in_matches": true,
+      "num_matches_returned": 1,
+      "all_matches": [
+        {
+          "ayah_number": "٦",
+          "ayah_number_en": 6,
+          "ayah_text": "نَارُ ٱللَّهِ ٱلۡمُوقَدَةُ",
+          "confidence_score": 100.0,
+          "surah_name": "الهمزة",
+          "surah_name_en": "Al-Humazah",
+          "surah_number": "١٠٤",
+          "surah_number_en": 104,
+          "unicode": ""
+        }
+      ],
+      "error": ""
+    },
+    {
+      "file": "data\\test-cases\\tc-003\\105005.mp3",
+      "duration_seconds": 4.597097505668934,
+      "expected_surah": 105,
+      "expected_ayah": 5,
+      "status_code": 200,
+      "client_round_trip_time_s": 1.0320959091186523,
+      "server_response_time_s": 1.02846,
+      "transcription": "",
+      "top_match_surah": 105,
+      "top_match_ayah": 5,
+      "top_match_text": "فَجَعَلَهُمۡ كَعَصۡفٖ مَّأۡكُولِۭ",
+      "top_match_confidence": 100.0,
+      "top_match_correct": true,
+      "found_in_matches": true,
+      "num_matches_returned": 1,
+      "all_matches": [
+        {
+          "ayah_number": "٥",
+          "ayah_number_en": 5,
+          "ayah_text": "فَجَعَلَهُمۡ كَعَصۡفٖ مَّأۡكُولِۭ",
+          "confidence_score": 100.0,
+          "surah_name": "الفيل",
+          "surah_name_en": "Al-Fil",
+          "surah_number": "١٠٥",
+          "surah_number_en": 105,
+          "unicode": ""
+        }
+      ],
+      "error": ""
+    },
+    {
+      "file": "data\\test-cases\\tc-003\\106001.mp3",
+      "duration_seconds": 1.488843537414966,
+      "expected_surah": 106,
+      "expected_ayah": 1,
+      "status_code": 200,
+      "client_round_trip_time_s": 0.6652994155883789,
+      "server_response_time_s": 0.6617000000000001,
+      "transcription": "",
+      "top_match_surah": 106,
+      "top_match_ayah": 1,
+      "top_match_text": "لِإِيلَٰفِ قُرَيۡشٍ",
+      "top_match_confidence": 95.23809523809524,
+      "top_match_correct": true,
+      "found_in_matches": true,
+      "num_matches_returned": 1,
+      "all_matches": [
+        {
+          "ayah_number": "١",
+          "ayah_number_en": 1,
+          "ayah_text": "لِإِيلَٰفِ قُرَيۡشٍ",
+          "confidence_score": 95.23809523809524,
+          "surah_name": "قريش",
+          "surah_name_en": "Quraysh",
+          "surah_number": "١٠٦",
+          "surah_number_en": 106,
+          "unicode": ""
+        }
+      ],
+      "error": ""
+    },
+    {
+      "file": "data\\test-cases\\tc-003\\107005.mp3",
+      "duration_seconds": 4.855510204081632,
+      "expected_surah": 107,
+      "expected_ayah": 5,
+      "status_code": 200,
+      "client_round_trip_time_s": 1.12593674659729,
+      "server_response_time_s": 1.12211,
+      "transcription": "",
+      "top_match_surah": 107,
+      "top_match_ayah": 5,
+      "top_match_text": "ٱلَّذِينَ هُمۡ عَن صَلَاتِهِمۡ سَاهُونَ",
+      "top_match_confidence": 100.0,
+      "top_match_correct": true,
+      "found_in_matches": true,
+      "num_matches_returned": 2,
+      "all_matches": [
+        {
+          "ayah_number": "٥",
+          "ayah_number_en": 5,
+          "ayah_text": "ٱلَّذِينَ هُمۡ عَن صَلَاتِهِمۡ سَاهُونَ",
+          "confidence_score": 100.0,
+          "surah_name": "الماعون",
+          "surah_name_en": "Al-Ma'un",
+          "surah_number": "١٠٧",
+          "surah_number_en": 107,
+          "unicode": ""
+        },
+        {
+          "ayah_number": "٢٣",
+          "ayah_number_en": 23,
+          "ayah_text": "ٱلَّذِينَ هُمۡ عَلَىٰ صَلَاتِهِمۡ دَآئِمُونَ",
+          "confidence_score": 84.0,
+          "surah_name": "المعارج",
+          "surah_name_en": "Al-Ma'arij",
+          "surah_number": "٧٠",
+          "surah_number_en": 70,
+          "unicode": ""
+        }
+      ],
+      "error": ""
+    },
+    {
+      "file": "data\\test-cases\\tc-003\\107006.mp3",
+      "duration_seconds": 4.471541950113378,
+      "expected_surah": 107,
+      "expected_ayah": 6,
+      "status_code": 200,
+      "client_round_trip_time_s": 0.7533814907073975,
+      "server_response_time_s": 0.7497699999999999,
+      "transcription": "",
+      "top_match_surah": 107,
+      "top_match_ayah": 6,
+      "top_match_text": "ٱلَّذِينَ هُمۡ يُرَآءُونَ",
+      "top_match_confidence": 100.0,
+      "top_match_correct": true,
+      "found_in_matches": true,
+      "num_matches_returned": 1,
+      "all_matches": [
+        {
+          "ayah_number": "٦",
+          "ayah_number_en": 6,
+          "ayah_text": "ٱلَّذِينَ هُمۡ يُرَآءُونَ",
+          "confidence_score": 100.0,
+          "surah_name": "الماعون",
+          "surah_name_en": "Al-Ma'un",
+          "surah_number": "١٠٧",
+          "surah_number_en": 107,
+          "unicode": ""
+        }
+      ],
+      "error": ""
+    },
+    {
+      "file": "data\\test-cases\\tc-003\\114002.mp3",
+      "duration_seconds": 2.756984126984127,
+      "expected_surah": 114,
+      "expected_ayah": 2,
+      "status_code": 200,
+      "client_round_trip_time_s": 0.5250976085662842,
+      "server_response_time_s": 0.5212100000000001,
+      "transcription": "",
+      "top_match_surah": 2,
+      "top_match_ayah": 102,
+      "top_match_text": "وَٱتَّبَعُواْ مَا تَتۡلُواْ ٱلشَّيَٰطِينُ عَلَىٰ مُلۡكِ سُلَيۡمَٰنَۖ وَمَا كَفَرَ سُلَيۡمَٰنُ وَلَٰكِنَّ ٱلشَّيَٰطِينَ كَفَرُواْ يُعَلِّمُونَ ٱلنَّاسَ ٱلسِّحۡرَ وَمَآ أُنزِلَ عَلَى ٱلۡمَلَكَيۡنِ بِبَابِلَ هَٰرُوتَ وَمَٰرُوتَۚ وَمَا يُعَلِّمَانِ مِنۡ أَحَدٍ حَتَّىٰ يَقُولَآ إِنَّمَا نَحۡنُ فِتۡنَةٞ فَلَا تَكۡفُرۡۖ فَيَتَعَلَّمُونَ مِنۡهُمَا مَا يُفَرِّقُونَ بِهِۦ بَيۡنَ ٱلۡمَرۡءِ وَزَوۡجِهِۦۚ وَمَا هُم بِضَآرِّينَ بِهِۦ مِنۡ أَحَدٍ إِلَّا بِإِذۡنِ ٱللَّهِۚ وَيَتَعَلَّمُونَ مَا يَضُرُّهُمۡ وَلَا يَنفَعُهُمۡۚ وَلَقَدۡ عَلِمُواْ لَمَنِ ٱشۡتَرَىٰهُ مَا لَهُۥ فِي ٱلۡأٓخِرَةِ مِنۡ خَلَٰقٖۚ وَلَبِئۡسَ مَا شَرَوۡاْ بِهِۦٓ أَنفُسَهُمۡۚ لَوۡ كَانُواْ يَعۡلَمُونَ",
+      "top_match_confidence": 100.0,
+      "top_match_correct": false,
+      "found_in_matches": true,
+      "num_matches_returned": 3,
+      "all_matches": [
+        {
+          "ayah_number": "١٠٢",
+          "ayah_number_en": 102,
+          "ayah_text": "وَٱتَّبَعُواْ مَا تَتۡلُواْ ٱلشَّيَٰطِينُ عَلَىٰ مُلۡكِ سُلَيۡمَٰنَۖ وَمَا كَفَرَ سُلَيۡمَٰنُ وَلَٰكِنَّ ٱلشَّيَٰطِينَ كَفَرُواْ يُعَلِّمُونَ ٱلنَّاسَ ٱلسِّحۡرَ وَمَآ أُنزِلَ عَلَى ٱلۡمَلَكَيۡنِ بِبَابِلَ هَٰرُوتَ وَمَٰرُوتَۚ وَمَا يُعَلِّمَانِ مِنۡ أَحَدٍ حَتَّىٰ يَقُولَآ إِنَّمَا نَحۡنُ فِتۡنَةٞ فَلَا تَكۡفُرۡۖ فَيَتَعَلَّمُونَ مِنۡهُمَا مَا يُفَرِّقُونَ بِهِۦ بَيۡنَ ٱلۡمَرۡءِ وَزَوۡجِهِۦۚ وَمَا هُم بِضَآرِّينَ بِهِۦ مِنۡ أَحَدٍ إِلَّا بِإِذۡنِ ٱللَّهِۚ وَيَتَعَلَّمُونَ مَا يَضُرُّهُمۡ وَلَا يَنفَعُهُمۡۚ وَلَقَدۡ عَلِمُواْ لَمَنِ ٱشۡتَرَىٰهُ مَا لَهُۥ فِي ٱلۡأٓخِرَةِ مِنۡ خَلَٰقٖۚ وَلَبِئۡسَ مَا شَرَوۡاْ بِهِۦٓ أَنفُسَهُمۡۚ لَوۡ كَانُواْ يَعۡلَمُونَ",
+          "confidence_score": 100.0,
+          "surah_name": "البقرة",
+          "surah_name_en": "Al-Baqarah",
+          "surah_number": "٢",
+          "surah_number_en": 2,
+          "unicode": ""
+        },
+        {
+          "ayah_number": "١٥٨",
+          "ayah_number_en": 158,
+          "ayah_text": "قُلۡ يَـٰٓأَيُّهَا ٱلنَّاسُ إِنِّي رَسُولُ ٱللَّهِ إِلَيۡكُمۡ جَمِيعًا ٱلَّذِي لَهُۥ مُلۡكُ ٱلسَّمَٰوَٰتِ وَٱلۡأَرۡضِۖ لَآ إِلَٰهَ إِلَّا هُوَ يُحۡيِۦ وَيُمِيتُۖ فَـَٔامِنُواْ بِٱللَّهِ وَرَسُولِهِ ٱلنَّبِيِّ ٱلۡأُمِّيِّ ٱلَّذِي يُؤۡمِنُ بِٱللَّهِ وَكَلِمَٰتِهِۦ وَٱتَّبِعُوهُ لَعَلَّكُمۡ تَهۡتَدُونَ",
+          "confidence_score": 100.0,
+          "surah_name": "الأعراف",
+          "surah_name_en": "Al-A'raf",
+          "surah_number": "٧",
+          "surah_number_en": 7,
+          "unicode": ""
+        },
+        {
+          "ayah_number": "٢",
+          "ayah_number_en": 2,
+          "ayah_text": "مَلِكِ ٱلنَّاسِ",
+          "confidence_score": 100.0,
+          "surah_name": "الناس",
+          "surah_name_en": "An-Nas",
+          "surah_number": "١١٤",
+          "surah_number_en": 114,
+          "unicode": ""
+        }
+      ],
+      "error": ""
+    }
+  ]
+}

@@ -1,0 +1,77 @@
+{
+    "run_id": "20250526_205455_train",
+    "timestamp": "2025-05-26T20:54:55.888835",
+    "model_type": "random_forest",
+    "preprocessing_info": {
+        "directory": "processed\\train\\latest",
+        "run_id": "20250526_204349_preprocess",
+        "timestamp": "2025-05-26T20:43:49.984678",
+        "sample_count": 2535
+    },
+    "config": {
+        "test_size": 0.2,
+        "random_state": 42,
+        "model_specific": {
+            "n_estimators": 100,
+            "max_depth": 10,
+            "n_folds": 5
+        }
+    },
+    "system_info": {
+        "platform": "Windows-10-10.0.26100-SP0",
+        "python_version": "3.10.0",
+        "cpu_count": 20,
+        "use_gpu_config": true,
+        "gpu_available": false
+    },
+    "performance": {
+        "accuracy": 0.9960552268244576,
+        "training_time": 2.035374164581299,
+        "class_report": {
+            "Abdulbasit Abdulsamad": {
+                "precision": 1.0,
+                "recall": 0.9901960784313726,
+                "f1-score": 0.9950738916256158,
+                "support": 102.0
+            },
+            "Abdulrahman Alsudaes": {
+                "precision": 1.0,
+                "recall": 1.0,
+                "f1-score": 1.0,
+                "support": 101.0
+            },
+            "Ahmad Al-Ajmy": {
+                "precision": 1.0,
+                "recall": 1.0,
+                "f1-score": 1.0,
+                "support": 101.0
+            },
+            "Maher Al Meaqli": {
+                "precision": 1.0,
+                "recall": 0.9901960784313726,
+                "f1-score": 0.9950738916256158,
+                "support": 102.0
+            },
+            "Yasser Al-Dosari": {
+                "precision": 0.9805825242718447,
+                "recall": 1.0,
+                "f1-score": 0.9901960784313726,
+                "support": 101.0
+            },
+            "accuracy": 0.9960552268244576,
+            "macro avg": {
+                "precision": 0.996116504854369,
+                "recall": 0.996078431372549,
+                "f1-score": 0.9960687723365208,
+                "support": 507.0
+            },
+            "weighted avg": {
+                "precision": 0.9961318243618468,
+                "recall": 0.9960552268244576,
+                "f1-score": 0.9960648477577797,
+                "support": 507.0
+            }
+        }
+    },
+    "total_time": 2.712078809738159
+}

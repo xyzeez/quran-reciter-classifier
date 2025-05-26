@@ -1,0 +1,2686 @@
+{
+  "results": [
+    {
+      "file": "data\\test-cases\\tc-007\\Abdulbasit Abdulsamad\\104006.mp3",
+      "duration_seconds": 3.8396145124716554,
+      "reciter_actual": "Abdulbasit Abdulsamad",
+      "status_code": 200,
+      "client_round_trip_time_s": 0.23097467422485352,
+      "server_response_time_s": 0.2271,
+      "reliable": true,
+      "predicted_reciter": "Abdulbasit Abdulsamad",
+      "confidence": 99.93176533669772,
+      "is_correct": true,
+      "error": "",
+      "top_predictions": [
+        {
+          "confidence": 99.93176533669772,
+          "flagUrl": "https://flagcdn.com/w40/eg.png",
+          "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg/449px-Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg",
+          "name": "Abdulbasit Abdulsamad",
+          "nationality": "Egypt",
+          "serverUrl": "https://everyayah.com/data/Abdul_Basit_Mujawwad_128kbps/"
+        },
+        {
+          "confidence": 0.027140772568968873,
+          "flagUrl": "",
+          "imageUrl": "",
+          "name": "Abdulrahman Alsudaes",
+          "nationality": "",
+          "serverUrl": ""
+        },
+        {
+          "confidence": 0.022011395491758352,
+          "flagUrl": "https://flagcdn.com/w40/eg.png",
+          "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg/449px-Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg",
+          "name": "Mohammed Siddiq Al-Minshawi",
+          "nationality": "Egypt",
+          "serverUrl": "https://everyayah.com/data/Minshawy_Mujawwad_192kbps/"
+        },
+        {
+          "confidence": 0.009673321525213698,
+          "flagUrl": "",
+          "imageUrl": "",
+          "name": "Maher Al Meaqli",
+          "nationality": "",
+          "serverUrl": ""
+        },
+        {
+          "confidence": 0.009409173716320107,
+          "flagUrl": "",
+          "imageUrl": "",
+          "name": "Yasser Al-Dosari",
+          "nationality": "",
+          "serverUrl": ""
+        }
+      ]
+    },
+    {
+      "file": "data\\test-cases\\tc-007\\Abdulbasit Abdulsamad\\104009.mp3",
+      "duration_seconds": 3.9963492063492065,
+      "reciter_actual": "Abdulbasit Abdulsamad",
+      "status_code": 200,
+      "client_round_trip_time_s": 0.23076939582824707,
+      "server_response_time_s": 0.22721,
+      "reliable": true,
+      "predicted_reciter": "Abdulbasit Abdulsamad",
+      "confidence": 99.80382721893437,
+      "is_correct": true,
+      "error": "",
+      "top_predictions": [
+        {
+          "confidence": 99.80382721893437,
+          "flagUrl": "https://flagcdn.com/w40/eg.png",
+          "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg/449px-Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg",
+          "name": "Abdulbasit Abdulsamad",
+          "nationality": "Egypt",
+          "serverUrl": "https://everyayah.com/data/Abdul_Basit_Mujawwad_128kbps/"
+        },
+        {
+          "confidence": 0.12467635441961744,
+          "flagUrl": "",
+          "imageUrl": "",
+          "name": "Abdulrahman Alsudaes",
+          "nationality": "",
+          "serverUrl": ""
+        },
+        {
+          "confidence": 0.046069353772646864,
+          "flagUrl": "https://flagcdn.com/w40/eg.png",
+          "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg/449px-Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg",
+          "name": "Mohammed Siddiq Al-Minshawi",
+          "nationality": "Egypt",
+          "serverUrl": "https://everyayah.com/data/Minshawy_Mujawwad_192kbps/"
+        },
+        {
+          "confidence": 0.012807228118781759,
+          "flagUrl": "",
+          "imageUrl": "",
+          "name": "Maher Al Meaqli",
+          "nationality": "",
+          "serverUrl": ""
+        },
+        {
+          "confidence": 0.012619844754589743,
+          "flagUrl": "",
+          "imageUrl": "",
+          "name": "Yasser Al-Dosari",
+          "nationality": "",
+          "serverUrl": ""
+        }
+      ]
+    },
+    {
+      "file": "data\\test-cases\\tc-007\\Abdulbasit Abdulsamad\\106001.mp3",
+      "duration_seconds": 3.395578231292517,
+      "reciter_actual": "Abdulbasit Abdulsamad",
+      "status_code": 200,
+      "client_round_trip_time_s": 0.2155919075012207,
+      "server_response_time_s": 0.21196,
+      "reliable": true,
+      "predicted_reciter": "Abdulbasit Abdulsamad",
+      "confidence": 99.91802437834508,
+      "is_correct": true,
+      "error": "",
+      "top_predictions": [
+        {
+          "confidence": 99.91802437834508,
+          "flagUrl": "https://flagcdn.com/w40/eg.png",
+          "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg/449px-Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg",
+          "name": "Abdulbasit Abdulsamad",
+          "nationality": "Egypt",
+          "serverUrl": "https://everyayah.com/data/Abdul_Basit_Mujawwad_128kbps/"
+        },
+        {
+          "confidence": 0.030099635949973114,
+          "flagUrl": "",
+          "imageUrl": "",
+          "name": "Yasser Al-Dosari",
+          "nationality": "",
+          "serverUrl": ""
+        },
+        {
+          "confidence": 0.02618254670268482,
+          "flagUrl": "",
+          "imageUrl": "",
+          "name": "Abdulrahman Alsudaes",
+          "nationality": "",
+          "serverUrl": ""
+        },
+        {
+          "confidence": 0.01484065718815629,
+          "flagUrl": "https://flagcdn.com/w40/eg.png",
+          "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg/449px-Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg",
+          "name": "Mohammed Siddiq Al-Minshawi",
+          "nationality": "Egypt",
+          "serverUrl": "https://everyayah.com/data/Minshawy_Mujawwad_192kbps/"
+        },
+        {
+          "confidence": 0.010852781814096442,
+          "flagUrl": "",
+          "imageUrl": "",
+          "name": "Maher Al Meaqli",
+          "nationality": "",
+          "serverUrl": ""
+        }
+      ]
+    },
+    {
+      "file": "data\\test-cases\\tc-007\\Abdulbasit Abdulsamad\\107007.mp3",
+      "duration_seconds": 3.6306802721088434,
+      "reciter_actual": "Abdulbasit Abdulsamad",
+      "status_code": 200,
+      "client_round_trip_time_s": 0.21549773216247559,
+      "server_response_time_s": 0.21173,
+      "reliable": true,
+      "predicted_reciter": "Abdulbasit Abdulsamad",
+      "confidence": 99.9635810013934,
+      "is_correct": true,
+      "error": "",
+      "top_predictions": [
+        {
+          "confidence": 99.9635810013934,
+          "flagUrl": "https://flagcdn.com/w40/eg.png",
+          "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg/449px-Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg",
+          "name": "Abdulbasit Abdulsamad",
+          "nationality": "Egypt",
+          "serverUrl": "https://everyayah.com/data/Abdul_Basit_Mujawwad_128kbps/"
+        },
+        {
+          "confidence": 0.011640136265570502,
+          "flagUrl": "https://flagcdn.com/w40/eg.png",
+          "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg/449px-Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg",
+          "name": "Mohammed Siddiq Al-Minshawi",
+          "nationality": "Egypt",
+          "serverUrl": "https://everyayah.com/data/Minshawy_Mujawwad_192kbps/"
+        },
+        {
+          "confidence": 0.01037923023745215,
+          "flagUrl": "",
+          "imageUrl": "",
+          "name": "Abdulrahman Alsudaes",
+          "nationality": "",
+          "serverUrl": ""
+        },
+        {
+          "confidence": 0.00799995561341983,
+          "flagUrl": "",
+          "imageUrl": "",
+          "name": "Maher Al Meaqli",
+          "nationality": "",
+          "serverUrl": ""
+        },
+        {
+          "confidence": 0.0063996764901977,
+          "flagUrl": "",
+          "imageUrl": "",
+          "name": "Yasser Al-Dosari",
+          "nationality": "",
+          "serverUrl": ""
+        }
+      ]
+    },
+    {
+      "file": "data\\test-cases\\tc-007\\Abdulbasit Abdulsamad\\108002.mp3",
+      "duration_seconds": 3.735124716553288,
+      "reciter_actual": "Abdulbasit Abdulsamad",
+      "status_code": 200,
+      "client_round_trip_time_s": 0.21609020233154297,
+      "server_response_time_s": 0.21228999999999998,
+      "reliable": true,
+      "predicted_reciter": "Abdulbasit Abdulsamad",
+      "confidence": 99.95143397265115,
+      "is_correct": true,
+      "error": "",
+      "top_predictions": [
+        {
+          "confidence": 99.95143397265115,
+          "flagUrl": "https://flagcdn.com/w40/eg.png",
+          "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg/449px-Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg",
+          "name": "Abdulbasit Abdulsamad",
+          "nationality": "Egypt",
+          "serverUrl": "https://everyayah.com/data/Abdul_Basit_Mujawwad_128kbps/"
+        },
+        {
+          "confidence": 0.02047434028377588,
+          "flagUrl": "",
+          "imageUrl": "",
+          "name": "Abdulrahman Alsudaes",
+          "nationality": "",
+          "serverUrl": ""
+        },
+        {
+          "confidence": 0.01288449311600971,
+          "flagUrl": "https://flagcdn.com/w40/eg.png",
+          "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg/449px-Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg",
+          "name": "Mohammed Siddiq Al-Minshawi",
+          "nationality": "Egypt",
+          "serverUrl": "https://everyayah.com/data/Minshawy_Mujawwad_192kbps/"
+        },
+        {
+          "confidence": 0.007947271121808978,
+          "flagUrl": "",
+          "imageUrl": "",
+          "name": "Maher Al Meaqli",
+          "nationality": "",
+          "serverUrl": ""
+        },
+        {
+          "confidence": 0.007259922827251315,
+          "flagUrl": "",
+          "imageUrl": "",
+          "name": "Yasser Al-Dosari",
+          "nationality": "",
+          "serverUrl": ""
+        }
+      ]
+    },
+    {
+      "file": "data\\test-cases\\tc-007\\Abdulbasit Abdulsamad\\109006.mp3",
+      "duration_seconds": 3.865736961451247,
+      "reciter_actual": "Abdulbasit Abdulsamad",
+      "status_code": 200,
+      "client_round_trip_time_s": 0.2337048053741455,
+      "server_response_time_s": 0.22983,
+      "reliable": true,
+      "predicted_reciter": "Abdulbasit Abdulsamad",
+      "confidence": 99.21641929834799,
+      "is_correct": true,
+      "error": "",
+      "top_predictions": [
+        {
+          "confidence": 99.21641929834799,
+          "flagUrl": "https://flagcdn.com/w40/eg.png",
+          "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg/449px-Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg",
+          "name": "Abdulbasit Abdulsamad",
+          "nationality": "Egypt",
+          "serverUrl": "https://everyayah.com/data/Abdul_Basit_Mujawwad_128kbps/"
+        },
+        {
+          "confidence": 0.7436975593607394,
+          "flagUrl": "",
+          "imageUrl": "",
+          "name": "Abdulrahman Alsudaes",
+          "nationality": "",
+          "serverUrl": ""
+        },
+        {
+          "confidence": 0.014643741988119754,
+          "flagUrl": "",
+          "imageUrl": "",
+          "name": "Maher Al Meaqli",
+          "nationality": "",
+          "serverUrl": ""
+        },
+        {
+          "confidence": 0.012743088944343952,
+          "flagUrl": "https://flagcdn.com/w40/eg.png",
+          "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg/449px-Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg",
+          "name": "Mohammed Siddiq Al-Minshawi",
+          "nationality": "Egypt",
+          "serverUrl": "https://everyayah.com/data/Minshawy_Mujawwad_192kbps/"
+        },
+        {
+          "confidence": 0.012496311358799339,
+          "flagUrl": "",
+          "imageUrl": "",
+          "name": "Yasser Al-Dosari",
+          "nationality": "",
+          "serverUrl": ""
+        }
+      ]
+    },
+    {
+      "file": "data\\test-cases\\tc-007\\Abdulbasit Abdulsamad\\112001.mp3",
+      "duration_seconds": 3.1604761904761904,
+      "reciter_actual": "Abdulbasit Abdulsamad",
+      "status_code": 200,
+      "client_round_trip_time_s": 0.20166230201721191,
+      "server_response_time_s": 0.19812000000000002,
+      "reliable": false,
+      "predicted_reciter": null,
+      "confidence": null,
+      "is_correct": false,
+      "error": "",
+      "top_predictions": []
+    },
+    {
+      "file": "data\\test-cases\\tc-007\\Abdulbasit Abdulsamad\\112002.mp3",
+      "duration_seconds": 2.847052154195011,
+      "reciter_actual": "Abdulbasit Abdulsamad",
+      "status_code": 200,
+      "client_round_trip_time_s": 0.18474864959716797,
+      "server_response_time_s": 0.18127000000000001,
+      "reliable": false,
+      "predicted_reciter": null,
+      "confidence": null,
+      "is_correct": false,
+      "error": "",
+      "top_predictions": []
+    },
+    {
+      "file": "data\\test-cases\\tc-007\\Abdulbasit Abdulsamad\\112003.mp3",
+      "duration_seconds": 3.4478231292517005,
+      "reciter_actual": "Abdulbasit Abdulsamad",
+      "status_code": 200,
+      "client_round_trip_time_s": 0.21750259399414062,
+      "server_response_time_s": 0.21395,
+      "reliable": true,
+      "predicted_reciter": "Abdulbasit Abdulsamad",
+      "confidence": 99.72852826242071,
+      "is_correct": true,
+      "error": "",
+      "top_predictions": [
+        {
+          "confidence": 99.72852826242071,
+          "flagUrl": "https://flagcdn.com/w40/eg.png",
+          "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg/449px-Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg",
+          "name": "Abdulbasit Abdulsamad",
+          "nationality": "Egypt",
+          "serverUrl": "https://everyayah.com/data/Abdul_Basit_Mujawwad_128kbps/"
+        },
+        {
+          "confidence": 0.2333264564419179,
+          "flagUrl": "https://flagcdn.com/w40/eg.png",
+          "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg/449px-Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg",
+          "name": "Mohammed Siddiq Al-Minshawi",
+          "nationality": "Egypt",
+          "serverUrl": "https://everyayah.com/data/Minshawy_Mujawwad_192kbps/"
+        },
+        {
+          "confidence": 0.01863368514972479,
+          "flagUrl": "",
+          "imageUrl": "",
+          "name": "Abdulrahman Alsudaes",
+          "nationality": "",
+          "serverUrl": ""
+        },
+        {
+          "confidence": 0.013100825983443115,
+          "flagUrl": "",
+          "imageUrl": "",
+          "name": "Maher Al Meaqli",
+          "nationality": "",
+          "serverUrl": ""
+        },
+        {
+          "confidence": 0.0064107700041912625,
+          "flagUrl": "",
+          "imageUrl": "",
+          "name": "Yasser Al-Dosari",
+          "nationality": "",
+          "serverUrl": ""
+        }
+      ]
+    },
+    {
+      "file": "data\\test-cases\\tc-007\\Abdulbasit Abdulsamad\\113002.mp3",
+      "duration_seconds": 3.709002267573696,
+      "reciter_actual": "Abdulbasit Abdulsamad",
+      "status_code": 200,
+      "client_round_trip_time_s": 0.21603012084960938,
+      "server_response_time_s": 0.21244,
+      "reliable": true,
+      "predicted_reciter": "Abdulbasit Abdulsamad",
+      "confidence": 99.59683122553147,
+      "is_correct": true,
+      "error": "",
+      "top_predictions": [
+        {
+          "confidence": 99.59683122553147,
+          "flagUrl": "https://flagcdn.com/w40/eg.png",
+          "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg/449px-Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg",
+          "name": "Abdulbasit Abdulsamad",
+          "nationality": "Egypt",
+          "serverUrl": "https://everyayah.com/data/Abdul_Basit_Mujawwad_128kbps/"
+        },
+        {
+          "confidence": 0.18228064443373834,
+          "flagUrl": "",
+          "imageUrl": "",
+          "name": "Yasser Al-Dosari",
+          "nationality": "",
+          "serverUrl": ""
+        },
+        {
+          "confidence": 0.12861966483157525,
+          "flagUrl": "https://flagcdn.com/w40/eg.png",
+          "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg/449px-Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg",
+          "name": "Mohammed Siddiq Al-Minshawi",
+          "nationality": "Egypt",
+          "serverUrl": "https://everyayah.com/data/Minshawy_Mujawwad_192kbps/"
+        },
+        {
+          "confidence": 0.07242096933676256,
+          "flagUrl": "",
+          "imageUrl": "",
+          "name": "Maher Al Meaqli",
+          "nationality": "",
+          "serverUrl": ""
+        },
+        {
+          "confidence": 0.0198474958664487,
+          "flagUrl": "",
+          "imageUrl": "",
+          "name": "Abdulrahman Alsudaes",
+          "nationality": "",
+          "serverUrl": ""
+        }
+      ]
+    },
+    {
+      "file": "data\\test-cases\\tc-007\\Abdulrahman Alsudaes\\104001.mp3",
+      "duration_seconds": 4.010680272108844,
+      "reciter_actual": "Abdulrahman Alsudaes",
+      "status_code": 200,
+      "client_round_trip_time_s": 0.25989556312561035,
+      "server_response_time_s": 0.25615,
+      "reliable": true,
+      "predicted_reciter": "Abdulrahman Alsudaes",
+      "confidence": 99.95631788539089,
+      "is_correct": true,
+      "error": "",
+      "top_predictions": [
+        {
+          "confidence": 99.95631788539089,
+          "flagUrl": "",
+          "imageUrl": "",
+          "name": "Abdulrahman Alsudaes",
+          "nationality": "",
+          "serverUrl": ""
+        },
+        {
+          "confidence": 0.019142965968154214,
+          "flagUrl": "",
+          "imageUrl": "",
+          "name": "Yasser Al-Dosari",
+          "nationality": "",
+          "serverUrl": ""
+        },
+        {
+          "confidence": 0.010015241810654853,
+          "flagUrl": "https://flagcdn.com/w40/eg.png",
+          "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg/449px-Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg",
+          "name": "Mohammed Siddiq Al-Minshawi",
+          "nationality": "Egypt",
+          "serverUrl": "https://everyayah.com/data/Minshawy_Mujawwad_192kbps/"
+        },
+        {
+          "confidence": 0.009813852577733205,
+          "flagUrl": "",
+          "imageUrl": "",
+          "name": "Maher Al Meaqli",
+          "nationality": "",
+          "serverUrl": ""
+        },
+        {
+          "confidence": 0.004710054252597302,
+          "flagUrl": "https://flagcdn.com/w40/eg.png",
+          "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg/449px-Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg",
+          "name": "Abdulbasit Abdulsamad",
+          "nationality": "Egypt",
+          "serverUrl": "https://everyayah.com/data/Abdul_Basit_Mujawwad_128kbps/"
+        }
+      ]
+    },
+    {
+      "file": "data\\test-cases\\tc-007\\Abdulrahman Alsudaes\\104006.mp3",
+      "duration_seconds": 3.157437641723356,
+      "reciter_actual": "Abdulrahman Alsudaes",
+      "status_code": 200,
+      "client_round_trip_time_s": 0.2159733772277832,
+      "server_response_time_s": 0.21233000000000002,
+      "reliable": true,
+      "predicted_reciter": "Abdulrahman Alsudaes",
+      "confidence": 99.95252102013346,
+      "is_correct": true,
+      "error": "",
+      "top_predictions": [
+        {
+          "confidence": 99.95252102013346,
+          "flagUrl": "",
+          "imageUrl": "",
+          "name": "Abdulrahman Alsudaes",
+          "nationality": "",
+          "serverUrl": ""
+        },
+        {
+          "confidence": 0.023528027353032048,
+          "flagUrl": "https://flagcdn.com/w40/eg.png",
+          "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg/449px-Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg",
+          "name": "Mohammed Siddiq Al-Minshawi",
+          "nationality": "Egypt",
+          "serverUrl": "https://everyayah.com/data/Minshawy_Mujawwad_192kbps/"
+        },
+        {
+          "confidence": 0.010617948993462351,
+          "flagUrl": "https://flagcdn.com/w40/eg.png",
+          "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg/449px-Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg",
+          "name": "Abdulbasit Abdulsamad",
+          "nationality": "Egypt",
+          "serverUrl": "https://everyayah.com/data/Abdul_Basit_Mujawwad_128kbps/"
+        },
+        {
+          "confidence": 0.007803949150731758,
+          "flagUrl": "",
+          "imageUrl": "",
+          "name": "Maher Al Meaqli",
+          "nationality": "",
+          "serverUrl": ""
+        },
+        {
+          "confidence": 0.005529054369295161,
+          "flagUrl": "",
+          "imageUrl": "",
+          "name": "Yasser Al-Dosari",
+          "nationality": "",
+          "serverUrl": ""
+        }
+      ]
+    },
+    {
+      "file": "data\\test-cases\\tc-007\\Abdulrahman Alsudaes\\104007.mp3",
+      "duration_seconds": 3.9253514739229023,
+      "reciter_actual": "Abdulrahman Alsudaes",
+      "status_code": 200,
+      "client_round_trip_time_s": 0.2467362880706787,
+      "server_response_time_s": 0.24302,
+      "reliable": true,
+      "predicted_reciter": "Abdulrahman Alsudaes",
+      "confidence": 99.89156861299932,
+      "is_correct": true,
+      "error": "",
+      "top_predictions": [
+        {
+          "confidence": 99.89156861299932,
+          "flagUrl": "",
+          "imageUrl": "",
+          "name": "Abdulrahman Alsudaes",
+          "nationality": "",
+          "serverUrl": ""
+        },
+        {
+          "confidence": 0.06531196170241549,
+          "flagUrl": "https://flagcdn.com/w40/eg.png",
+          "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg/449px-Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg",
+          "name": "Abdulbasit Abdulsamad",
+          "nationality": "Egypt",
+          "serverUrl": "https://everyayah.com/data/Abdul_Basit_Mujawwad_128kbps/"
+        },
+        {
+          "confidence": 0.027202162783072182,
+          "flagUrl": "https://flagcdn.com/w40/eg.png",
+          "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg/449px-Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg",
+          "name": "Mohammed Siddiq Al-Minshawi",
+          "nationality": "Egypt",
+          "serverUrl": "https://everyayah.com/data/Minshawy_Mujawwad_192kbps/"
+        },
+        {
+          "confidence": 0.008012647297283633,
+          "flagUrl": "",
+          "imageUrl": "",
+          "name": "Maher Al Meaqli",
+          "nationality": "",
+          "serverUrl": ""
+        },
+        {
+          "confidence": 0.007904615217922512,
+          "flagUrl": "",
+          "imageUrl": "",
+          "name": "Yasser Al-Dosari",
+          "nationality": "",
+          "serverUrl": ""
+        }
+      ]
+    },
+    {
+      "file": "data\\test-cases\\tc-007\\Abdulrahman Alsudaes\\106001.mp3",
+      "duration_seconds": 3.754716553287982,
+      "reciter_actual": "Abdulrahman Alsudaes",
+      "status_code": 200,
+      "client_round_trip_time_s": 0.24757909774780273,
+      "server_response_time_s": 0.24384999999999998,
+      "reliable": true,
+      "predicted_reciter": "Abdulrahman Alsudaes",
+      "confidence": 98.61285754850516,
+      "is_correct": true,
+      "error": "",
+      "top_predictions": [
+        {
+          "confidence": 98.61285754850516,
+          "flagUrl": "",
+          "imageUrl": "",
+          "name": "Abdulrahman Alsudaes",
+          "nationality": "",
+          "serverUrl": ""
+        },
+        {
+          "confidence": 1.1513091395615518,
+          "flagUrl": "https://flagcdn.com/w40/eg.png",
+          "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg/449px-Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg",
+          "name": "Abdulbasit Abdulsamad",
+          "nationality": "Egypt",
+          "serverUrl": "https://everyayah.com/data/Abdul_Basit_Mujawwad_128kbps/"
+        },
+        {
+          "confidence": 0.195257498759203,
+          "flagUrl": "",
+          "imageUrl": "",
+          "name": "Yasser Al-Dosari",
+          "nationality": "",
+          "serverUrl": ""
+        },
+        {
+          "confidence": 0.021301582089539552,
+          "flagUrl": "https://flagcdn.com/w40/eg.png",
+          "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg/449px-Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg",
+          "name": "Mohammed Siddiq Al-Minshawi",
+          "nationality": "Egypt",
+          "serverUrl": "https://everyayah.com/data/Minshawy_Mujawwad_192kbps/"
+        },
+        {
+          "confidence": 0.019274231084550602,
+          "flagUrl": "",
+          "imageUrl": "",
+          "name": "Maher Al Meaqli",
+          "nationality": "",
+          "serverUrl": ""
+        }
+      ]
+    },
+    {
+      "file": "data\\test-cases\\tc-007\\Abdulrahman Alsudaes\\107001.mp3",
+      "duration_seconds": 3.754716553287982,
+      "reciter_actual": "Abdulrahman Alsudaes",
+      "status_code": 200,
+      "client_round_trip_time_s": 0.2481534481048584,
+      "server_response_time_s": 0.24431999999999998,
+      "reliable": true,
+      "predicted_reciter": "Abdulrahman Alsudaes",
+      "confidence": 99.94115010144937,
+      "is_correct": true,
+      "error": "",
+      "top_predictions": [
+        {
+          "confidence": 99.94115010144937,
+          "flagUrl": "",
+          "imageUrl": "",
+          "name": "Abdulrahman Alsudaes",
+          "nationality": "",
+          "serverUrl": ""
+        },
+        {
+          "confidence": 0.02994608493620329,
+          "flagUrl": "https://flagcdn.com/w40/eg.png",
+          "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg/449px-Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg",
+          "name": "Mohammed Siddiq Al-Minshawi",
+          "nationality": "Egypt",
+          "serverUrl": "https://everyayah.com/data/Minshawy_Mujawwad_192kbps/"
+        },
+        {
+          "confidence": 0.012799754048634393,
+          "flagUrl": "https://flagcdn.com/w40/eg.png",
+          "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg/449px-Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg",
+          "name": "Abdulbasit Abdulsamad",
+          "nationality": "Egypt",
+          "serverUrl": "https://everyayah.com/data/Abdul_Basit_Mujawwad_128kbps/"
+        },
+        {
+          "confidence": 0.00830330163838731,
+          "flagUrl": "",
+          "imageUrl": "",
+          "name": "Yasser Al-Dosari",
+          "nationality": "",
+          "serverUrl": ""
+        },
+        {
+          "confidence": 0.007800757927406194,
+          "flagUrl": "",
+          "imageUrl": "",
+          "name": "Maher Al Meaqli",
+          "nationality": "",
+          "serverUrl": ""
+        }
+      ]
+    },
+    {
+      "file": "data\\test-cases\\tc-007\\Abdulrahman Alsudaes\\107002.mp3",
+      "duration_seconds": 4.010680272108844,
+      "reciter_actual": "Abdulrahman Alsudaes",
+      "status_code": 200,
+      "client_round_trip_time_s": 0.26384544372558594,
+      "server_response_time_s": 0.26018,
+      "reliable": true,
+      "predicted_reciter": "Abdulrahman Alsudaes",
+      "confidence": 99.95830504021056,
+      "is_correct": true,
+      "error": "",
+      "top_predictions": [
+        {
+          "confidence": 99.95830504021056,
+          "flagUrl": "",
+          "imageUrl": "",
+          "name": "Abdulrahman Alsudaes",
+          "nationality": "",
+          "serverUrl": ""
+        },
+        {
+          "confidence": 0.01275292930873378,
+          "flagUrl": "https://flagcdn.com/w40/eg.png",
+          "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg/449px-Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg",
+          "name": "Abdulbasit Abdulsamad",
+          "nationality": "Egypt",
+          "serverUrl": "https://everyayah.com/data/Abdul_Basit_Mujawwad_128kbps/"
+        },
+        {
+          "confidence": 0.012465840170236981,
+          "flagUrl": "https://flagcdn.com/w40/eg.png",
+          "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg/449px-Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg",
+          "name": "Mohammed Siddiq Al-Minshawi",
+          "nationality": "Egypt",
+          "serverUrl": "https://everyayah.com/data/Minshawy_Mujawwad_192kbps/"
+        },
+        {
+          "confidence": 0.00968569469956736,
+          "flagUrl": "",
+          "imageUrl": "",
+          "name": "Maher Al Meaqli",
+          "nationality": "",
+          "serverUrl": ""
+        },
+        {
+          "confidence": 0.006790495610889187,
+          "flagUrl": "",
+          "imageUrl": "",
+          "name": "Yasser Al-Dosari",
+          "nationality": "",
+          "serverUrl": ""
+        }
+      ]
+    },
+    {
+      "file": "data\\test-cases\\tc-007\\Abdulrahman Alsudaes\\107004.mp3",
+      "duration_seconds": 2.7308163265306122,
+      "reciter_actual": "Abdulrahman Alsudaes",
+      "status_code": 200,
+      "client_round_trip_time_s": 0.19984865188598633,
+      "server_response_time_s": 0.19634000000000001,
+      "reliable": true,
+      "predicted_reciter": "Abdulrahman Alsudaes",
+      "confidence": 99.94937766557567,
+      "is_correct": true,
+      "error": "",
+      "top_predictions": [
+        {
+          "confidence": 99.94937766557567,
+          "flagUrl": "",
+          "imageUrl": "",
+          "name": "Abdulrahman Alsudaes",
+          "nationality": "",
+          "serverUrl": ""
+        },
+        {
+          "confidence": 0.014903218170555637,
+          "flagUrl": "",
+          "imageUrl": "",
+          "name": "Maher Al Meaqli",
+          "nationality": "",
+          "serverUrl": ""
+        },
+        {
+          "confidence": 0.012726927537601488,
+          "flagUrl": "",
+          "imageUrl": "",
+          "name": "Yasser Al-Dosari",
+          "nationality": "",
+          "serverUrl": ""
+        },
+        {
+          "confidence": 0.012303538067632118,
+          "flagUrl": "https://flagcdn.com/w40/eg.png",
+          "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg/449px-Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg",
+          "name": "Mohammed Siddiq Al-Minshawi",
+          "nationality": "Egypt",
+          "serverUrl": "https://everyayah.com/data/Minshawy_Mujawwad_192kbps/"
+        },
+        {
+          "confidence": 0.010688650648528565,
+          "flagUrl": "https://flagcdn.com/w40/eg.png",
+          "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg/449px-Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg",
+          "name": "Abdulbasit Abdulsamad",
+          "nationality": "Egypt",
+          "serverUrl": "https://everyayah.com/data/Abdul_Basit_Mujawwad_128kbps/"
+        }
+      ]
+    },
+    {
+      "file": "data\\test-cases\\tc-007\\Abdulrahman Alsudaes\\108002.mp3",
+      "duration_seconds": 3.3280725623582765,
+      "reciter_actual": "Abdulrahman Alsudaes",
+      "status_code": 200,
+      "client_round_trip_time_s": 0.21808910369873047,
+      "server_response_time_s": 0.2145,
+      "reliable": true,
+      "predicted_reciter": "Abdulrahman Alsudaes",
+      "confidence": 99.94055984709405,
+      "is_correct": true,
+      "error": "",
+      "top_predictions": [
+        {
+          "confidence": 99.94055984709405,
+          "flagUrl": "",
+          "imageUrl": "",
+          "name": "Abdulrahman Alsudaes",
+          "nationality": "",
+          "serverUrl": ""
+        },
+        {
+          "confidence": 0.03448944982820121,
+          "flagUrl": "https://flagcdn.com/w40/eg.png",
+          "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg/449px-Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg",
+          "name": "Mohammed Siddiq Al-Minshawi",
+          "nationality": "Egypt",
+          "serverUrl": "https://everyayah.com/data/Minshawy_Mujawwad_192kbps/"
+        },
+        {
+          "confidence": 0.009930569040916477,
+          "flagUrl": "",
+          "imageUrl": "",
+          "name": "Yasser Al-Dosari",
+          "nationality": "",
+          "serverUrl": ""
+        },
+        {
+          "confidence": 0.007884562445604844,
+          "flagUrl": "",
+          "imageUrl": "",
+          "name": "Maher Al Meaqli",
+          "nationality": "",
+          "serverUrl": ""
+        },
+        {
+          "confidence": 0.007135571591223291,
+          "flagUrl": "https://flagcdn.com/w40/eg.png",
+          "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg/449px-Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg",
+          "name": "Abdulbasit Abdulsamad",
+          "nationality": "Egypt",
+          "serverUrl": "https://everyayah.com/data/Abdul_Basit_Mujawwad_128kbps/"
+        }
+      ]
+    },
+    {
+      "file": "data\\test-cases\\tc-007\\Abdulrahman Alsudaes\\112001.mp3",
+      "duration_seconds": 2.986780045351474,
+      "reciter_actual": "Abdulrahman Alsudaes",
+      "status_code": 200,
+      "client_round_trip_time_s": 0.2137012481689453,
+      "server_response_time_s": 0.21022,
+      "reliable": true,
+      "predicted_reciter": "Abdulrahman Alsudaes",
+      "confidence": 99.95149686221013,
+      "is_correct": true,
+      "error": "",
+      "top_predictions": [
+        {
+          "confidence": 99.95149686221013,
+          "flagUrl": "",
+          "imageUrl": "",
+          "name": "Abdulrahman Alsudaes",
+          "nationality": "",
+          "serverUrl": ""
+        },
+        {
+          "confidence": 0.024984649387577825,
+          "flagUrl": "https://flagcdn.com/w40/eg.png",
+          "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg/449px-Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg",
+          "name": "Mohammed Siddiq Al-Minshawi",
+          "nationality": "Egypt",
+          "serverUrl": "https://everyayah.com/data/Minshawy_Mujawwad_192kbps/"
+        },
+        {
+          "confidence": 0.012111919641567142,
+          "flagUrl": "",
+          "imageUrl": "",
+          "name": "Maher Al Meaqli",
+          "nationality": "",
+          "serverUrl": ""
+        },
+        {
+          "confidence": 0.005863941563781119,
+          "flagUrl": "https://flagcdn.com/w40/eg.png",
+          "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg/449px-Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg",
+          "name": "Abdulbasit Abdulsamad",
+          "nationality": "Egypt",
+          "serverUrl": "https://everyayah.com/data/Abdul_Basit_Mujawwad_128kbps/"
+        },
+        {
+          "confidence": 0.0055426271969385215,
+          "flagUrl": "",
+          "imageUrl": "",
+          "name": "Yasser Al-Dosari",
+          "nationality": "",
+          "serverUrl": ""
+        }
+      ]
+    },
+    {
+      "file": "data\\test-cases\\tc-007\\Abdulrahman Alsudaes\\112002.mp3",
+      "duration_seconds": 2.6454875283446713,
+      "reciter_actual": "Abdulrahman Alsudaes",
+      "status_code": 200,
+      "client_round_trip_time_s": 0.1862785816192627,
+      "server_response_time_s": 0.18246,
+      "reliable": true,
+      "predicted_reciter": "Abdulrahman Alsudaes",
+      "confidence": 99.8448338144943,
+      "is_correct": true,
+      "error": "",
+      "top_predictions": [
+        {
+          "confidence": 99.8448338144943,
+          "flagUrl": "",
+          "imageUrl": "",
+          "name": "Abdulrahman Alsudaes",
+          "nationality": "",
+          "serverUrl": ""
+        },
+        {
+          "confidence": 0.11738944675717014,
+          "flagUrl": "https://flagcdn.com/w40/eg.png",
+          "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg/449px-Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg",
+          "name": "Abdulbasit Abdulsamad",
+          "nationality": "Egypt",
+          "serverUrl": "https://everyayah.com/data/Abdul_Basit_Mujawwad_128kbps/"
+        },
+        {
+          "confidence": 0.015249314456576374,
+          "flagUrl": "https://flagcdn.com/w40/eg.png",
+          "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg/449px-Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg",
+          "name": "Mohammed Siddiq Al-Minshawi",
+          "nationality": "Egypt",
+          "serverUrl": "https://everyayah.com/data/Minshawy_Mujawwad_192kbps/"
+        },
+        {
+          "confidence": 0.012830896748434092,
+          "flagUrl": "",
+          "imageUrl": "",
+          "name": "Yasser Al-Dosari",
+          "nationality": "",
+          "serverUrl": ""
+        },
+        {
+          "confidence": 0.009696527543528111,
+          "flagUrl": "",
+          "imageUrl": "",
+          "name": "Maher Al Meaqli",
+          "nationality": "",
+          "serverUrl": ""
+        }
+      ]
+    },
+    {
+      "file": "data\\test-cases\\tc-007\\Maher Al Meaqli\\104001.mp3",
+      "duration_seconds": 2.977641723356009,
+      "reciter_actual": "Maher Al Meaqli",
+      "status_code": 200,
+      "client_round_trip_time_s": 0.21548056602478027,
+      "server_response_time_s": 0.21183000000000002,
+      "reliable": true,
+      "predicted_reciter": "Maher Al Meaqli",
+      "confidence": 99.96779898314865,
+      "is_correct": true,
+      "error": "",
+      "top_predictions": [
+        {
+          "confidence": 99.96779898314865,
+          "flagUrl": "",
+          "imageUrl": "",
+          "name": "Maher Al Meaqli",
+          "nationality": "",
+          "serverUrl": ""
+        },
+        {
+          "confidence": 0.009999714030524071,
+          "flagUrl": "https://flagcdn.com/w40/eg.png",
+          "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg/449px-Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg",
+          "name": "Mohammed Siddiq Al-Minshawi",
+          "nationality": "Egypt",
+          "serverUrl": "https://everyayah.com/data/Minshawy_Mujawwad_192kbps/"
+        },
+        {
+          "confidence": 0.009912285613281701,
+          "flagUrl": "",
+          "imageUrl": "",
+          "name": "Abdulrahman Alsudaes",
+          "nationality": "",
+          "serverUrl": ""
+        },
+        {
+          "confidence": 0.006722149365026734,
+          "flagUrl": "",
+          "imageUrl": "",
+          "name": "Yasser Al-Dosari",
+          "nationality": "",
+          "serverUrl": ""
+        },
+        {
+          "confidence": 0.005566867842499387,
+          "flagUrl": "https://flagcdn.com/w40/eg.png",
+          "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg/449px-Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg",
+          "name": "Abdulbasit Abdulsamad",
+          "nationality": "Egypt",
+          "serverUrl": "https://everyayah.com/data/Abdul_Basit_Mujawwad_128kbps/"
+        }
+      ]
+    },
+    {
+      "file": "data\\test-cases\\tc-007\\Maher Al Meaqli\\104002.mp3",
+      "duration_seconds": 3.6567573696145126,
+      "reciter_actual": "Maher Al Meaqli",
+      "status_code": 200,
+      "client_round_trip_time_s": 0.2607574462890625,
+      "server_response_time_s": 0.25701,
+      "reliable": true,
+      "predicted_reciter": "Maher Al Meaqli",
+      "confidence": 99.95788502905165,
+      "is_correct": true,
+      "error": "",
+      "top_predictions": [
+        {
+          "confidence": 99.95788502905165,
+          "flagUrl": "",
+          "imageUrl": "",
+          "name": "Maher Al Meaqli",
+          "nationality": "",
+          "serverUrl": ""
+        },
+        {
+          "confidence": 0.015216750049402877,
+          "flagUrl": "",
+          "imageUrl": "",
+          "name": "Yasser Al-Dosari",
+          "nationality": "",
+          "serverUrl": ""
+        },
+        {
+          "confidence": 0.012114218134048985,
+          "flagUrl": "",
+          "imageUrl": "",
+          "name": "Abdulrahman Alsudaes",
+          "nationality": "",
+          "serverUrl": ""
+        },
+        {
+          "confidence": 0.01017785850822257,
+          "flagUrl": "https://flagcdn.com/w40/eg.png",
+          "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg/449px-Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg",
+          "name": "Mohammed Siddiq Al-Minshawi",
+          "nationality": "Egypt",
+          "serverUrl": "https://everyayah.com/data/Minshawy_Mujawwad_192kbps/"
+        },
+        {
+          "confidence": 0.004606144256682885,
+          "flagUrl": "https://flagcdn.com/w40/eg.png",
+          "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg/449px-Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg",
+          "name": "Abdulbasit Abdulsamad",
+          "nationality": "Egypt",
+          "serverUrl": "https://everyayah.com/data/Abdul_Basit_Mujawwad_128kbps/"
+        }
+      ]
+    },
+    {
+      "file": "data\\test-cases\\tc-007\\Maher Al Meaqli\\104003.mp3",
+      "duration_seconds": 4.5187301587301585,
+      "reciter_actual": "Maher Al Meaqli",
+      "status_code": 200,
+      "client_round_trip_time_s": 0.2922782897949219,
+      "server_response_time_s": 0.28867000000000004,
+      "reliable": true,
+      "predicted_reciter": "Maher Al Meaqli",
+      "confidence": 99.9546146818259,
+      "is_correct": true,
+      "error": "",
+      "top_predictions": [
+        {
+          "confidence": 99.9546146818259,
+          "flagUrl": "",
+          "imageUrl": "",
+          "name": "Maher Al Meaqli",
+          "nationality": "",
+          "serverUrl": ""
+        },
+        {
+          "confidence": 0.014837773220092025,
+          "flagUrl": "https://flagcdn.com/w40/eg.png",
+          "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg/449px-Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg",
+          "name": "Mohammed Siddiq Al-Minshawi",
+          "nationality": "Egypt",
+          "serverUrl": "https://everyayah.com/data/Minshawy_Mujawwad_192kbps/"
+        },
+        {
+          "confidence": 0.01434929318650743,
+          "flagUrl": "",
+          "imageUrl": "",
+          "name": "Yasser Al-Dosari",
+          "nationality": "",
+          "serverUrl": ""
+        },
+        {
+          "confidence": 0.009998260824940269,
+          "flagUrl": "",
+          "imageUrl": "",
+          "name": "Abdulrahman Alsudaes",
+          "nationality": "",
+          "serverUrl": ""
+        },
+        {
+          "confidence": 0.006199990942563485,
+          "flagUrl": "https://flagcdn.com/w40/eg.png",
+          "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg/449px-Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg",
+          "name": "Abdulbasit Abdulsamad",
+          "nationality": "Egypt",
+          "serverUrl": "https://everyayah.com/data/Abdul_Basit_Mujawwad_128kbps/"
+        }
+      ]
+    },
+    {
+      "file": "data\\test-cases\\tc-007\\Maher Al Meaqli\\104004.mp3",
+      "duration_seconds": 3.500090702947846,
+      "reciter_actual": "Maher Al Meaqli",
+      "status_code": 200,
+      "client_round_trip_time_s": 0.2496337890625,
+      "server_response_time_s": 0.24592,
+      "reliable": true,
+      "predicted_reciter": "Maher Al Meaqli",
+      "confidence": 99.96796751123179,
+      "is_correct": true,
+      "error": "",
+      "top_predictions": [
+        {
+          "confidence": 99.96796751123179,
+          "flagUrl": "",
+          "imageUrl": "",
+          "name": "Maher Al Meaqli",
+          "nationality": "",
+          "serverUrl": ""
+        },
+        {
+          "confidence": 0.010530252194262173,
+          "flagUrl": "https://flagcdn.com/w40/eg.png",
+          "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg/449px-Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg",
+          "name": "Mohammed Siddiq Al-Minshawi",
+          "nationality": "Egypt",
+          "serverUrl": "https://everyayah.com/data/Minshawy_Mujawwad_192kbps/"
+        },
+        {
+          "confidence": 0.010369397507191106,
+          "flagUrl": "",
+          "imageUrl": "",
+          "name": "Abdulrahman Alsudaes",
+          "nationality": "",
+          "serverUrl": ""
+        },
+        {
+          "confidence": 0.006471729658561209,
+          "flagUrl": "",
+          "imageUrl": "",
+          "name": "Yasser Al-Dosari",
+          "nationality": "",
+          "serverUrl": ""
+        },
+        {
+          "confidence": 0.0046611094081743356,
+          "flagUrl": "https://flagcdn.com/w40/eg.png",
+          "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg/449px-Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg",
+          "name": "Abdulbasit Abdulsamad",
+          "nationality": "Egypt",
+          "serverUrl": "https://everyayah.com/data/Abdul_Basit_Mujawwad_128kbps/"
+        }
+      ]
+    },
+    {
+      "file": "data\\test-cases\\tc-007\\Maher Al Meaqli\\104005.mp3",
+      "duration_seconds": 3.6567573696145126,
+      "reciter_actual": "Maher Al Meaqli",
+      "status_code": 200,
+      "client_round_trip_time_s": 0.24695491790771484,
+      "server_response_time_s": 0.24345,
+      "reliable": true,
+      "predicted_reciter": "Maher Al Meaqli",
+      "confidence": 99.93553428254046,
+      "is_correct": true,
+      "error": "",
+      "top_predictions": [
+        {
+          "confidence": 99.93553428254046,
+          "flagUrl": "",
+          "imageUrl": "",
+          "name": "Maher Al Meaqli",
+          "nationality": "",
+          "serverUrl": ""
+        },
+        {
+          "confidence": 0.03192713036881775,
+          "flagUrl": "",
+          "imageUrl": "",
+          "name": "Abdulrahman Alsudaes",
+          "nationality": "",
+          "serverUrl": ""
+        },
+        {
+          "confidence": 0.013105538051381564,
+          "flagUrl": "",
+          "imageUrl": "",
+          "name": "Yasser Al-Dosari",
+          "nationality": "",
+          "serverUrl": ""
+        },
+        {
+          "confidence": 0.012477805543525136,
+          "flagUrl": "https://flagcdn.com/w40/eg.png",
+          "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg/449px-Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg",
+          "name": "Mohammed Siddiq Al-Minshawi",
+          "nationality": "Egypt",
+          "serverUrl": "https://everyayah.com/data/Minshawy_Mujawwad_192kbps/"
+        },
+        {
+          "confidence": 0.0069552434958012185,
+          "flagUrl": "https://flagcdn.com/w40/eg.png",
+          "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg/449px-Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg",
+          "name": "Abdulbasit Abdulsamad",
+          "nationality": "Egypt",
+          "serverUrl": "https://everyayah.com/data/Abdul_Basit_Mujawwad_128kbps/"
+        }
+      ]
+    },
+    {
+      "file": "data\\test-cases\\tc-007\\Maher Al Meaqli\\104006.mp3",
+      "duration_seconds": 2.350748299319728,
+      "reciter_actual": "Maher Al Meaqli",
+      "status_code": 200,
+      "client_round_trip_time_s": 0.20086359977722168,
+      "server_response_time_s": 0.19728,
+      "reliable": true,
+      "predicted_reciter": "Maher Al Meaqli",
+      "confidence": 99.95876981948845,
+      "is_correct": true,
+      "error": "",
+      "top_predictions": [
+        {
+          "confidence": 99.95876981948845,
+          "flagUrl": "",
+          "imageUrl": "",
+          "name": "Maher Al Meaqli",
+          "nationality": "",
+          "serverUrl": ""
+        },
+        {
+          "confidence": 0.013198145054478623,
+          "flagUrl": "",
+          "imageUrl": "",
+          "name": "Yasser Al-Dosari",
+          "nationality": "",
+          "serverUrl": ""
+        },
+        {
+          "confidence": 0.012504424193351652,
+          "flagUrl": "https://flagcdn.com/w40/eg.png",
+          "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg/449px-Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg",
+          "name": "Mohammed Siddiq Al-Minshawi",
+          "nationality": "Egypt",
+          "serverUrl": "https://everyayah.com/data/Minshawy_Mujawwad_192kbps/"
+        },
+        {
+          "confidence": 0.009906355987329866,
+          "flagUrl": "",
+          "imageUrl": "",
+          "name": "Abdulrahman Alsudaes",
+          "nationality": "",
+          "serverUrl": ""
+        },
+        {
+          "confidence": 0.005621255276398449,
+          "flagUrl": "https://flagcdn.com/w40/eg.png",
+          "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg/449px-Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg",
+          "name": "Abdulbasit Abdulsamad",
+          "nationality": "Egypt",
+          "serverUrl": "https://everyayah.com/data/Abdul_Basit_Mujawwad_128kbps/"
+        }
+      ]
+    },
+    {
+      "file": "data\\test-cases\\tc-007\\Maher Al Meaqli\\104007.mp3",
+      "duration_seconds": 3.2127437641723358,
+      "reciter_actual": "Maher Al Meaqli",
+      "status_code": 200,
+      "client_round_trip_time_s": 0.23166155815124512,
+      "server_response_time_s": 0.22816999999999998,
+      "reliable": true,
+      "predicted_reciter": "Maher Al Meaqli",
+      "confidence": 99.9687731935946,
+      "is_correct": true,
+      "error": "",
+      "top_predictions": [
+        {
+          "confidence": 99.9687731935946,
+          "flagUrl": "",
+          "imageUrl": "",
+          "name": "Maher Al Meaqli",
+          "nationality": "",
+          "serverUrl": ""
+        },
+        {
+          "confidence": 0.010188856512357555,
+          "flagUrl": "https://flagcdn.com/w40/eg.png",
+          "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg/449px-Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg",
+          "name": "Mohammed Siddiq Al-Minshawi",
+          "nationality": "Egypt",
+          "serverUrl": "https://everyayah.com/data/Minshawy_Mujawwad_192kbps/"
+        },
+        {
+          "confidence": 0.009907426289322004,
+          "flagUrl": "",
+          "imageUrl": "",
+          "name": "Abdulrahman Alsudaes",
+          "nationality": "",
+          "serverUrl": ""
+        },
+        {
+          "confidence": 0.006487051534268852,
+          "flagUrl": "",
+          "imageUrl": "",
+          "name": "Yasser Al-Dosari",
+          "nationality": "",
+          "serverUrl": ""
+        },
+        {
+          "confidence": 0.0046434720694348355,
+          "flagUrl": "https://flagcdn.com/w40/eg.png",
+          "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg/449px-Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg",
+          "name": "Abdulbasit Abdulsamad",
+          "nationality": "Egypt",
+          "serverUrl": "https://everyayah.com/data/Abdul_Basit_Mujawwad_128kbps/"
+        }
+      ]
+    },
+    {
+      "file": "data\\test-cases\\tc-007\\Maher Al Meaqli\\104008.mp3",
+      "duration_seconds": 3.447845804988662,
+      "reciter_actual": "Maher Al Meaqli",
+      "status_code": 200,
+      "client_round_trip_time_s": 0.2310500144958496,
+      "server_response_time_s": 0.22738,
+      "reliable": true,
+      "predicted_reciter": "Maher Al Meaqli",
+      "confidence": 99.9140214732417,
+      "is_correct": true,
+      "error": "",
+      "top_predictions": [
+        {
+          "confidence": 99.9140214732417,
+          "flagUrl": "",
+          "imageUrl": "",
+          "name": "Maher Al Meaqli",
+          "nationality": "",
+          "serverUrl": ""
+        },
+        {
+          "confidence": 0.05449634228336137,
+          "flagUrl": "",
+          "imageUrl": "",
+          "name": "Yasser Al-Dosari",
+          "nationality": "",
+          "serverUrl": ""
+        },
+        {
+          "confidence": 0.014721616311137066,
+          "flagUrl": "",
+          "imageUrl": "",
+          "name": "Abdulrahman Alsudaes",
+          "nationality": "",
+          "serverUrl": ""
+        },
+        {
+          "confidence": 0.011788395287215809,
+          "flagUrl": "https://flagcdn.com/w40/eg.png",
+          "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg/449px-Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg",
+          "name": "Mohammed Siddiq Al-Minshawi",
+          "nationality": "Egypt",
+          "serverUrl": "https://everyayah.com/data/Minshawy_Mujawwad_192kbps/"
+        },
+        {
+          "confidence": 0.004972172876609674,
+          "flagUrl": "https://flagcdn.com/w40/eg.png",
+          "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg/449px-Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg",
+          "name": "Abdulbasit Abdulsamad",
+          "nationality": "Egypt",
+          "serverUrl": "https://everyayah.com/data/Abdul_Basit_Mujawwad_128kbps/"
+        }
+      ]
+    },
+    {
+      "file": "data\\test-cases\\tc-007\\Maher Al Meaqli\\104009.mp3",
+      "duration_seconds": 2.8470748299319726,
+      "reciter_actual": "Maher Al Meaqli",
+      "status_code": 200,
+      "client_round_trip_time_s": 0.21620798110961914,
+      "server_response_time_s": 0.21271,
+      "reliable": true,
+      "predicted_reciter": "Maher Al Meaqli",
+      "confidence": 99.91620427549384,
+      "is_correct": true,
+      "error": "",
+      "top_predictions": [
+        {
+          "confidence": 99.91620427549384,
+          "flagUrl": "",
+          "imageUrl": "",
+          "name": "Maher Al Meaqli",
+          "nationality": "",
+          "serverUrl": ""
+        },
+        {
+          "confidence": 0.04424895769979203,
+          "flagUrl": "https://flagcdn.com/w40/eg.png",
+          "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg/449px-Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg",
+          "name": "Mohammed Siddiq Al-Minshawi",
+          "nationality": "Egypt",
+          "serverUrl": "https://everyayah.com/data/Minshawy_Mujawwad_192kbps/"
+        },
+        {
+          "confidence": 0.020243497663084475,
+          "flagUrl": "",
+          "imageUrl": "",
+          "name": "Yasser Al-Dosari",
+          "nationality": "",
+          "serverUrl": ""
+        },
+        {
+          "confidence": 0.013052047465895132,
+          "flagUrl": "",
+          "imageUrl": "",
+          "name": "Abdulrahman Alsudaes",
+          "nationality": "",
+          "serverUrl": ""
+        },
+        {
+          "confidence": 0.006251221677395994,
+          "flagUrl": "https://flagcdn.com/w40/eg.png",
+          "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg/449px-Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg",
+          "name": "Abdulbasit Abdulsamad",
+          "nationality": "Egypt",
+          "serverUrl": "https://everyayah.com/data/Abdul_Basit_Mujawwad_128kbps/"
+        }
+      ]
+    },
+    {
+      "file": "data\\test-cases\\tc-007\\Maher Al Meaqli\\106001.mp3",
+      "duration_seconds": 1.488843537414966,
+      "reciter_actual": "Maher Al Meaqli",
+      "status_code": 200,
+      "client_round_trip_time_s": 0.1686692237854004,
+      "server_response_time_s": 0.16491,
+      "reliable": true,
+      "predicted_reciter": "Maher Al Meaqli",
+      "confidence": 99.70850717710533,
+      "is_correct": true,
+      "error": "",
+      "top_predictions": [
+        {
+          "confidence": 99.70850717710533,
+          "flagUrl": "",
+          "imageUrl": "",
+          "name": "Maher Al Meaqli",
+          "nationality": "",
+          "serverUrl": ""
+        },
+        {
+          "confidence": 0.26324879615393404,
+          "flagUrl": "",
+          "imageUrl": "",
+          "name": "Yasser Al-Dosari",
+          "nationality": "",
+          "serverUrl": ""
+        },
+        {
+          "confidence": 0.012597707746786736,
+          "flagUrl": "https://flagcdn.com/w40/eg.png",
+          "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg/449px-Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg",
+          "name": "Mohammed Siddiq Al-Minshawi",
+          "nationality": "Egypt",
+          "serverUrl": "https://everyayah.com/data/Minshawy_Mujawwad_192kbps/"
+        },
+        {
+          "confidence": 0.00989136392946073,
+          "flagUrl": "",
+          "imageUrl": "",
+          "name": "Abdulrahman Alsudaes",
+          "nationality": "",
+          "serverUrl": ""
+        },
+        {
+          "confidence": 0.00575495506447733,
+          "flagUrl": "https://flagcdn.com/w40/eg.png",
+          "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg/449px-Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg",
+          "name": "Abdulbasit Abdulsamad",
+          "nationality": "Egypt",
+          "serverUrl": "https://everyayah.com/data/Abdul_Basit_Mujawwad_128kbps/"
+        }
+      ]
+    },
+    {
+      "file": "data\\test-cases\\tc-007\\Maher Al Meaqli\\107004.mp3",
+      "duration_seconds": 1.8544897959183673,
+      "reciter_actual": "Maher Al Meaqli",
+      "status_code": 200,
+      "client_round_trip_time_s": 0.1700291633605957,
+      "server_response_time_s": 0.16616999999999998,
+      "reliable": true,
+      "predicted_reciter": "Maher Al Meaqli",
+      "confidence": 99.16821876358432,
+      "is_correct": true,
+      "error": "",
+      "top_predictions": [
+        {
+          "confidence": 99.16821876358432,
+          "flagUrl": "",
+          "imageUrl": "",
+          "name": "Maher Al Meaqli",
+          "nationality": "",
+          "serverUrl": ""
+        },
+        {
+          "confidence": 0.806400942705174,
+          "flagUrl": "",
+          "imageUrl": "",
+          "name": "Yasser Al-Dosari",
+          "nationality": "",
+          "serverUrl": ""
+        },
+        {
+          "confidence": 0.01097211744156275,
+          "flagUrl": "https://flagcdn.com/w40/eg.png",
+          "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg/449px-Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg",
+          "name": "Mohammed Siddiq Al-Minshawi",
+          "nationality": "Egypt",
+          "serverUrl": "https://everyayah.com/data/Minshawy_Mujawwad_192kbps/"
+        },
+        {
+          "confidence": 0.009812518218262687,
+          "flagUrl": "",
+          "imageUrl": "",
+          "name": "Abdulrahman Alsudaes",
+          "nationality": "",
+          "serverUrl": ""
+        },
+        {
+          "confidence": 0.0045956580506968945,
+          "flagUrl": "https://flagcdn.com/w40/eg.png",
+          "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg/449px-Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg",
+          "name": "Abdulbasit Abdulsamad",
+          "nationality": "Egypt",
+          "serverUrl": "https://everyayah.com/data/Abdul_Basit_Mujawwad_128kbps/"
+        }
+      ]
+    },
+    {
+      "file": "data\\test-cases\\tc-007\\Mohammed Siddiq Al-Minshawi\\106001.mp3",
+      "duration_seconds": 3.3956009070294786,
+      "reciter_actual": "Mohammed Siddiq Al-Minshawi",
+      "status_code": 200,
+      "client_round_trip_time_s": 0.21400713920593262,
+      "server_response_time_s": 0.21039,
+      "reliable": true,
+      "predicted_reciter": "Mohammed Siddiq Al-Minshawi",
+      "confidence": 99.79958996369976,
+      "is_correct": true,
+      "error": "",
+      "top_predictions": [
+        {
+          "confidence": 99.79958996369976,
+          "flagUrl": "https://flagcdn.com/w40/eg.png",
+          "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg/449px-Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg",
+          "name": "Mohammed Siddiq Al-Minshawi",
+          "nationality": "Egypt",
+          "serverUrl": "https://everyayah.com/data/Minshawy_Mujawwad_192kbps/"
+        },
+        {
+          "confidence": 0.06932117398575491,
+          "flagUrl": "",
+          "imageUrl": "",
+          "name": "Abdulrahman Alsudaes",
+          "nationality": "",
+          "serverUrl": ""
+        },
+        {
+          "confidence": 0.05817498767767203,
+          "flagUrl": "https://flagcdn.com/w40/eg.png",
+          "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg/449px-Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg",
+          "name": "Abdulbasit Abdulsamad",
+          "nationality": "Egypt",
+          "serverUrl": "https://everyayah.com/data/Abdul_Basit_Mujawwad_128kbps/"
+        },
+        {
+          "confidence": 0.04529430761919403,
+          "flagUrl": "",
+          "imageUrl": "",
+          "name": "Maher Al Meaqli",
+          "nationality": "",
+          "serverUrl": ""
+        },
+        {
+          "confidence": 0.02761956701761513,
+          "flagUrl": "",
+          "imageUrl": "",
+          "name": "Yasser Al-Dosari",
+          "nationality": "",
+          "serverUrl": ""
+        }
+      ]
+    },
+    {
+      "file": "data\\test-cases\\tc-007\\Mohammed Siddiq Al-Minshawi\\107004.mp3",
+      "duration_seconds": 3.9702267573696144,
+      "reciter_actual": "Mohammed Siddiq Al-Minshawi",
+      "status_code": 200,
+      "client_round_trip_time_s": 0.2306993007659912,
+      "server_response_time_s": 0.22722,
+      "reliable": true,
+      "predicted_reciter": "Mohammed Siddiq Al-Minshawi",
+      "confidence": 99.92838492682517,
+      "is_correct": true,
+      "error": "",
+      "top_predictions": [
+        {
+          "confidence": 99.92838492682517,
+          "flagUrl": "https://flagcdn.com/w40/eg.png",
+          "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg/449px-Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg",
+          "name": "Mohammed Siddiq Al-Minshawi",
+          "nationality": "Egypt",
+          "serverUrl": "https://everyayah.com/data/Minshawy_Mujawwad_192kbps/"
+        },
+        {
+          "confidence": 0.026770290467351614,
+          "flagUrl": "",
+          "imageUrl": "",
+          "name": "Maher Al Meaqli",
+          "nationality": "",
+          "serverUrl": ""
+        },
+        {
+          "confidence": 0.017980626146548967,
+          "flagUrl": "",
+          "imageUrl": "",
+          "name": "Abdulrahman Alsudaes",
+          "nationality": "",
+          "serverUrl": ""
+        },
+        {
+          "confidence": 0.01569573254652906,
+          "flagUrl": "",
+          "imageUrl": "",
+          "name": "Yasser Al-Dosari",
+          "nationality": "",
+          "serverUrl": ""
+        },
+        {
+          "confidence": 0.011168424014400668,
+          "flagUrl": "https://flagcdn.com/w40/eg.png",
+          "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg/449px-Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg",
+          "name": "Abdulbasit Abdulsamad",
+          "nationality": "Egypt",
+          "serverUrl": "https://everyayah.com/data/Abdul_Basit_Mujawwad_128kbps/"
+        }
+      ]
+    },
+    {
+      "file": "data\\test-cases\\tc-007\\Mohammed Siddiq Al-Minshawi\\107007.mp3",
+      "duration_seconds": 3.97015873015873,
+      "reciter_actual": "Mohammed Siddiq Al-Minshawi",
+      "status_code": 200,
+      "client_round_trip_time_s": 0.24860620498657227,
+      "server_response_time_s": 0.24493,
+      "reliable": true,
+      "predicted_reciter": "Mohammed Siddiq Al-Minshawi",
+      "confidence": 99.83017885574216,
+      "is_correct": true,
+      "error": "",
+      "top_predictions": [
+        {
+          "confidence": 99.83017885574216,
+          "flagUrl": "https://flagcdn.com/w40/eg.png",
+          "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg/449px-Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg",
+          "name": "Mohammed Siddiq Al-Minshawi",
+          "nationality": "Egypt",
+          "serverUrl": "https://everyayah.com/data/Minshawy_Mujawwad_192kbps/"
+        },
+        {
+          "confidence": 0.13345824148153398,
+          "flagUrl": "",
+          "imageUrl": "",
+          "name": "Abdulrahman Alsudaes",
+          "nationality": "",
+          "serverUrl": ""
+        },
+        {
+          "confidence": 0.01861592071741178,
+          "flagUrl": "",
+          "imageUrl": "",
+          "name": "Maher Al Meaqli",
+          "nationality": "",
+          "serverUrl": ""
+        },
+        {
+          "confidence": 0.008997732394049447,
+          "flagUrl": "https://flagcdn.com/w40/eg.png",
+          "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg/449px-Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg",
+          "name": "Abdulbasit Abdulsamad",
+          "nationality": "Egypt",
+          "serverUrl": "https://everyayah.com/data/Abdul_Basit_Mujawwad_128kbps/"
+        },
+        {
+          "confidence": 0.008749249664838605,
+          "flagUrl": "",
+          "imageUrl": "",
+          "name": "Yasser Al-Dosari",
+          "nationality": "",
+          "serverUrl": ""
+        }
+      ]
+    },
+    {
+      "file": "data\\test-cases\\tc-007\\Mohammed Siddiq Al-Minshawi\\112001.mp3",
+      "duration_seconds": 3.2204308390022676,
+      "reciter_actual": "Mohammed Siddiq Al-Minshawi",
+      "status_code": 200,
+      "client_round_trip_time_s": 0.20152854919433594,
+      "server_response_time_s": 0.19802,
+      "reliable": true,
+      "predicted_reciter": "Mohammed Siddiq Al-Minshawi",
+      "confidence": 99.95830798334826,
+      "is_correct": true,
+      "error": "",
+      "top_predictions": [
+        {
+          "confidence": 99.95830798334826,
+          "flagUrl": "https://flagcdn.com/w40/eg.png",
+          "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg/449px-Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg",
+          "name": "Mohammed Siddiq Al-Minshawi",
+          "nationality": "Egypt",
+          "serverUrl": "https://everyayah.com/data/Minshawy_Mujawwad_192kbps/"
+        },
+        {
+          "confidence": 0.012351645510467898,
+          "flagUrl": "",
+          "imageUrl": "",
+          "name": "Maher Al Meaqli",
+          "nationality": "",
+          "serverUrl": ""
+        },
+        {
+          "confidence": 0.010336778602386437,
+          "flagUrl": "",
+          "imageUrl": "",
+          "name": "Abdulrahman Alsudaes",
+          "nationality": "",
+          "serverUrl": ""
+        },
+        {
+          "confidence": 0.009651212855801028,
+          "flagUrl": "",
+          "imageUrl": "",
+          "name": "Yasser Al-Dosari",
+          "nationality": "",
+          "serverUrl": ""
+        },
+        {
+          "confidence": 0.009352379683075776,
+          "flagUrl": "https://flagcdn.com/w40/eg.png",
+          "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg/449px-Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg",
+          "name": "Abdulbasit Abdulsamad",
+          "nationality": "Egypt",
+          "serverUrl": "https://everyayah.com/data/Abdul_Basit_Mujawwad_128kbps/"
+        }
+      ]
+    },
+    {
+      "file": "data\\test-cases\\tc-007\\Mohammed Siddiq Al-Minshawi\\112002.mp3",
+      "duration_seconds": 2.664172335600907,
+      "reciter_actual": "Mohammed Siddiq Al-Minshawi",
+      "status_code": 200,
+      "client_round_trip_time_s": 0.18486237525939941,
+      "server_response_time_s": 0.18137999999999999,
+      "reliable": true,
+      "predicted_reciter": "Mohammed Siddiq Al-Minshawi",
+      "confidence": 99.86610690181372,
+      "is_correct": true,
+      "error": "",
+      "top_predictions": [
+        {
+          "confidence": 99.86610690181372,
+          "flagUrl": "https://flagcdn.com/w40/eg.png",
+          "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg/449px-Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg",
+          "name": "Mohammed Siddiq Al-Minshawi",
+          "nationality": "Egypt",
+          "serverUrl": "https://everyayah.com/data/Minshawy_Mujawwad_192kbps/"
+        },
+        {
+          "confidence": 0.07374282997381536,
+          "flagUrl": "",
+          "imageUrl": "",
+          "name": "Maher Al Meaqli",
+          "nationality": "",
+          "serverUrl": ""
+        },
+        {
+          "confidence": 0.02144055319204475,
+          "flagUrl": "",
+          "imageUrl": "",
+          "name": "Yasser Al-Dosari",
+          "nationality": "",
+          "serverUrl": ""
+        },
+        {
+          "confidence": 0.020736201808704325,
+          "flagUrl": "https://flagcdn.com/w40/eg.png",
+          "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg/449px-Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg",
+          "name": "Abdulbasit Abdulsamad",
+          "nationality": "Egypt",
+          "serverUrl": "https://everyayah.com/data/Abdul_Basit_Mujawwad_128kbps/"
+        },
+        {
+          "confidence": 0.017973513211717702,
+          "flagUrl": "",
+          "imageUrl": "",
+          "name": "Abdulrahman Alsudaes",
+          "nationality": "",
+          "serverUrl": ""
+        }
+      ]
+    },
+    {
+      "file": "data\\test-cases\\tc-007\\Mohammed Siddiq Al-Minshawi\\112003.mp3",
+      "duration_seconds": 3.3694784580498864,
+      "reciter_actual": "Mohammed Siddiq Al-Minshawi",
+      "status_code": 200,
+      "client_round_trip_time_s": 0.21729350090026855,
+      "server_response_time_s": 0.21381,
+      "reliable": true,
+      "predicted_reciter": "Mohammed Siddiq Al-Minshawi",
+      "confidence": 99.88942255114685,
+      "is_correct": true,
+      "error": "",
+      "top_predictions": [
+        {
+          "confidence": 99.88942255114685,
+          "flagUrl": "https://flagcdn.com/w40/eg.png",
+          "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg/449px-Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg",
+          "name": "Mohammed Siddiq Al-Minshawi",
+          "nationality": "Egypt",
+          "serverUrl": "https://everyayah.com/data/Minshawy_Mujawwad_192kbps/"
+        },
+        {
+          "confidence": 0.06812069873151615,
+          "flagUrl": "",
+          "imageUrl": "",
+          "name": "Maher Al Meaqli",
+          "nationality": "",
+          "serverUrl": ""
+        },
+        {
+          "confidence": 0.01942443186936875,
+          "flagUrl": "",
+          "imageUrl": "",
+          "name": "Yasser Al-Dosari",
+          "nationality": "",
+          "serverUrl": ""
+        },
+        {
+          "confidence": 0.015455616402233958,
+          "flagUrl": "",
+          "imageUrl": "",
+          "name": "Abdulrahman Alsudaes",
+          "nationality": "",
+          "serverUrl": ""
+        },
+        {
+          "confidence": 0.007576701850017166,
+          "flagUrl": "https://flagcdn.com/w40/eg.png",
+          "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg/449px-Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg",
+          "name": "Abdulbasit Abdulsamad",
+          "nationality": "Egypt",
+          "serverUrl": "https://everyayah.com/data/Abdul_Basit_Mujawwad_128kbps/"
+        }
+      ]
+    },
+    {
+      "file": "data\\test-cases\\tc-007\\Mohammed Siddiq Al-Minshawi\\112004.mp3",
+      "duration_seconds": 4.727709750566893,
+      "reciter_actual": "Mohammed Siddiq Al-Minshawi",
+      "status_code": 200,
+      "client_round_trip_time_s": 0.27808356285095215,
+      "server_response_time_s": 0.27431,
+      "reliable": true,
+      "predicted_reciter": "Mohammed Siddiq Al-Minshawi",
+      "confidence": 99.96692932038616,
+      "is_correct": true,
+      "error": "",
+      "top_predictions": [
+        {
+          "confidence": 99.96692932038616,
+          "flagUrl": "https://flagcdn.com/w40/eg.png",
+          "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg/449px-Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg",
+          "name": "Mohammed Siddiq Al-Minshawi",
+          "nationality": "Egypt",
+          "serverUrl": "https://everyayah.com/data/Minshawy_Mujawwad_192kbps/"
+        },
+        {
+          "confidence": 0.012525511332447871,
+          "flagUrl": "",
+          "imageUrl": "",
+          "name": "Abdulrahman Alsudaes",
+          "nationality": "",
+          "serverUrl": ""
+        },
+        {
+          "confidence": 0.009976318956545759,
+          "flagUrl": "",
+          "imageUrl": "",
+          "name": "Maher Al Meaqli",
+          "nationality": "",
+          "serverUrl": ""
+        },
+        {
+          "confidence": 0.005684503976516349,
+          "flagUrl": "",
+          "imageUrl": "",
+          "name": "Yasser Al-Dosari",
+          "nationality": "",
+          "serverUrl": ""
+        },
+        {
+          "confidence": 0.00488434534834631,
+          "flagUrl": "https://flagcdn.com/w40/eg.png",
+          "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg/449px-Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg",
+          "name": "Abdulbasit Abdulsamad",
+          "nationality": "Egypt",
+          "serverUrl": "https://everyayah.com/data/Abdul_Basit_Mujawwad_128kbps/"
+        }
+      ]
+    },
+    {
+      "file": "data\\test-cases\\tc-007\\Mohammed Siddiq Al-Minshawi\\113002.mp3",
+      "duration_seconds": 3.656825396825397,
+      "reciter_actual": "Mohammed Siddiq Al-Minshawi",
+      "status_code": 200,
+      "client_round_trip_time_s": 0.23143315315246582,
+      "server_response_time_s": 0.2278,
+      "reliable": true,
+      "predicted_reciter": "Mohammed Siddiq Al-Minshawi",
+      "confidence": 99.8582761776704,
+      "is_correct": true,
+      "error": "",
+      "top_predictions": [
+        {
+          "confidence": 99.8582761776704,
+          "flagUrl": "https://flagcdn.com/w40/eg.png",
+          "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg/449px-Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg",
+          "name": "Mohammed Siddiq Al-Minshawi",
+          "nationality": "Egypt",
+          "serverUrl": "https://everyayah.com/data/Minshawy_Mujawwad_192kbps/"
+        },
+        {
+          "confidence": 0.08470280081302836,
+          "flagUrl": "",
+          "imageUrl": "",
+          "name": "Maher Al Meaqli",
+          "nationality": "",
+          "serverUrl": ""
+        },
+        {
+          "confidence": 0.025195502725351957,
+          "flagUrl": "",
+          "imageUrl": "",
+          "name": "Yasser Al-Dosari",
+          "nationality": "",
+          "serverUrl": ""
+        },
+        {
+          "confidence": 0.019083827826114164,
+          "flagUrl": "",
+          "imageUrl": "",
+          "name": "Abdulrahman Alsudaes",
+          "nationality": "",
+          "serverUrl": ""
+        },
+        {
+          "confidence": 0.012741690965096983,
+          "flagUrl": "https://flagcdn.com/w40/eg.png",
+          "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg/449px-Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg",
+          "name": "Abdulbasit Abdulsamad",
+          "nationality": "Egypt",
+          "serverUrl": "https://everyayah.com/data/Abdul_Basit_Mujawwad_128kbps/"
+        }
+      ]
+    },
+    {
+      "file": "data\\test-cases\\tc-007\\Mohammed Siddiq Al-Minshawi\\114002.mp3",
+      "duration_seconds": 2.8993197278911564,
+      "reciter_actual": "Mohammed Siddiq Al-Minshawi",
+      "status_code": 200,
+      "client_round_trip_time_s": 0.19456171989440918,
+      "server_response_time_s": 0.19075,
+      "reliable": true,
+      "predicted_reciter": "Mohammed Siddiq Al-Minshawi",
+      "confidence": 99.88850576580036,
+      "is_correct": true,
+      "error": "",
+      "top_predictions": [
+        {
+          "confidence": 99.88850576580036,
+          "flagUrl": "https://flagcdn.com/w40/eg.png",
+          "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg/449px-Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg",
+          "name": "Mohammed Siddiq Al-Minshawi",
+          "nationality": "Egypt",
+          "serverUrl": "https://everyayah.com/data/Minshawy_Mujawwad_192kbps/"
+        },
+        {
+          "confidence": 0.07015210636697797,
+          "flagUrl": "",
+          "imageUrl": "",
+          "name": "Maher Al Meaqli",
+          "nationality": "",
+          "serverUrl": ""
+        },
+        {
+          "confidence": 0.020078137522247415,
+          "flagUrl": "",
+          "imageUrl": "",
+          "name": "Abdulrahman Alsudaes",
+          "nationality": "",
+          "serverUrl": ""
+        },
+        {
+          "confidence": 0.01098665233147498,
+          "flagUrl": "https://flagcdn.com/w40/eg.png",
+          "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg/449px-Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg",
+          "name": "Abdulbasit Abdulsamad",
+          "nationality": "Egypt",
+          "serverUrl": "https://everyayah.com/data/Abdul_Basit_Mujawwad_128kbps/"
+        },
+        {
+          "confidence": 0.010277337978935682,
+          "flagUrl": "",
+          "imageUrl": "",
+          "name": "Yasser Al-Dosari",
+          "nationality": "",
+          "serverUrl": ""
+        }
+      ]
+    },
+    {
+      "file": "data\\test-cases\\tc-007\\Mohammed Siddiq Al-Minshawi\\114003.mp3",
+      "duration_seconds": 2.8992743764172335,
+      "reciter_actual": "Mohammed Siddiq Al-Minshawi",
+      "status_code": 200,
+      "client_round_trip_time_s": 0.19986939430236816,
+      "server_response_time_s": 0.19641999999999998,
+      "reliable": true,
+      "predicted_reciter": "Mohammed Siddiq Al-Minshawi",
+      "confidence": 99.80322685255312,
+      "is_correct": true,
+      "error": "",
+      "top_predictions": [
+        {
+          "confidence": 99.80322685255312,
+          "flagUrl": "https://flagcdn.com/w40/eg.png",
+          "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg/449px-Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg",
+          "name": "Mohammed Siddiq Al-Minshawi",
+          "nationality": "Egypt",
+          "serverUrl": "https://everyayah.com/data/Minshawy_Mujawwad_192kbps/"
+        },
+        {
+          "confidence": 0.14913603320459448,
+          "flagUrl": "",
+          "imageUrl": "",
+          "name": "Maher Al Meaqli",
+          "nationality": "",
+          "serverUrl": ""
+        },
+        {
+          "confidence": 0.026770900532040502,
+          "flagUrl": "",
+          "imageUrl": "",
+          "name": "Abdulrahman Alsudaes",
+          "nationality": "",
+          "serverUrl": ""
+        },
+        {
+          "confidence": 0.011072452705286392,
+          "flagUrl": "https://flagcdn.com/w40/eg.png",
+          "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg/449px-Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg",
+          "name": "Abdulbasit Abdulsamad",
+          "nationality": "Egypt",
+          "serverUrl": "https://everyayah.com/data/Abdul_Basit_Mujawwad_128kbps/"
+        },
+        {
+          "confidence": 0.009793761004950701,
+          "flagUrl": "",
+          "imageUrl": "",
+          "name": "Yasser Al-Dosari",
+          "nationality": "",
+          "serverUrl": ""
+        }
+      ]
+    },
+    {
+      "file": "data\\test-cases\\tc-007\\Yasser Al-Dosari\\104001.mp3",
+      "duration_seconds": 4.0875963718820865,
+      "reciter_actual": "Yasser Al-Dosari",
+      "status_code": 200,
+      "client_round_trip_time_s": 0.2636995315551758,
+      "server_response_time_s": 0.26009,
+      "reliable": true,
+      "predicted_reciter": "Yasser Al-Dosari",
+      "confidence": 99.80996165823466,
+      "is_correct": true,
+      "error": "",
+      "top_predictions": [
+        {
+          "confidence": 99.80996165823466,
+          "flagUrl": "",
+          "imageUrl": "",
+          "name": "Yasser Al-Dosari",
+          "nationality": "",
+          "serverUrl": ""
+        },
+        {
+          "confidence": 0.15608675415022474,
+          "flagUrl": "",
+          "imageUrl": "",
+          "name": "Abdulrahman Alsudaes",
+          "nationality": "",
+          "serverUrl": ""
+        },
+        {
+          "confidence": 0.012292178250950258,
+          "flagUrl": "",
+          "imageUrl": "",
+          "name": "Maher Al Meaqli",
+          "nationality": "",
+          "serverUrl": ""
+        },
+        {
+          "confidence": 0.01105288973567865,
+          "flagUrl": "https://flagcdn.com/w40/eg.png",
+          "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg/449px-Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg",
+          "name": "Mohammed Siddiq Al-Minshawi",
+          "nationality": "Egypt",
+          "serverUrl": "https://everyayah.com/data/Minshawy_Mujawwad_192kbps/"
+        },
+        {
+          "confidence": 0.010606519628491387,
+          "flagUrl": "https://flagcdn.com/w40/eg.png",
+          "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg/449px-Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg",
+          "name": "Abdulbasit Abdulsamad",
+          "nationality": "Egypt",
+          "serverUrl": "https://everyayah.com/data/Abdul_Basit_Mujawwad_128kbps/"
+        }
+      ]
+    },
+    {
+      "file": "data\\test-cases\\tc-007\\Yasser Al-Dosari\\104006.mp3",
+      "duration_seconds": 3.4476417233560093,
+      "reciter_actual": "Yasser Al-Dosari",
+      "status_code": 200,
+      "client_round_trip_time_s": 0.2317945957183838,
+      "server_response_time_s": 0.22803,
+      "reliable": true,
+      "predicted_reciter": "Yasser Al-Dosari",
+      "confidence": 98.28127361814086,
+      "is_correct": true,
+      "error": "",
+      "top_predictions": [
+        {
+          "confidence": 98.28127361814086,
+          "flagUrl": "",
+          "imageUrl": "",
+          "name": "Yasser Al-Dosari",
+          "nationality": "",
+          "serverUrl": ""
+        },
+        {
+          "confidence": 1.5987688068030081,
+          "flagUrl": "",
+          "imageUrl": "",
+          "name": "Abdulrahman Alsudaes",
+          "nationality": "",
+          "serverUrl": ""
+        },
+        {
+          "confidence": 0.083878022320102,
+          "flagUrl": "https://flagcdn.com/w40/eg.png",
+          "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg/449px-Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg",
+          "name": "Abdulbasit Abdulsamad",
+          "nationality": "Egypt",
+          "serverUrl": "https://everyayah.com/data/Abdul_Basit_Mujawwad_128kbps/"
+        },
+        {
+          "confidence": 0.02200976097094148,
+          "flagUrl": "",
+          "imageUrl": "",
+          "name": "Maher Al Meaqli",
+          "nationality": "",
+          "serverUrl": ""
+        },
+        {
+          "confidence": 0.014069791765097647,
+          "flagUrl": "https://flagcdn.com/w40/eg.png",
+          "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg/449px-Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg",
+          "name": "Mohammed Siddiq Al-Minshawi",
+          "nationality": "Egypt",
+          "serverUrl": "https://everyayah.com/data/Minshawy_Mujawwad_192kbps/"
+        }
+      ]
+    },
+    {
+      "file": "data\\test-cases\\tc-007\\Yasser Al-Dosari\\104007.mp3",
+      "duration_seconds": 3.831609977324263,
+      "reciter_actual": "Yasser Al-Dosari",
+      "status_code": 200,
+      "client_round_trip_time_s": 0.2624795436859131,
+      "server_response_time_s": 0.2587,
+      "reliable": true,
+      "predicted_reciter": "Yasser Al-Dosari",
+      "confidence": 99.88170325210218,
+      "is_correct": true,
+      "error": "",
+      "top_predictions": [
+        {
+          "confidence": 99.88170325210218,
+          "flagUrl": "",
+          "imageUrl": "",
+          "name": "Yasser Al-Dosari",
+          "nationality": "",
+          "serverUrl": ""
+        },
+        {
+          "confidence": 0.04937844542318678,
+          "flagUrl": "",
+          "imageUrl": "",
+          "name": "Maher Al Meaqli",
+          "nationality": "",
+          "serverUrl": ""
+        },
+        {
+          "confidence": 0.03086808338724125,
+          "flagUrl": "https://flagcdn.com/w40/eg.png",
+          "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg/449px-Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg",
+          "name": "Mohammed Siddiq Al-Minshawi",
+          "nationality": "Egypt",
+          "serverUrl": "https://everyayah.com/data/Minshawy_Mujawwad_192kbps/"
+        },
+        {
+          "confidence": 0.023109641602179647,
+          "flagUrl": "",
+          "imageUrl": "",
+          "name": "Abdulrahman Alsudaes",
+          "nationality": "",
+          "serverUrl": ""
+        },
+        {
+          "confidence": 0.014940577485199872,
+          "flagUrl": "https://flagcdn.com/w40/eg.png",
+          "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg/449px-Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg",
+          "name": "Abdulbasit Abdulsamad",
+          "nationality": "Egypt",
+          "serverUrl": "https://everyayah.com/data/Abdul_Basit_Mujawwad_128kbps/"
+        }
+      ]
+    },
+    {
+      "file": "data\\test-cases\\tc-007\\Yasser Al-Dosari\\105005.mp3",
+      "duration_seconds": 3.959591836734694,
+      "reciter_actual": "Yasser Al-Dosari",
+      "status_code": 200,
+      "client_round_trip_time_s": 0.24729228019714355,
+      "server_response_time_s": 0.24378,
+      "reliable": true,
+      "predicted_reciter": "Yasser Al-Dosari",
+      "confidence": 99.95199740518466,
+      "is_correct": true,
+      "error": "",
+      "top_predictions": [
+        {
+          "confidence": 99.95199740518466,
+          "flagUrl": "",
+          "imageUrl": "",
+          "name": "Yasser Al-Dosari",
+          "nationality": "",
+          "serverUrl": ""
+        },
+        {
+          "confidence": 0.014336204679211593,
+          "flagUrl": "https://flagcdn.com/w40/eg.png",
+          "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg/449px-Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg",
+          "name": "Abdulbasit Abdulsamad",
+          "nationality": "Egypt",
+          "serverUrl": "https://everyayah.com/data/Abdul_Basit_Mujawwad_128kbps/"
+        },
+        {
+          "confidence": 0.012602276835373185,
+          "flagUrl": "https://flagcdn.com/w40/eg.png",
+          "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg/449px-Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg",
+          "name": "Mohammed Siddiq Al-Minshawi",
+          "nationality": "Egypt",
+          "serverUrl": "https://everyayah.com/data/Minshawy_Mujawwad_192kbps/"
+        },
+        {
+          "confidence": 0.010574305692645511,
+          "flagUrl": "",
+          "imageUrl": "",
+          "name": "Abdulrahman Alsudaes",
+          "nationality": "",
+          "serverUrl": ""
+        },
+        {
+          "confidence": 0.010489807608122372,
+          "flagUrl": "",
+          "imageUrl": "",
+          "name": "Maher Al Meaqli",
+          "nationality": "",
+          "serverUrl": ""
+        }
+      ]
+    },
+    {
+      "file": "data\\test-cases\\tc-007\\Yasser Al-Dosari\\106001.mp3",
+      "duration_seconds": 2.6797278911564626,
+      "reciter_actual": "Yasser Al-Dosari",
+      "status_code": 200,
+      "client_round_trip_time_s": 0.2029705047607422,
+      "server_response_time_s": 0.19951,
+      "reliable": true,
+      "predicted_reciter": "Yasser Al-Dosari",
+      "confidence": 99.91128861191994,
+      "is_correct": true,
+      "error": "",
+      "top_predictions": [
+        {
+          "confidence": 99.91128861191994,
+          "flagUrl": "",
+          "imageUrl": "",
+          "name": "Yasser Al-Dosari",
+          "nationality": "",
+          "serverUrl": ""
+        },
+        {
+          "confidence": 0.040261921633955686,
+          "flagUrl": "",
+          "imageUrl": "",
+          "name": "Maher Al Meaqli",
+          "nationality": "",
+          "serverUrl": ""
+        },
+        {
+          "confidence": 0.02461207047183083,
+          "flagUrl": "https://flagcdn.com/w40/eg.png",
+          "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg/449px-Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg",
+          "name": "Abdulbasit Abdulsamad",
+          "nationality": "Egypt",
+          "serverUrl": "https://everyayah.com/data/Abdul_Basit_Mujawwad_128kbps/"
+        },
+        {
+          "confidence": 0.012831128623434614,
+          "flagUrl": "",
+          "imageUrl": "",
+          "name": "Abdulrahman Alsudaes",
+          "nationality": "",
+          "serverUrl": ""
+        },
+        {
+          "confidence": 0.011006267350825235,
+          "flagUrl": "https://flagcdn.com/w40/eg.png",
+          "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg/449px-Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg",
+          "name": "Mohammed Siddiq Al-Minshawi",
+          "nationality": "Egypt",
+          "serverUrl": "https://everyayah.com/data/Minshawy_Mujawwad_192kbps/"
+        }
+      ]
+    },
+    {
+      "file": "data\\test-cases\\tc-007\\Yasser Al-Dosari\\106003.mp3",
+      "duration_seconds": 3.5756462585034012,
+      "reciter_actual": "Yasser Al-Dosari",
+      "status_code": 200,
+      "client_round_trip_time_s": 0.232313871383667,
+      "server_response_time_s": 0.22874,
+      "reliable": true,
+      "predicted_reciter": "Yasser Al-Dosari",
+      "confidence": 99.94121939268432,
+      "is_correct": true,
+      "error": "",
+      "top_predictions": [
+        {
+          "confidence": 99.94121939268432,
+          "flagUrl": "",
+          "imageUrl": "",
+          "name": "Yasser Al-Dosari",
+          "nationality": "",
+          "serverUrl": ""
+        },
+        {
+          "confidence": 0.021295100271332808,
+          "flagUrl": "https://flagcdn.com/w40/eg.png",
+          "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg/449px-Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg",
+          "name": "Abdulbasit Abdulsamad",
+          "nationality": "Egypt",
+          "serverUrl": "https://everyayah.com/data/Abdul_Basit_Mujawwad_128kbps/"
+        },
+        {
+          "confidence": 0.015707983943107785,
+          "flagUrl": "https://flagcdn.com/w40/eg.png",
+          "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg/449px-Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg",
+          "name": "Mohammed Siddiq Al-Minshawi",
+          "nationality": "Egypt",
+          "serverUrl": "https://everyayah.com/data/Minshawy_Mujawwad_192kbps/"
+        },
+        {
+          "confidence": 0.011105557344994924,
+          "flagUrl": "",
+          "imageUrl": "",
+          "name": "Abdulrahman Alsudaes",
+          "nationality": "",
+          "serverUrl": ""
+        },
+        {
+          "confidence": 0.010671965756266786,
+          "flagUrl": "",
+          "imageUrl": "",
+          "name": "Maher Al Meaqli",
+          "nationality": "",
+          "serverUrl": ""
+        }
+      ]
+    },
+    {
+      "file": "data\\test-cases\\tc-007\\Yasser Al-Dosari\\107001.mp3",
+      "duration_seconds": 3.831609977324263,
+      "reciter_actual": "Yasser Al-Dosari",
+      "status_code": 200,
+      "client_round_trip_time_s": 0.2630603313446045,
+      "server_response_time_s": 0.25936000000000003,
+      "reliable": true,
+      "predicted_reciter": "Yasser Al-Dosari",
+      "confidence": 99.94000130308076,
+      "is_correct": true,
+      "error": "",
+      "top_predictions": [
+        {
+          "confidence": 99.94000130308076,
+          "flagUrl": "",
+          "imageUrl": "",
+          "name": "Yasser Al-Dosari",
+          "nationality": "",
+          "serverUrl": ""
+        },
+        {
+          "confidence": 0.01730815196159307,
+          "flagUrl": "https://flagcdn.com/w40/eg.png",
+          "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg/449px-Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg",
+          "name": "Mohammed Siddiq Al-Minshawi",
+          "nationality": "Egypt",
+          "serverUrl": "https://everyayah.com/data/Minshawy_Mujawwad_192kbps/"
+        },
+        {
+          "confidence": 0.015526492539457171,
+          "flagUrl": "https://flagcdn.com/w40/eg.png",
+          "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg/449px-Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg",
+          "name": "Abdulbasit Abdulsamad",
+          "nationality": "Egypt",
+          "serverUrl": "https://everyayah.com/data/Abdul_Basit_Mujawwad_128kbps/"
+        },
+        {
+          "confidence": 0.014550587988346804,
+          "flagUrl": "",
+          "imageUrl": "",
+          "name": "Maher Al Meaqli",
+          "nationality": "",
+          "serverUrl": ""
+        },
+        {
+          "confidence": 0.012613464429840468,
+          "flagUrl": "",
+          "imageUrl": "",
+          "name": "Abdulrahman Alsudaes",
+          "nationality": "",
+          "serverUrl": ""
+        }
+      ]
+    },
+    {
+      "file": "data\\test-cases\\tc-007\\Yasser Al-Dosari\\107002.mp3",
+      "duration_seconds": 3.5756462585034012,
+      "reciter_actual": "Yasser Al-Dosari",
+      "status_code": 200,
+      "client_round_trip_time_s": 0.2304699420928955,
+      "server_response_time_s": 0.22682,
+      "reliable": true,
+      "predicted_reciter": "Yasser Al-Dosari",
+      "confidence": 99.94967134398652,
+      "is_correct": true,
+      "error": "",
+      "top_predictions": [
+        {
+          "confidence": 99.94967134398652,
+          "flagUrl": "",
+          "imageUrl": "",
+          "name": "Yasser Al-Dosari",
+          "nationality": "",
+          "serverUrl": ""
+        },
+        {
+          "confidence": 0.016526951868795176,
+          "flagUrl": "https://flagcdn.com/w40/eg.png",
+          "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg/449px-Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg",
+          "name": "Mohammed Siddiq Al-Minshawi",
+          "nationality": "Egypt",
+          "serverUrl": "https://everyayah.com/data/Minshawy_Mujawwad_192kbps/"
+        },
+        {
+          "confidence": 0.012555127771920905,
+          "flagUrl": "",
+          "imageUrl": "",
+          "name": "Abdulrahman Alsudaes",
+          "nationality": "",
+          "serverUrl": ""
+        },
+        {
+          "confidence": 0.011730619392051556,
+          "flagUrl": "",
+          "imageUrl": "",
+          "name": "Maher Al Meaqli",
+          "nationality": "",
+          "serverUrl": ""
+        },
+        {
+          "confidence": 0.009515956980711114,
+          "flagUrl": "https://flagcdn.com/w40/eg.png",
+          "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg/449px-Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg",
+          "name": "Abdulbasit Abdulsamad",
+          "nationality": "Egypt",
+          "serverUrl": "https://everyayah.com/data/Abdul_Basit_Mujawwad_128kbps/"
+        }
+      ]
+    },
+    {
+      "file": "data\\test-cases\\tc-007\\Yasser Al-Dosari\\107004.mp3",
+      "duration_seconds": 2.4237414965986392,
+      "reciter_actual": "Yasser Al-Dosari",
+      "status_code": 200,
+      "client_round_trip_time_s": 0.1847546100616455,
+      "server_response_time_s": 0.18106,
+      "reliable": true,
+      "predicted_reciter": "Yasser Al-Dosari",
+      "confidence": 99.93388990553542,
+      "is_correct": true,
+      "error": "",
+      "top_predictions": [
+        {
+          "confidence": 99.93388990553542,
+          "flagUrl": "",
+          "imageUrl": "",
+          "name": "Yasser Al-Dosari",
+          "nationality": "",
+          "serverUrl": ""
+        },
+        {
+          "confidence": 0.027764913624456763,
+          "flagUrl": "",
+          "imageUrl": "",
+          "name": "Maher Al Meaqli",
+          "nationality": "",
+          "serverUrl": ""
+        },
+        {
+          "confidence": 0.016039522229411726,
+          "flagUrl": "https://flagcdn.com/w40/eg.png",
+          "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg/449px-Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg",
+          "name": "Abdulbasit Abdulsamad",
+          "nationality": "Egypt",
+          "serverUrl": "https://everyayah.com/data/Abdul_Basit_Mujawwad_128kbps/"
+        },
+        {
+          "confidence": 0.012287046997815462,
+          "flagUrl": "",
+          "imageUrl": "",
+          "name": "Abdulrahman Alsudaes",
+          "nationality": "",
+          "serverUrl": ""
+        },
+        {
+          "confidence": 0.010018611612887817,
+          "flagUrl": "https://flagcdn.com/w40/eg.png",
+          "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg/449px-Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg",
+          "name": "Mohammed Siddiq Al-Minshawi",
+          "nationality": "Egypt",
+          "serverUrl": "https://everyayah.com/data/Minshawy_Mujawwad_192kbps/"
+        }
+      ]
+    },
+    {
+      "file": "data\\test-cases\\tc-007\\Yasser Al-Dosari\\107007.mp3",
+      "duration_seconds": 3.3276190476190477,
+      "reciter_actual": "Yasser Al-Dosari",
+      "status_code": 200,
+      "client_round_trip_time_s": 0.23284626007080078,
+      "server_response_time_s": 0.22927,
+      "reliable": false,
+      "predicted_reciter": null,
+      "confidence": null,
+      "is_correct": false,
+      "error": "",
+      "top_predictions": []
+    }
+  ]
+}

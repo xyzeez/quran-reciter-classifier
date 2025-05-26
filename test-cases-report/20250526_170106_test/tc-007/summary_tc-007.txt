@@ -1,0 +1,15 @@
+Test Case TC-007 Summary: Reciter ID with Very Short Audio Clips
+------------------------------------------------------------------
+Total Audio Files Processed: 51
+Correct Predictions: 48 (94.12%)
+Incorrect Predictions: 3
+
+Reliable Predictions: 48
+Unreliable Predictions: 3
+
+Avg. Confidence (Correct): 99.81%
+Avg. Confidence (Incorrect): N/A
+
+Avg. Server Response Time: 0.2218s
+
+No errors or failures reported during processing of very short clips.

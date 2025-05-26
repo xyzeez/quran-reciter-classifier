@@ -70,16 +70,18 @@ def find_model_path() -> Optional[Path]:
         logger.error(f"Error finding model path: {str(e)}")
         return None
 
-def initialize_models() -> Tuple[bool, bool]:
+def initialize_models() -> Tuple[bool, Optional[dict], Optional[str]]:
     """
     Load the reciter identification model at startup.
     (Ayah model loading is handled by QuranMatcher)
     
     Returns:
-        (reciter_success, True) # Second value is a placeholder
+        (reciter_success, model_info, model_path_str)
     """
     global reciter_model
     reciter_success = False
+    model_info_to_return = None
+    model_path_str_to_return = None
     
     try:
         # Initialize reciter model
@@ -88,9 +90,27 @@ def initialize_models() -> Tuple[bool, bool]:
         if model_path:
             reciter_model = load_model(model_path)
             if reciter_model:
-                model_info = reciter_model.get_model_info()
-                logger.info(f"Reciter model loaded successfully from {model_path}")
-                logger.info(f"Model type: {model_info['model_type']}")
+                model_path_str_to_return = str(model_path.resolve())
+                # Ensure get_model_info() is called and its result stored
+                if hasattr(reciter_model, 'get_model_info') and callable(reciter_model.get_model_info):
+                    model_info_to_return = reciter_model.get_model_info()
+                    # If model_info_to_return doesn't include model_path or model_id, try to add them
+                    if not model_info_to_return:
+                        model_info_to_return = {}
+                    if 'model_path' not in model_info_to_return:
+                        model_info_to_return['model_path'] = model_path_str_to_return
+                    # model_id should ideally be part of the model_info from get_model_info itself,
+                    # often derived from the directory name (e.g. training run ID)
+                    # For now, we rely on what get_model_info provides for model_id.
+                else:
+                    # Fallback if get_model_info is not present
+                    model_info_to_return = {
+                        'model_type': 'Unknown (get_model_info not found)',
+                        'model_path': model_path_str_to_return
+                    }
+                
+                logger.info(f"Reciter model loaded successfully from {model_path_str_to_return}")
+                logger.info(f"Model type: {model_info_to_return.get('model_type', 'N/A')}")
                 logger.info(f"Number of classes: {len(reciter_model.classes_)}")
                 reciter_success = True
             else:
@@ -98,13 +118,10 @@ def initialize_models() -> Tuple[bool, bool]:
         else:
             logger.error("No valid model path found for reciter model")
             
-        # Ayah model loading is handled elsewhere
-            
     except Exception as e:
         logger.error(f"Error initializing reciter model: {str(e)}", exc_info=True)
         
-    # Return True for ayah_success placeholder
-    return reciter_success, True 
+    return reciter_success, model_info_to_return, model_path_str_to_return
 
 def get_reciter_model():
     """

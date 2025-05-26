@@ -19,8 +19,6 @@ RECITER_JSON_PATH = DATA_DIR / "reciters.json"
 def parse_args():
     """Parse command line arguments"""
     parser = argparse.ArgumentParser(description='Prepare Quran recitation dataset')
-    parser.add_argument('--use-all-versions', action='store_true', 
-                        help='Use all available versions of recitations (default: False)')
     return parser.parse_args()
 
 def parse_range(range_str):
@@ -29,86 +27,8 @@ def parse_range(range_str):
     return start, end
 
 def get_ayah_files(source_dir, surah_num):
-    """Get all ayah files for a surah, including multiple versions"""
-    # Get base files (without suffix)
-    base_files = list(source_dir.glob(f"{surah_num:03d}*.mp3"))
-    
-    # Group files by ayah number
-    ayah_groups = {}
-    for file in base_files:
-        # Extract ayah number from filename (e.g., "001001.mp3" -> "001")
-        ayah_num = file.stem[3:6]
-        if ayah_num not in ayah_groups:
-            ayah_groups[ayah_num] = []
-        ayah_groups[ayah_num].append(file)
-    
-    return ayah_groups
-
-def get_version_identifier(file_path):
-    """Extract version identifier from filename"""
-    # The assumption is that versions are differentiated by some suffix after the ayah number
-    # For example: 001001A.mp3, 001001B.mp3, etc.
-    # If the naming convention is different, this function should be adjusted
-    
-    # Extract the part after the basic surah-ayah pattern
-    base_name = file_path.stem  # Gets filename without extension
-    if len(base_name) > 6:  # If there's something after the 6-digit surah-ayah code
-        return base_name[6:]
-    return "default"  # If no version identifier found
-
-def select_versions_evenly(ayah_groups):
-    """
-    Select versions evenly across all ayahs
-    
-    For each ayah, select a version in a way that ensures even distribution
-    of version types across all ayahs.
-    """
-    all_versions = []
-    
-    # First, identify all available version types
-    for ayah_files in ayah_groups.values():
-        for file in ayah_files:
-            version = get_version_identifier(file)
-            all_versions.append(version)
-    
-    # Count how many of each version we have
-    version_counter = Counter(all_versions)
-    
-    # Create a selection dictionary for each ayah
-    selected_files = {}
-    
-    # Track how many of each version we've already selected
-    selected_version_counts = Counter()
-    
-    # For each ayah, select the version that will best balance our distribution
-    for ayah_num, ayah_files in ayah_groups.items():
-        if len(ayah_files) == 1:
-            # If only one version, use it
-            selected_files[ayah_num] = ayah_files[0]
-        else:
-            # Get all version identifiers for this ayah
-            versions = [get_version_identifier(f) for f in ayah_files]
-            
-            # Calculate selection ratios for each version
-            # (How many we've selected so far / How many total we should select)
-            selection_ratios = {}
-            for version in versions:
-                if version_counter[version] == 0:
-                    selection_ratios[version] = float('inf')
-                else:
-                    selection_ratios[version] = selected_version_counts[version] / version_counter[version]
-            
-            # Select the version with the lowest selection ratio
-            best_version = min(versions, key=lambda v: selection_ratios[v])
-            
-            # Find the file with this version
-            for file in ayah_files:
-                if get_version_identifier(file) == best_version:
-                    selected_files[ayah_num] = file
-                    selected_version_counts[best_version] += 1
-                    break
-    
-    return selected_files
+    """Get all ayah files for a surah (single version per ayah)"""
+    return list(source_dir.glob(f"{surah_num:03d}*.mp3"))
 
 def load_split_config():
     """Load and validate the split configuration based on recitersAll.json"""
@@ -243,72 +163,36 @@ def save_config(config_to_save):
         json.dump(config_to_save, f, ensure_ascii=False, indent=2)
     print("✓ Configuration saved")
 
-def prepare_training_data(config, use_all_versions=False):
+def prepare_training_data(config):
     """Prepare training data by copying ayah files"""
     print("\n🔄 Preparing training data...")
-    
     start_surah, end_surah = parse_range(config["train_data_range"])
     training_surahs = list(range(start_surah, end_surah + 1))
-    
     for reciter in tqdm(config["training"], desc="Processing training reciters"):
         reciter_dir = TRAIN_DIR / reciter
         reciter_dir.mkdir(exist_ok=True)
-        
         source_dir = dataset_DIR / reciter
-        
         for surah_num in training_surahs:
-            # Get all ayah files for this surah, grouped by ayah number
-            ayah_groups = get_ayah_files(source_dir, surah_num)
-            
-            if use_all_versions:
-                # Copy all versions of each ayah
-                for ayah_files in ayah_groups.values():
-                    for ayah_file in ayah_files:
-                        shutil.copy2(ayah_file, reciter_dir / ayah_file.name)
-            else:
-                # Select versions evenly and copy only selected versions
-                selected_files = select_versions_evenly(ayah_groups)
-                
-                # Copy selected files
-                for ayah_file in selected_files.values():
-                    shutil.copy2(ayah_file, reciter_dir / ayah_file.name)
-    
-    version_mode = "all versions" if use_all_versions else "evenly distributed versions"
-    print(f"✓ Prepared surahs {start_surah}-{end_surah} for {len(config['training'])} reciters using {version_mode}")
+            ayah_files = get_ayah_files(source_dir, surah_num)
+            for ayah_file in ayah_files:
+                shutil.copy2(ayah_file, reciter_dir / ayah_file.name)
+    print(f"✓ Prepared surahs {start_surah}-{end_surah} for {len(config['training'])} reciters.")
     return config
 
-def prepare_testing_data(config, use_all_versions=False):
+def prepare_testing_data(config):
     """Prepare testing data by copying ayah files"""
     print("\n🔄 Preparing testing data...")
-    
     start_surah, end_surah = parse_range(config["test_data_range"])
     testing_surahs = list(range(start_surah, end_surah + 1))
-    
     for reciter in tqdm(config["testing"], desc="Processing testing reciters"):
         reciter_dir = TEST_DIR / reciter
         reciter_dir.mkdir(exist_ok=True)
-        
         source_dir = dataset_DIR / reciter
-        
         for surah_num in testing_surahs:
-            # Get all ayah files for this surah, grouped by ayah number
-            ayah_groups = get_ayah_files(source_dir, surah_num)
-            
-            if use_all_versions:
-                # Copy all versions of each ayah
-                for ayah_files in ayah_groups.values():
-                    for ayah_file in ayah_files:
-                        shutil.copy2(ayah_file, reciter_dir / ayah_file.name)
-            else:
-                # Select versions evenly and copy only selected versions
-                selected_files = select_versions_evenly(ayah_groups)
-                
-                # Copy selected files
-                for ayah_file in selected_files.values():
-                    shutil.copy2(ayah_file, reciter_dir / ayah_file.name)
-    
-    version_mode = "all versions" if use_all_versions else "evenly distributed versions"
-    print(f"✓ Prepared surahs {start_surah}-{end_surah} for {len(config['testing'])} reciters using {version_mode}")
+            ayah_files = get_ayah_files(source_dir, surah_num)
+            for ayah_file in ayah_files:
+                shutil.copy2(ayah_file, reciter_dir / ayah_file.name)
+    print(f"✓ Prepared surahs {start_surah}-{end_surah} for {len(config['testing'])} reciters.")
     return config
 
 def update_training_reciters_json(config):
@@ -343,25 +227,12 @@ def update_training_reciters_json(config):
 
 def main():
     print("\n🚀 Starting data preparation process...")
-    
-    # Parse command line arguments
     args = parse_args()
-    
-    # Load and prepare configuration (includes validation, cleanup, and saving the final config)
-    # load_split_config now handles its own saving of the *finalized* config.
-    config = load_split_config() 
-    
-    # Update reciters.json with the selected training reciters from the *finalized* config
+    config = load_split_config()
     update_training_reciters_json(config)
-    
-    # Process training data
-    config = prepare_training_data(config, use_all_versions=args.use_all_versions)
-    
-    # Process testing data
-    config = prepare_testing_data(config, use_all_versions=args.use_all_versions)
-    
-    version_mode = "all versions" if args.use_all_versions else "evenly distributed versions"
-    print(f"\n✨ Data preparation completed successfully using {version_mode}!")
+    config = prepare_training_data(config)
+    config = prepare_testing_data(config)
+    print(f"\n✨ Data preparation completed successfully!")
     print(f"📊 Final statistics:")
     print(f"  - Training reciters: {config['n_training_reciters']}")
     print(f"  - Testing reciters: {config['n_testing_reciters']}")

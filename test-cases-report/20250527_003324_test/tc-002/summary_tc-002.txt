@@ -1,0 +1,10 @@
+Test Case TC-002 Summary: Non-training reciter handling
+--------------------------------------------------------
+Total Audio Files Processed: 20
+Correctly Handled (Marked Unreliable by Server): 12 (60.00%)
+Incorrectly Handled (False Positives - Marked Reliable): 8 (40.00%)
+Avg. Confidence of False Positive IDs: 97.98%
+
+Avg. Server Response Time: 0.2264s
+
+No errors or failures reported during processing.

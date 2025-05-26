@@ -3,7 +3,8 @@ Application Factory for creating the Flask app instance.
 """
 import logging
 import os
-from flask import Flask
+import time # Import time module
+from flask import Flask, g, jsonify # Import g and jsonify
 from pathlib import Path
 from rich.progress import Progress, SpinnerColumn, TextColumn, BarColumn, TimeElapsedColumn
 from rich.panel import Panel
@@ -20,6 +21,8 @@ from server.utils.logging_config import setup_logging, get_console, get_module_b
 # Import Blueprints
 from server.routes.ayah import ayah_bp
 from server.routes.reciter import reciter_bp
+from server.routes.health import health_bp # Added import for health blueprint
+from server.routes.models import models_bp # Changed import from info to models
 
 # Get root logger - still useful for direct calls if needed
 # root_logger = logging.getLogger() # Removed - Handled internally if needed
@@ -38,6 +41,29 @@ def create_app(config_object=None, debug_mode=False): # Accept debug_mode flag
     setup_logging(debug_mode=debug_mode)
 
     app = Flask(__name__)
+
+    # --- Request Timing --- 
+    @app.before_request
+    def before_request_timing():
+        g.start_time = time.perf_counter()
+
+    @app.after_request
+    def after_request_timing(response):
+        if hasattr(g, 'start_time'):
+            elapsed_ms = (time.perf_counter() - g.start_time) * 1000
+            response.headers["X-Response-Time-MS"] = f"{elapsed_ms:.2f}"
+            
+            # Try to add to JSON response body if applicable
+            if response.content_type == 'application/json':
+                try:
+                    data = response.get_json()
+                    if isinstance(data, dict): # Ensure data is a dict before adding
+                        data['response_time_ms'] = float(f"{elapsed_ms:.2f}")
+                        response.data = jsonify(data).data # Re-serialize with new field
+                except Exception as e:
+                    # Log error if modifying JSON fails, but don't break the response
+                    logging.getLogger(__name__).warning(f"Failed to add response_time_ms to JSON: {e}", exc_info=False)
+        return response
 
     # --- Flask App Configuration --- (Moved after logging setup)
     app.config.from_pyfile('config.py', silent=True)
@@ -99,15 +125,36 @@ def create_app(config_object=None, debug_mode=False): # Accept debug_mode flag
             # --- Task 2: Initialize Reciter Model ---
             task2 = progress.add_task("🧠 Loading Reciter Model...", total=1)
             try:
-                reciter_success, _ = initialize_models()
+                reciter_success, model_info_details, model_path_loaded = initialize_models()
+                app.reciter_model_details_for_info = None # Initialize attribute
                 if not reciter_success:
                     logging.error("CRITICAL: Failed to initialize Reciter model...") # Log normally
                     progress.update(task2, completed=1, description="🧠 Loading Reciter Model... [red]Failed[/red]")
                 else:
                     loaded_reciter_model = get_reciter_model()
-                    model_info = loaded_reciter_model.get_model_info()
-                    reciter_model_status = f"OK ({model_info.get('model_type', 'Unknown')}, {len(loaded_reciter_model.classes_)} classes)"
-                    progress.update(task2, completed=1, description=f"🧠 Loading Reciter Model... [green]OK[/green] ({model_info.get('model_type', 'Unknown')}) ")
+                    # Store details for the /models endpoint
+                    app.reciter_model_details_for_info = {
+                        "model_info_from_loader": model_info_details if model_info_details else {},
+                        "model_path_from_loader": model_path_loaded if model_path_loaded else "Unknown"
+                    }
+
+                    # For the startup panel, use the best available info
+                    panel_model_type = "Unknown"
+                    panel_model_id_for_display = "Unknown ID"
+                    if model_info_details and isinstance(model_info_details, dict):
+                        panel_model_type = model_info_details.get('model_type', panel_model_type)
+                        # Attempt to get model_id from the model_info_details for panel display
+                        # This 'model_id' is what the model itself reports (e.g., from its saved config)
+                        panel_model_id_for_display = model_info_details.get('model_id', panel_model_id_for_display)
+                    elif model_path_loaded:
+                        # Fallback: try to infer model_id (training run ID) from the parent directory of model_path_loaded
+                        try:
+                            panel_model_id_for_display = Path(model_path_loaded).parent.name
+                        except Exception:
+                            pass # Keep "Unknown ID"
+                    
+                    reciter_model_status = f"OK ({panel_model_type}, ID: {panel_model_id_for_display}, {len(loaded_reciter_model.classes_)} classes)"
+                    progress.update(task2, completed=1, description=f"🧠 Loading Reciter Model... [green]OK[/green] ({panel_model_type}) ")
             except Exception as e:
                 logging.error(f"CRITICAL: Error initializing Reciter model: {e}", exc_info=debug_mode)
                 progress.update(task2, completed=1, description="🧠 Loading Reciter Model... [red]Error[/red]")
@@ -135,6 +182,8 @@ def create_app(config_object=None, debug_mode=False): # Accept debug_mode flag
             try:
                 app.register_blueprint(ayah_bp, url_prefix='/')
                 app.register_blueprint(reciter_bp, url_prefix='/')
+                app.register_blueprint(health_bp, url_prefix='/')
+                app.register_blueprint(models_bp, url_prefix='/') # Register models_bp
                 blueprints_status = "OK"
                 progress.update(task4, completed=1, description="🔌 Registering API Blueprints... [green]OK[/green]")
             except Exception as e:
@@ -157,17 +206,5 @@ def create_app(config_object=None, debug_mode=False): # Accept debug_mode flag
         f"Listening on:  [link=http://{app.config.get('HOST', HOST)}:{app.config.get('PORT', PORT)}]http://{app.config.get('HOST', HOST)}:{app.config.get('PORT', PORT)}[/link]"
     )
     _console.print(Panel(panel_content, title=panel_title, border_style=panel_border_style, expand=False))
-
-    # --- Health Check Endpoint --- (Remains the same)
-    @app.route("/health")
-    def health_check():
-        from flask import jsonify
-        services_status = {
-             "reciter_model": "loaded" if reciter_model_status.startswith("OK") else "error",
-             "quran_data": "loaded" if quran_data_status.startswith("OK") else "error",
-             "quran_matcher": "initialized" if quran_matcher_status.startswith("OK") else "error"
-        }
-        overall_status = "ok" if all(s != "error" for s in services_status.values()) else "error"
-        return jsonify({"status": overall_status, "services": services_status}), 200 if overall_status == "ok" else 503
 
     return app 

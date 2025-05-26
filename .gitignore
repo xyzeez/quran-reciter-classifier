@@ -8,11 +8,11 @@ __pycache__/
 .venv/
 
 # Audio Files
-/*.wav
-/*.mp3
-/*.flac
-/*.ogg
-/*.m4a
+*.wav
+*.mp3
+*.flac
+*.ogg
+*.m4a
 
 # Dataset
 dataset
@@ -55,4 +55,7 @@ processed/train/**/[A-Z]*/
 
 # API Responses
 api-responses/
+
+# Inferences
+inferences/
 

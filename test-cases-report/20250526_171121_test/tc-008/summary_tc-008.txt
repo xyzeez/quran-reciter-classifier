@@ -1,0 +1,11 @@
+Test Case TC-008 Summary: Reciter ID with Silence or Non-Speech Audio
+------------------------------------------------------------------------
+Total Audio Files Processed: 16
+Correctly Handled (Marked Unreliable): 14 (87.50%)
+Incorrectly Handled (Marked Reliable - False Positive ID): 2 (12.50%)
+Avg. Confidence of False Positive IDs: 95.43%
+
+Avg. Server Response Time: 0.3548s
+
+Files with Errors/Failures (1):
+  - data\test-cases\tc-008\impulse_responses\726525__peter1955__ir-sweepsource-samsung-a52-smartphone-stereo-48k24b-object_dc.wav

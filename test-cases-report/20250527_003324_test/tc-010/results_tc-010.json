@@ -1,0 +1,400 @@
+{
+  "results": [
+    {
+      "file": "data\\test-cases\\tc-010\\carnival-market\\sample-1.wav",
+      "duration_seconds": 7.68,
+      "source_description": "carnival-market",
+      "status_code": 200,
+      "client_round_trip_time_s": 0.5023326873779297,
+      "server_response_time_s": 0.49712,
+      "transcription": "",
+      "matches_found_server_flag": false,
+      "num_matches_returned": 0,
+      "correctly_handled_no_match": true,
+      "all_matches": [],
+      "error": ""
+    },
+    {
+      "file": "data\\test-cases\\tc-010\\carnival-market\\sample-2.wav",
+      "duration_seconds": 10.8,
+      "source_description": "carnival-market",
+      "status_code": 200,
+      "client_round_trip_time_s": 1.3070509433746338,
+      "server_response_time_s": 1.30143,
+      "transcription": "",
+      "matches_found_server_flag": false,
+      "num_matches_returned": 0,
+      "correctly_handled_no_match": true,
+      "all_matches": [],
+      "error": ""
+    },
+    {
+      "file": "data\\test-cases\\tc-010\\carnival-market\\sample-3.wav",
+      "duration_seconds": 10.8,
+      "source_description": "carnival-market",
+      "status_code": 200,
+      "client_round_trip_time_s": 1.5252697467803955,
+      "server_response_time_s": 1.51951,
+      "transcription": "",
+      "matches_found_server_flag": false,
+      "num_matches_returned": 0,
+      "correctly_handled_no_match": true,
+      "all_matches": [],
+      "error": ""
+    },
+    {
+      "file": "data\\test-cases\\tc-010\\carnival-market\\sample-9.wav",
+      "duration_seconds": 10.8,
+      "source_description": "carnival-market",
+      "status_code": 200,
+      "client_round_trip_time_s": 0.9165744781494141,
+      "server_response_time_s": 0.91087,
+      "transcription": "",
+      "matches_found_server_flag": false,
+      "num_matches_returned": 0,
+      "correctly_handled_no_match": true,
+      "all_matches": [],
+      "error": ""
+    },
+    {
+      "file": "data\\test-cases\\tc-010\\impulse_responses\\718448__peter1955__ir-clap-20170924-bathroom-48k24b-stereo.wav",
+      "duration_seconds": 1.5318333333333334,
+      "source_description": "impulse_responses",
+      "status_code": 200,
+      "client_round_trip_time_s": 0.6165008544921875,
+      "server_response_time_s": 0.61264,
+      "transcription": "",
+      "matches_found_server_flag": true,
+      "num_matches_returned": 1,
+      "correctly_handled_no_match": false,
+      "all_matches": [
+        {
+          "ayah_number": "٣٥",
+          "ayah_number_en": 35,
+          "ayah_text": "إِنَّ ٱلۡمُسۡلِمِينَ وَٱلۡمُسۡلِمَٰتِ وَٱلۡمُؤۡمِنِينَ وَٱلۡمُؤۡمِنَٰتِ وَٱلۡقَٰنِتِينَ وَٱلۡقَٰنِتَٰتِ وَٱلصَّـٰدِقِينَ وَٱلصَّـٰدِقَٰتِ وَٱلصَّـٰبِرِينَ وَٱلصَّـٰبِرَٰتِ وَٱلۡخَٰشِعِينَ وَٱلۡخَٰشِعَٰتِ وَٱلۡمُتَصَدِّقِينَ وَٱلۡمُتَصَدِّقَٰتِ وَٱلصَّـٰٓئِمِينَ وَٱلصَّـٰٓئِمَٰتِ وَٱلۡحَٰفِظِينَ فُرُوجَهُمۡ وَٱلۡحَٰفِظَٰتِ وَٱلذَّـٰكِرِينَ ٱللَّهَ كَثِيرٗا وَٱلذَّـٰكِرَٰتِ أَعَدَّ ٱللَّهُ لَهُم مَّغۡفِرَةٗ وَأَجۡرًا عَظِيمٗا",
+          "confidence_score": 100.0,
+          "surah_name": "الأحزاب",
+          "surah_name_en": "Al-Ahzab",
+          "surah_number": "٣٣",
+          "surah_number_en": 33,
+          "unicode": ""
+        }
+      ],
+      "error": ""
+    },
+    {
+      "file": "data\\test-cases\\tc-010\\impulse_responses\\718449__peter1955__ir-clap-20180112-science-museum-london-wave-pipe-1-48k-16-bit-mono.wav",
+      "duration_seconds": 1.1227291666666666,
+      "source_description": "impulse_responses",
+      "status_code": 200,
+      "client_round_trip_time_s": 0.61234450340271,
+      "server_response_time_s": 0.60868,
+      "transcription": "",
+      "matches_found_server_flag": true,
+      "num_matches_returned": 1,
+      "correctly_handled_no_match": false,
+      "all_matches": [
+        {
+          "ayah_number": "٣٥",
+          "ayah_number_en": 35,
+          "ayah_text": "إِنَّ ٱلۡمُسۡلِمِينَ وَٱلۡمُسۡلِمَٰتِ وَٱلۡمُؤۡمِنِينَ وَٱلۡمُؤۡمِنَٰتِ وَٱلۡقَٰنِتِينَ وَٱلۡقَٰنِتَٰتِ وَٱلصَّـٰدِقِينَ وَٱلصَّـٰدِقَٰتِ وَٱلصَّـٰبِرِينَ وَٱلصَّـٰبِرَٰتِ وَٱلۡخَٰشِعِينَ وَٱلۡخَٰشِعَٰتِ وَٱلۡمُتَصَدِّقِينَ وَٱلۡمُتَصَدِّقَٰتِ وَٱلصَّـٰٓئِمِينَ وَٱلصَّـٰٓئِمَٰتِ وَٱلۡحَٰفِظِينَ فُرُوجَهُمۡ وَٱلۡحَٰفِظَٰتِ وَٱلذَّـٰكِرِينَ ٱللَّهَ كَثِيرٗا وَٱلذَّـٰكِرَٰتِ أَعَدَّ ٱللَّهُ لَهُم مَّغۡفِرَةٗ وَأَجۡرًا عَظِيمٗا",
+          "confidence_score": 100.0,
+          "surah_name": "الأحزاب",
+          "surah_name_en": "Al-Ahzab",
+          "surah_number": "٣٣",
+          "surah_number_en": 33,
+          "unicode": ""
+        }
+      ],
+      "error": ""
+    },
+    {
+      "file": "data\\test-cases\\tc-010\\impulse_responses\\718450__peter1955__ir-clap-20180112-science-museum-london-wave-pipe-2-48k-16-bit-mono.wav",
+      "duration_seconds": 2.116625,
+      "source_description": "impulse_responses",
+      "status_code": 200,
+      "client_round_trip_time_s": 0.5491516590118408,
+      "server_response_time_s": 0.54534,
+      "transcription": "",
+      "matches_found_server_flag": false,
+      "num_matches_returned": 0,
+      "correctly_handled_no_match": true,
+      "all_matches": [],
+      "error": ""
+    },
+    {
+      "file": "data\\test-cases\\tc-010\\impulse_responses\\718451__peter1955__ir-clap-20180112-science-museum-london-wave-pipe-3-48k-16-bit-mono.wav",
+      "duration_seconds": 2.277083333333333,
+      "source_description": "impulse_responses",
+      "status_code": 200,
+      "client_round_trip_time_s": 0.6088593006134033,
+      "server_response_time_s": 0.60505,
+      "transcription": "",
+      "matches_found_server_flag": true,
+      "num_matches_returned": 1,
+      "correctly_handled_no_match": false,
+      "all_matches": [
+        {
+          "ayah_number": "٣٥",
+          "ayah_number_en": 35,
+          "ayah_text": "إِنَّ ٱلۡمُسۡلِمِينَ وَٱلۡمُسۡلِمَٰتِ وَٱلۡمُؤۡمِنِينَ وَٱلۡمُؤۡمِنَٰتِ وَٱلۡقَٰنِتِينَ وَٱلۡقَٰنِتَٰتِ وَٱلصَّـٰدِقِينَ وَٱلصَّـٰدِقَٰتِ وَٱلصَّـٰبِرِينَ وَٱلصَّـٰبِرَٰتِ وَٱلۡخَٰشِعِينَ وَٱلۡخَٰشِعَٰتِ وَٱلۡمُتَصَدِّقِينَ وَٱلۡمُتَصَدِّقَٰتِ وَٱلصَّـٰٓئِمِينَ وَٱلصَّـٰٓئِمَٰتِ وَٱلۡحَٰفِظِينَ فُرُوجَهُمۡ وَٱلۡحَٰفِظَٰتِ وَٱلذَّـٰكِرِينَ ٱللَّهَ كَثِيرٗا وَٱلذَّـٰكِرَٰتِ أَعَدَّ ٱللَّهُ لَهُم مَّغۡفِرَةٗ وَأَجۡرًا عَظِيمٗا",
+          "confidence_score": 100.0,
+          "surah_name": "الأحزاب",
+          "surah_name_en": "Al-Ahzab",
+          "surah_number": "٣٣",
+          "surah_number_en": 33,
+          "unicode": ""
+        }
+      ],
+      "error": ""
+    },
+    {
+      "file": "data\\test-cases\\tc-010\\impulse_responses\\726525__peter1955__ir-sweepsource-samsung-a52-smartphone-stereo-48k24b-object_dc.wav",
+      "duration_seconds": 0.6570208333333334,
+      "source_description": "impulse_responses",
+      "status_code": 200,
+      "client_round_trip_time_s": 0.6013975143432617,
+      "server_response_time_s": 0.59769,
+      "transcription": "",
+      "matches_found_server_flag": true,
+      "num_matches_returned": 1,
+      "correctly_handled_no_match": false,
+      "all_matches": [
+        {
+          "ayah_number": "٣٥",
+          "ayah_number_en": 35,
+          "ayah_text": "إِنَّ ٱلۡمُسۡلِمِينَ وَٱلۡمُسۡلِمَٰتِ وَٱلۡمُؤۡمِنِينَ وَٱلۡمُؤۡمِنَٰتِ وَٱلۡقَٰنِتِينَ وَٱلۡقَٰنِتَٰتِ وَٱلصَّـٰدِقِينَ وَٱلصَّـٰدِقَٰتِ وَٱلصَّـٰبِرِينَ وَٱلصَّـٰبِرَٰتِ وَٱلۡخَٰشِعِينَ وَٱلۡخَٰشِعَٰتِ وَٱلۡمُتَصَدِّقِينَ وَٱلۡمُتَصَدِّقَٰتِ وَٱلصَّـٰٓئِمِينَ وَٱلصَّـٰٓئِمَٰتِ وَٱلۡحَٰفِظِينَ فُرُوجَهُمۡ وَٱلۡحَٰفِظَٰتِ وَٱلذَّـٰكِرِينَ ٱللَّهَ كَثِيرٗا وَٱلذَّـٰكِرَٰتِ أَعَدَّ ٱللَّهُ لَهُم مَّغۡفِرَةٗ وَأَجۡرًا عَظِيمٗا",
+          "confidence_score": 100.0,
+          "surah_name": "الأحزاب",
+          "surah_name_en": "Al-Ahzab",
+          "surah_number": "٣٣",
+          "surah_number_en": 33,
+          "unicode": ""
+        }
+      ],
+      "error": ""
+    },
+    {
+      "file": "data\\test-cases\\tc-010\\impulse_responses\\757865__peter1955__2024-09-14-ir-basement-museum-unterlinden-in-colmar-f-clap-48k24b-stereo.wav",
+      "duration_seconds": 3.3119791666666667,
+      "source_description": "impulse_responses",
+      "status_code": 200,
+      "client_round_trip_time_s": 0.6327629089355469,
+      "server_response_time_s": 0.6280800000000001,
+      "transcription": "",
+      "matches_found_server_flag": true,
+      "num_matches_returned": 1,
+      "correctly_handled_no_match": false,
+      "all_matches": [
+        {
+          "ayah_number": "٣٥",
+          "ayah_number_en": 35,
+          "ayah_text": "إِنَّ ٱلۡمُسۡلِمِينَ وَٱلۡمُسۡلِمَٰتِ وَٱلۡمُؤۡمِنِينَ وَٱلۡمُؤۡمِنَٰتِ وَٱلۡقَٰنِتِينَ وَٱلۡقَٰنِتَٰتِ وَٱلصَّـٰدِقِينَ وَٱلصَّـٰدِقَٰتِ وَٱلصَّـٰبِرِينَ وَٱلصَّـٰبِرَٰتِ وَٱلۡخَٰشِعِينَ وَٱلۡخَٰشِعَٰتِ وَٱلۡمُتَصَدِّقِينَ وَٱلۡمُتَصَدِّقَٰتِ وَٱلصَّـٰٓئِمِينَ وَٱلصَّـٰٓئِمَٰتِ وَٱلۡحَٰفِظِينَ فُرُوجَهُمۡ وَٱلۡحَٰفِظَٰتِ وَٱلذَّـٰكِرِينَ ٱللَّهَ كَثِيرٗا وَٱلذَّـٰكِرَٰتِ أَعَدَّ ٱللَّهُ لَهُم مَّغۡفِرَةٗ وَأَجۡرًا عَظِيمٗا",
+          "confidence_score": 100.0,
+          "surah_name": "الأحزاب",
+          "surah_name_en": "Al-Ahzab",
+          "surah_number": "٣٣",
+          "surah_number_en": 33,
+          "unicode": ""
+        }
+      ],
+      "error": ""
+    },
+    {
+      "file": "data\\test-cases\\tc-010\\random-noises-fly\\sample-10.wav",
+      "duration_seconds": 21.72,
+      "source_description": "random-noises-fly",
+      "status_code": 500,
+      "client_round_trip_time_s": 35.10058569908142,
+      "server_response_time_s": 35.09357,
+      "transcription": "",
+      "matches_found_server_flag": false,
+      "num_matches_returned": 0,
+      "correctly_handled_no_match": true,
+      "all_matches": [],
+      "error": "Processing error: Audio transcription failed"
+    },
+    {
+      "file": "data\\test-cases\\tc-010\\random-noises-fly\\sample-4.wav",
+      "duration_seconds": 5.4,
+      "source_description": "random-noises-fly",
+      "status_code": 200,
+      "client_round_trip_time_s": 0.6130073070526123,
+      "server_response_time_s": 0.60811,
+      "transcription": "",
+      "matches_found_server_flag": false,
+      "num_matches_returned": 0,
+      "correctly_handled_no_match": true,
+      "all_matches": [],
+      "error": ""
+    },
+    {
+      "file": "data\\test-cases\\tc-010\\random-noises-fly\\sample-8.wav",
+      "duration_seconds": 10.8,
+      "source_description": "random-noises-fly",
+      "status_code": 200,
+      "client_round_trip_time_s": 0.9716892242431641,
+      "server_response_time_s": 0.9663200000000001,
+      "transcription": "",
+      "matches_found_server_flag": false,
+      "num_matches_returned": 0,
+      "correctly_handled_no_match": true,
+      "all_matches": [],
+      "error": ""
+    },
+    {
+      "file": "data\\test-cases\\tc-010\\traffic-highway-vehicles\\sample-5.wav",
+      "duration_seconds": 5.4,
+      "source_description": "traffic-highway-vehicles",
+      "status_code": 200,
+      "client_round_trip_time_s": 0.30121421813964844,
+      "server_response_time_s": 0.29651,
+      "transcription": "",
+      "matches_found_server_flag": true,
+      "num_matches_returned": 5,
+      "correctly_handled_no_match": false,
+      "all_matches": [
+        {
+          "ayah_number": "١٧",
+          "ayah_number_en": 17,
+          "ayah_text": "مَثَلُهُمۡ كَمَثَلِ ٱلَّذِي ٱسۡتَوۡقَدَ نَارٗا فَلَمَّآ أَضَآءَتۡ مَا حَوۡلَهُۥ ذَهَبَ ٱللَّهُ بِنُورِهِمۡ وَتَرَكَهُمۡ فِي ظُلُمَٰتٖ لَّا يُبۡصِرُونَ",
+          "confidence_score": 100.0,
+          "surah_name": "البقرة",
+          "surah_name_en": "Al-Baqarah",
+          "surah_number": "٢",
+          "surah_number_en": 2,
+          "unicode": ""
+        },
+        {
+          "ayah_number": "٢٦",
+          "ayah_number_en": 26,
+          "ayah_text": "۞إِنَّ ٱللَّهَ لَا يَسۡتَحۡيِۦٓ أَن يَضۡرِبَ مَثَلٗا مَّا بَعُوضَةٗ فَمَا فَوۡقَهَاۚ فَأَمَّا ٱلَّذِينَ ءَامَنُواْ فَيَعۡلَمُونَ أَنَّهُ ٱلۡحَقُّ مِن رَّبِّهِمۡۖ وَأَمَّا ٱلَّذِينَ كَفَرُواْ فَيَقُولُونَ مَاذَآ أَرَادَ ٱللَّهُ بِهَٰذَا مَثَلٗاۘ يُضِلُّ بِهِۦ كَثِيرٗا وَيَهۡدِي بِهِۦ كَثِيرٗاۚ وَمَا يُضِلُّ بِهِۦٓ إِلَّا ٱلۡفَٰسِقِينَ",
+          "confidence_score": 100.0,
+          "surah_name": "البقرة",
+          "surah_name_en": "Al-Baqarah",
+          "surah_number": "٢",
+          "surah_number_en": 2,
+          "unicode": ""
+        },
+        {
+          "ayah_number": "٢٧",
+          "ayah_number_en": 27,
+          "ayah_text": "ٱلَّذِينَ يَنقُضُونَ عَهۡدَ ٱللَّهِ مِنۢ بَعۡدِ مِيثَٰقِهِۦ وَيَقۡطَعُونَ مَآ أَمَرَ ٱللَّهُ بِهِۦٓ أَن يُوصَلَ وَيُفۡسِدُونَ فِي ٱلۡأَرۡضِۚ أُوْلَـٰٓئِكَ هُمُ ٱلۡخَٰسِرُونَ",
+          "confidence_score": 100.0,
+          "surah_name": "البقرة",
+          "surah_name_en": "Al-Baqarah",
+          "surah_number": "٢",
+          "surah_number_en": 2,
+          "unicode": ""
+        },
+        {
+          "ayah_number": "٢٩",
+          "ayah_number_en": 29,
+          "ayah_text": "هُوَ ٱلَّذِي خَلَقَ لَكُم مَّا فِي ٱلۡأَرۡضِ جَمِيعٗا ثُمَّ ٱسۡتَوَىٰٓ إِلَى ٱلسَّمَآءِ فَسَوَّىٰهُنَّ سَبۡعَ سَمَٰوَٰتٖۚ وَهُوَ بِكُلِّ شَيۡءٍ عَلِيمٞ",
+          "confidence_score": 100.0,
+          "surah_name": "البقرة",
+          "surah_name_en": "Al-Baqarah",
+          "surah_number": "٢",
+          "surah_number_en": 2,
+          "unicode": ""
+        },
+        {
+          "ayah_number": "٣٠",
+          "ayah_number_en": 30,
+          "ayah_text": "وَإِذۡ قَالَ رَبُّكَ لِلۡمَلَـٰٓئِكَةِ إِنِّي جَاعِلٞ فِي ٱلۡأَرۡضِ خَلِيفَةٗۖ قَالُوٓاْ أَتَجۡعَلُ فِيهَا مَن يُفۡسِدُ فِيهَا وَيَسۡفِكُ ٱلدِّمَآءَ وَنَحۡنُ نُسَبِّحُ بِحَمۡدِكَ وَنُقَدِّسُ لَكَۖ قَالَ إِنِّيٓ أَعۡلَمُ مَا لَا تَعۡلَمُونَ",
+          "confidence_score": 100.0,
+          "surah_name": "البقرة",
+          "surah_name_en": "Al-Baqarah",
+          "surah_number": "٢",
+          "surah_number_en": 2,
+          "unicode": ""
+        }
+      ],
+      "error": ""
+    },
+    {
+      "file": "data\\test-cases\\tc-010\\traffic-highway-vehicles\\sample-6.wav",
+      "duration_seconds": 5.4,
+      "source_description": "traffic-highway-vehicles",
+      "status_code": 200,
+      "client_round_trip_time_s": 0.2464606761932373,
+      "server_response_time_s": 0.24165999999999999,
+      "transcription": "",
+      "matches_found_server_flag": true,
+      "num_matches_returned": 5,
+      "correctly_handled_no_match": false,
+      "all_matches": [
+        {
+          "ayah_number": "١",
+          "ayah_number_en": 1,
+          "ayah_text": "الٓمٓ",
+          "confidence_score": 100.0,
+          "surah_name": "البقرة",
+          "surah_name_en": "Al-Baqarah",
+          "surah_number": "٢",
+          "surah_number_en": 2,
+          "unicode": ""
+        },
+        {
+          "ayah_number": "٣٣",
+          "ayah_number_en": 33,
+          "ayah_text": "قَالَ يَـٰٓـَٔادَمُ أَنۢبِئۡهُم بِأَسۡمَآئِهِمۡۖ فَلَمَّآ أَنۢبَأَهُم بِأَسۡمَآئِهِمۡ قَالَ أَلَمۡ أَقُل لَّكُمۡ إِنِّيٓ أَعۡلَمُ غَيۡبَ ٱلسَّمَٰوَٰتِ وَٱلۡأَرۡضِ وَأَعۡلَمُ مَا تُبۡدُونَ وَمَا كُنتُمۡ تَكۡتُمُونَ",
+          "confidence_score": 100.0,
+          "surah_name": "البقرة",
+          "surah_name_en": "Al-Baqarah",
+          "surah_number": "٢",
+          "surah_number_en": 2,
+          "unicode": ""
+        },
+        {
+          "ayah_number": "١٠٦",
+          "ayah_number_en": 106,
+          "ayah_text": "۞مَا نَنسَخۡ مِنۡ ءَايَةٍ أَوۡ نُنسِهَا نَأۡتِ بِخَيۡرٖ مِّنۡهَآ أَوۡ مِثۡلِهَآۗ أَلَمۡ تَعۡلَمۡ أَنَّ ٱللَّهَ عَلَىٰ كُلِّ شَيۡءٖ قَدِيرٌ",
+          "confidence_score": 100.0,
+          "surah_name": "البقرة",
+          "surah_name_en": "Al-Baqarah",
+          "surah_number": "٢",
+          "surah_number_en": 2,
+          "unicode": ""
+        },
+        {
+          "ayah_number": "١٠٧",
+          "ayah_number_en": 107,
+          "ayah_text": "أَلَمۡ تَعۡلَمۡ أَنَّ ٱللَّهَ لَهُۥ مُلۡكُ ٱلسَّمَٰوَٰتِ وَٱلۡأَرۡضِۗ وَمَا لَكُم مِّن دُونِ ٱللَّهِ مِن وَلِيّٖ وَلَا نَصِيرٍ",
+          "confidence_score": 100.0,
+          "surah_name": "البقرة",
+          "surah_name_en": "Al-Baqarah",
+          "surah_number": "٢",
+          "surah_number_en": 2,
+          "unicode": ""
+        },
+        {
+          "ayah_number": "٢٤٣",
+          "ayah_number_en": 243,
+          "ayah_text": "۞أَلَمۡ تَرَ إِلَى ٱلَّذِينَ خَرَجُواْ مِن دِيَٰرِهِمۡ وَهُمۡ أُلُوفٌ حَذَرَ ٱلۡمَوۡتِ فَقَالَ لَهُمُ ٱللَّهُ مُوتُواْ ثُمَّ أَحۡيَٰهُمۡۚ إِنَّ ٱللَّهَ لَذُو فَضۡلٍ عَلَى ٱلنَّاسِ وَلَٰكِنَّ أَكۡثَرَ ٱلنَّاسِ لَا يَشۡكُرُونَ",
+          "confidence_score": 100.0,
+          "surah_name": "البقرة",
+          "surah_name_en": "Al-Baqarah",
+          "surah_number": "٢",
+          "surah_number_en": 2,
+          "unicode": ""
+        }
+      ],
+      "error": ""
+    },
+    {
+      "file": "data\\test-cases\\tc-010\\traffic-highway-vehicles\\sample-7.wav",
+      "duration_seconds": 10.8,
+      "source_description": "traffic-highway-vehicles",
+      "status_code": 200,
+      "client_round_trip_time_s": 0.5492310523986816,
+      "server_response_time_s": 0.54371,
+      "transcription": "",
+      "matches_found_server_flag": false,
+      "num_matches_returned": 0,
+      "correctly_handled_no_match": true,
+      "all_matches": [],
+      "error": ""
+    }
+  ]
+}

@@ -86,31 +86,20 @@ def create_directory_structure():
         log_error(f"Error creating directory structure: {e}")
         raise
 
-def download_ayah(base_url, surah_num, ayah_num, output_path, suffix=''):
+def download_ayah(base_url, surah_num, ayah_num, output_path):
     """Download a single ayah and save it to the specified path"""
-    # Format the file number with leading zeros
     file_num = f"{surah_num:03d}{ayah_num:03d}"
     url = f"{base_url}{file_num}.mp3"
-    
     try:
-        # Add suffix if provided
-        if suffix:
-            output_path = output_path.with_stem(f"{output_path.stem}{suffix}")
-        
         # Skip if file already exists and is not empty
         if output_path.exists() and output_path.stat().st_size > 0:
             return True
-        
         response = requests.get(url, stream=True, verify=False)
         response.raise_for_status()
-        
-        # Create parent directory if it doesn't exist
         output_path.parent.mkdir(parents=True, exist_ok=True)
-        
         with open(output_path, 'wb') as f:
             for chunk in response.iter_content(chunk_size=8192):
                 f.write(chunk)
-        
         return True
     except requests.exceptions.RequestException as e:
         log_error(f"Error downloading {url}: {e}")
@@ -119,72 +108,44 @@ def download_ayah(base_url, surah_num, ayah_num, output_path, suffix=''):
         log_error(f"Unexpected error while downloading {url}: {e}")
         return False
 
-def download_reciter_files(reciter_name, urls, surahs):
+def download_reciter_files(reciter_name, url, surahs):
     """Download all ayahs for a reciter"""
     reciter_dir = Path('dataset') / reciter_name
-    
-    # Convert single URL to list for consistent handling
-    if isinstance(urls, str):
-        urls = [urls]
-    
     total_ayahs = sum(int(surahs[str(surah_num)]) for surah_num in [1] + list(range(78, 115)))
-    total_files = total_ayahs * len(urls)
-    
     log_info(f"Downloading files for {reciter_name}")
-    with tqdm(total=total_files, desc=f"📥 {reciter_name}", unit="file") as pbar:
-        for url in urls:
-            # Determine suffix for multiple URLs
-            suffix = chr(ord('A') + urls.index(url)) if len(urls) > 1 else ''
-            
-            # Process Surah 1 first
-            surah_num = "1"
-            ayah_count = surahs[surah_num]
-            
+    with tqdm(total=total_ayahs, desc=f"📥 {reciter_name}", unit="file") as pbar:
+        # Process Surah 1 first
+        surah_num = "1"
+        ayah_count = surahs[surah_num]
+        for ayah_num in range(1, ayah_count + 1):
+            output_path = reciter_dir / f"{int(surah_num):03d}{ayah_num:03d}.mp3"
+            success = download_ayah(url, int(surah_num), ayah_num, output_path)
+            pbar.update(1)
+            if success:
+                time.sleep(0.1)
+        # Then process Surahs 78-114
+        for surah_num in range(78, 115):
+            surah_num_str = str(surah_num)
+            ayah_count = surahs[surah_num_str]
             for ayah_num in range(1, ayah_count + 1):
-                output_path = reciter_dir / f"{int(surah_num):03d}{ayah_num:03d}.mp3"
-                
-                success = download_ayah(url, int(surah_num), ayah_num, output_path, suffix)
+                output_path = reciter_dir / f"{surah_num:03d}{ayah_num:03d}.mp3"
+                success = download_ayah(url, surah_num, ayah_num, output_path)
                 pbar.update(1)
-                
                 if success:
                     time.sleep(0.1)
-            
-            # Then process Surahs 78-114
-            for surah_num in range(78, 115):
-                surah_num_str = str(surah_num)
-                ayah_count = surahs[surah_num_str]
-                
-                for ayah_num in range(1, ayah_count + 1):
-                    output_path = reciter_dir / f"{surah_num:03d}{ayah_num:03d}.mp3"
-                    
-                    success = download_ayah(url, surah_num, ayah_num, output_path, suffix)
-                    pbar.update(1)
-                    
-                    if success:
-                        time.sleep(0.1)
-    
     log_success(f"Completed downloading files for {reciter_name}")
 
 def main():
     log_info("🚀 Starting Quran audio download process...")
-    
     try:
-        # Load reciters data
         global RECITERS
         RECITERS = load_reciters()
-        
-        # Create directory structure
         create_directory_structure()
-        
-        # Load surah information
         surahs = load_surahs()
-        
-        # Download files for each reciter
         total_reciters = len(RECITERS)
-        for i, (reciter_name, urls) in enumerate(RECITERS.items(), 1):
+        for i, (reciter_name, url) in enumerate(RECITERS.items(), 1):
             log_info(f"Processing reciter {i}/{total_reciters}: {reciter_name}")
-            download_reciter_files(reciter_name, urls, surahs)
-        
+            download_reciter_files(reciter_name, url, surahs)
         log_success(f"✨ Download completed successfully! Processed {total_reciters} reciters")
     except Exception as e:
         log_error(f"An error occurred during the download process: {e}")

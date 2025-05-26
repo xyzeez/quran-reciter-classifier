@@ -1,0 +1,16 @@
+Test Case TC-006 Summary: Ayah Identification with Noisy Audio
+------------------------------------------------------------------
+Total Audio Files Submitted: 0
+Files Processed Successfully (no errors): 0
+Files with Errors: 0
+
+Accuracy (Top Match Correct): 0/0 (0.00%)
+Accuracy (Found in Returned List, incl. top): 0/0 (0.00%)
+
+Avg. Confidence (Correct Top Match): N/A
+Avg. Confidence (Incorrect Top Match): N/A
+Avg. Number of Matches Returned per File: N/A
+
+Avg. Server Response Time: N/A
+
+No errors reported during Ayah identification processing with noisy audio.

@@ -1,12 +1,9 @@
 {
   "Abdulbasit Abdulsamad": {
-    "servers": [
-      "https://everyayah.com/data/Abdul_Basit_Mujawwad_128kbps/",
-      "https://everyayah.com/data/Abdul_Basit_Murattal_192kbps/"
-    ],
+    "servers": "https://everyayah.com/data/Abdul_Basit_Murattal_192kbps/",
     "nationality": "Egypt",
     "flagUrl": "https://flagcdn.com/w40/eg.png",
-    "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg/449px-Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg"
+    "imageUrl": "https://upload.wikimedia.org/wikipedia/ar/thumb/7/73/%D8%B5%D9%88%D8%B1%D8%A9_%D8%B4%D8%AE%D8%B5%D9%8A%D8%A9_%D8%B9%D8%A8%D8%AF_%D8%A7%D9%84%D8%A8%D8%A7%D8%B3%D8%B7_%D8%B9%D8%A8%D8%AF_%D8%A7%D9%84%D8%B5%D9%85%D8%AF.png/330px-%D8%B5%D9%88%D8%B1%D8%A9_%D8%B4%D8%AE%D8%B5%D9%8A%D8%A9_%D8%B9%D8%A8%D8%AF_%D8%A7%D9%84%D8%A8%D8%A7%D8%B3%D8%B7_%D8%B9%D8%A8%D8%AF_%D8%A7%D9%84%D8%B5%D9%85%D8%AF.png"
   },
   "Mishary Alafasi": {
     "servers": "https://everyayah.com/data/Alafasy_128kbps/",
@@ -15,13 +12,10 @@
     "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg/449px-Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg"
   },
   "Mohammed Siddiq Al-Minshawi": {
-    "servers": [
-      "https://everyayah.com/data/Minshawy_Mujawwad_192kbps/",
-      "https://everyayah.com/data/Minshawy_Murattal_128kbps/"
-    ],
+    "servers": "https://everyayah.com/data/Minshawy_Murattal_128kbps/",
     "nationality": "Egypt",
     "flagUrl": "https://flagcdn.com/w40/eg.png",
-    "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg/449px-Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg"
+    "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/e/ee/Elminshwey.jpg"
   },
   "Saud Al-Shuraim": {
     "servers": "https://everyayah.com/data/Saood_ash-Shuraym_128kbps/",
@@ -30,10 +24,7 @@
     "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg/449px-Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg"
   },
   "Mahmoud Khalil Al-Hussary": {
-    "servers": [
-      "https://everyayah.com/data/Husary_128kbps/",
-      "https://everyayah.com/data/Husary_128kbps_Mujawwad/"
-    ],
+    "servers": "https://everyayah.com/data/Husary_128kbps/",
     "nationality": "Egypt",
     "flagUrl": "https://flagcdn.com/w40/eg.png",
     "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg/449px-Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg"
@@ -48,7 +39,7 @@
     "servers": "https://everyayah.com/data/MaherAlMuaiqly128kbps/",
     "nationality": "Saudi Arabia",
     "flagUrl": "https://flagcdn.com/w40/sa.png",
-    "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg/449px-Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg"
+    "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/90/Maher_Al_Mueaqly.png/250px-Maher_Al_Mueaqly.png"
   },
   "Abdulrahman Alsudaes": {
     "servers": "https://everyayah.com/data/Abdurrahmaan_As-Sudais_192kbps/",
@@ -66,13 +57,13 @@
     "servers": "https://everyayah.com/data/Ali_Jaber_64kbps/",
     "nationality": "Saudi Arabia",
     "flagUrl": "https://flagcdn.com/w40/sa.png",
-    "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg/449px-Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg"
+    "imageUrl": "https://upload.wikimedia.org/wikipedia/ar/7/76/Ali-jaber-99.jpg"
   },
   "Yasser Al-Dosari": {
     "servers": "https://everyayah.com/data/Yasser_Ad-Dussary_128kbps/",
     "nationality": "Saudi Arabia",
     "flagUrl": "https://flagcdn.com/w40/sa.png",
-    "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg/449px-Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg"
+    "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8b/Yasser_Al-Dosari_%28cropped%29.jpg/250px-Yasser_Al-Dosari_%28cropped%29.jpg"
   },
   "Ali Alhuthaifi": {
     "servers": "https://everyayah.com/data/Hudhaify_128kbps/",
@@ -98,12 +89,6 @@
     "flagUrl": "https://flagcdn.com/w40/sa.png",
     "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg/449px-Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg"
   },
-  "Ibrahim Al-Akdar": {
-    "servers": "https://everyayah.com/data/Ibrahim_Akhdar_64kbps/",
-    "nationality": "Saudi Arabia",
-    "flagUrl": "https://flagcdn.com/w40/sa.png",
-    "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg/449px-Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg"
-  },
   "Fares Abbad": {
     "servers": "https://everyayah.com/data/Fares_Abbad_64kbps/",
     "nationality": "Saudi Arabia",
@@ -120,7 +105,7 @@
     "servers": "https://everyayah.com/data/ahmed_ibn_ali_al_ajamy_128kbps/",
     "nationality": "Saudi Arabia",
     "flagUrl": "https://flagcdn.com/w40/sa.png",
-    "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg/449px-Abdul-Rahman_Al-Sudais_%28Cropped%2C_2011%29.jpg"
+    "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/e/e5/Ahmad_bin_Ali_Al-Ajmi.png"
   },
   "Yasser Salamah": {
     "servers": "https://everyayah.com/data/Yaser_Salamah_128kbps/",
