@@ -1,0 +1,17 @@
+file,duration_seconds,source_description,server_reliable_flag,predicted_reciter_if_any,confidence_if_any,correctly_handled_as_unreliable,client_round_trip_time_s,server_response_time_s,status_code,error
+data\test-cases\tc-008\carnival-market\sample-1.wav,7.68,carnival-market,False,Maher Al Meaqli,71.32332905559274,True,0.4499187469482422,0.44462999999999997,200,
+data\test-cases\tc-008\carnival-market\sample-2.wav,10.8,carnival-market,False,Maher Al Meaqli,43.443203868668846,True,0.5920617580413818,0.58657,200,
+data\test-cases\tc-008\carnival-market\sample-3.wav,10.8,carnival-market,False,Maher Al Meaqli,71.11662152426672,True,0.5962982177734375,0.59097,200,
+data\test-cases\tc-008\carnival-market\sample-9.wav,10.8,carnival-market,False,Mohammed Siddiq Al-Minshawi,30.599206289985908,True,0.5442898273468018,0.5388,200,
+data\test-cases\tc-008\impulse_responses\718448__peter1955__ir-clap-20170924-bathroom-48k24b-stereo.wav,1.5318333333333334,impulse_responses,False,Abdulrahman Alsudaes,59.3086806652558,True,0.10707831382751465,0.10346,200,
+data\test-cases\tc-008\impulse_responses\718449__peter1955__ir-clap-20180112-science-museum-london-wave-pipe-1-48k-16-bit-mono.wav,1.1227291666666666,impulse_responses,False,Abdulbasit Abdulsamad,28.71457697917737,True,0.10884213447570801,0.10535,200,
+data\test-cases\tc-008\impulse_responses\718450__peter1955__ir-clap-20180112-science-museum-london-wave-pipe-2-48k-16-bit-mono.wav,2.116625,impulse_responses,False,Abdulrahman Alsudaes,53.305206683106555,True,0.12505888938903809,0.12140999999999999,200,
+data\test-cases\tc-008\impulse_responses\718451__peter1955__ir-clap-20180112-science-museum-london-wave-pipe-3-48k-16-bit-mono.wav,2.277083333333333,impulse_responses,False,Maher Al Meaqli,69.15490877573038,True,0.12336444854736328,0.11955,200,
+data\test-cases\tc-008\impulse_responses\726525__peter1955__ir-sweepsource-samsung-a52-smartphone-stereo-48k24b-object_dc.wav,0.6570208333333334,impulse_responses,,,,False,0.03966832160949707,0.03621,500,Feature extraction failed
+data\test-cases\tc-008\impulse_responses\757865__peter1955__2024-09-14-ir-basement-museum-unterlinden-in-colmar-f-clap-48k24b-stereo.wav,3.3119791666666667,impulse_responses,False,Maher Al Meaqli,49.42265939719983,True,0.16350412368774414,0.15874000000000002,200,
+data\test-cases\tc-008\random-noises-fly\sample-10.wav,21.72,random-noises-fly,False,Mohammed Siddiq Al-Minshawi,97.03361754042652,True,1.0290703773498535,1.02227,200,
+data\test-cases\tc-008\random-noises-fly\sample-4.wav,5.4,random-noises-fly,False,Mohammed Siddiq Al-Minshawi,69.21289797267029,True,0.3106667995452881,0.30589999999999995,200,
+data\test-cases\tc-008\random-noises-fly\sample-8.wav,10.8,random-noises-fly,True,Mohammed Siddiq Al-Minshawi,95.42541757491398,False,0.5001840591430664,0.49482,200,
+data\test-cases\tc-008\traffic-highway-vehicles\sample-5.wav,5.4,traffic-highway-vehicles,False,Maher Al Meaqli,56.5475149449599,True,0.32723307609558105,0.32233999999999996,200,
+data\test-cases\tc-008\traffic-highway-vehicles\sample-6.wav,5.4,traffic-highway-vehicles,False,Mohammed Siddiq Al-Minshawi,65.97990842811649,True,0.3283193111419678,0.32352,200,
+data\test-cases\tc-008\traffic-highway-vehicles\sample-7.wav,10.8,traffic-highway-vehicles,False,Yasser Al-Dosari,56.19224765623242,True,0.40802693367004395,0.40275,200,

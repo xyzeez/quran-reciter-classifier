@@ -1,0 +1,51 @@
+{
+  "ayah_matcher": {
+    "details": {
+      "all_verses_count": 6236,
+      "device": "cpu",
+      "matcher_type": "Whisper",
+      "normalized_verses_count": 6236,
+      "quran_data_source_surahs": 114,
+      "service_defaults": {
+        "max_matches": 5,
+        "min_confidence": 0.7
+      },
+      "whisper_model_id": "tarteel-ai/whisper-base-ar-quran"
+    },
+    "status": "initialized"
+  },
+  "reciter_model": {
+    "details": {
+      "model_id": "20250525_065747_train",
+      "model_type": "RandomForest",
+      "training_parameters": {
+        "has_centroids": true,
+        "has_thresholds": true,
+        "training_info": {
+          "classes": [
+            "Abdulbasit Abdulsamad",
+            "Abdulrahman Alsudaes",
+            "Maher Al Meaqli",
+            "Mohammed Siddiq Al-Minshawi",
+            "Yasser Al-Dosari"
+          ],
+          "cross_validation_mean": 1.0,
+          "cross_validation_std": 0.0,
+          "end_time": "2025-05-25 06:57:49",
+          "model_parameters": {
+            "max_depth": 10,
+            "n_estimators": 100,
+            "random_state": 42
+          },
+          "n_classes": 5,
+          "n_features": 511,
+          "n_samples": 2028,
+          "start_time": "2025-05-25 06:57:47",
+          "training_duration": 2.074629
+        }
+      }
+    },
+    "status": "loaded"
+  },
+  "response_time_ms": 0.11
+}

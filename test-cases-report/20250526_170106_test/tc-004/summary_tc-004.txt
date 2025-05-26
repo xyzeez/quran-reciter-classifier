@@ -1,0 +1,15 @@
+Test Case TC-004 Summary: Reciter ID with Noisy Audio
+-------------------------------------------------------
+Total Audio Files Processed: 50
+Correct Predictions: 11 (22.00%)
+Incorrect Predictions: 39
+
+Reliable Predictions: 30
+Unreliable Predictions: 20
+
+Avg. Confidence (Correct): 99.07%
+Avg. Confidence (Incorrect): 99.28%
+
+Avg. Server Response Time: 0.5071s
+
+No errors or failures reported during processing.

@@ -1,0 +1,10 @@
+Test Case TC-008 Summary: Reciter ID with Silence or Non-Speech Audio
+------------------------------------------------------------------------
+Total Audio Files Processed: 16
+Correctly Handled (Marked Unreliable): 7 (43.75%)
+Incorrectly Handled (Marked Reliable - False Positive ID): 9 (56.25%)
+Avg. Confidence of False Positive IDs: 98.83%
+
+Avg. Server Response Time: 0.3387s
+
+No errors or failures reported during processing of silence/non-speech audio.

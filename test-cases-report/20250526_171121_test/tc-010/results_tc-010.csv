@@ -1,0 +1,17 @@
+file,duration_seconds,source_description,correctly_handled_no_match,num_matches_returned,matches_found_server_flag,transcription,client_round_trip_time_s,server_response_time_s,status_code,error
+data\test-cases\tc-010\carnival-market\sample-1.wav,7.68,carnival-market,True,0,False,,0.5027709007263184,0.49753,200,
+data\test-cases\tc-010\carnival-market\sample-2.wav,10.8,carnival-market,True,0,False,,1.3582677841186523,1.35277,200,
+data\test-cases\tc-010\carnival-market\sample-3.wav,10.8,carnival-market,True,0,False,,1.518082618713379,1.5122,200,
+data\test-cases\tc-010\carnival-market\sample-9.wav,10.8,carnival-market,True,0,False,,0.9288833141326904,0.9233899999999999,200,
+data\test-cases\tc-010\impulse_responses\718448__peter1955__ir-clap-20170924-bathroom-48k24b-stereo.wav,1.5318333333333334,impulse_responses,False,1,True,,0.6105401515960693,0.60673,200,
+data\test-cases\tc-010\impulse_responses\718449__peter1955__ir-clap-20180112-science-museum-london-wave-pipe-1-48k-16-bit-mono.wav,1.1227291666666666,impulse_responses,False,1,True,,0.5999531745910645,0.5962000000000001,200,
+data\test-cases\tc-010\impulse_responses\718450__peter1955__ir-clap-20180112-science-museum-london-wave-pipe-2-48k-16-bit-mono.wav,2.116625,impulse_responses,True,0,False,,0.5647983551025391,0.5610700000000001,200,
+data\test-cases\tc-010\impulse_responses\718451__peter1955__ir-clap-20180112-science-museum-london-wave-pipe-3-48k-16-bit-mono.wav,2.277083333333333,impulse_responses,False,1,True,,0.6212406158447266,0.61754,200,
+data\test-cases\tc-010\impulse_responses\726525__peter1955__ir-sweepsource-samsung-a52-smartphone-stereo-48k24b-object_dc.wav,0.6570208333333334,impulse_responses,False,1,True,,0.6117305755615234,0.60799,200,
+data\test-cases\tc-010\impulse_responses\757865__peter1955__2024-09-14-ir-basement-museum-unterlinden-in-colmar-f-clap-48k24b-stereo.wav,3.3119791666666667,impulse_responses,False,1,True,,0.6143877506256104,0.6096699999999999,200,
+data\test-cases\tc-010\random-noises-fly\sample-10.wav,21.72,random-noises-fly,True,0,False,,35.03477883338928,35.02794,500,Processing error: Audio transcription failed
+data\test-cases\tc-010\random-noises-fly\sample-4.wav,5.4,random-noises-fly,True,0,False,,0.6303613185882568,0.62463,200,
+data\test-cases\tc-010\random-noises-fly\sample-8.wav,10.8,random-noises-fly,False,1,True,,0.9686369895935059,0.96316,200,
+data\test-cases\tc-010\traffic-highway-vehicles\sample-5.wav,5.4,traffic-highway-vehicles,False,5,True,,0.3042261600494385,0.29946,200,
+data\test-cases\tc-010\traffic-highway-vehicles\sample-6.wav,5.4,traffic-highway-vehicles,False,5,True,,0.24797391891479492,0.24326,200,
+data\test-cases\tc-010\traffic-highway-vehicles\sample-7.wav,10.8,traffic-highway-vehicles,True,0,False,,0.5837876796722412,0.57814,200,
