@@ -7,26 +7,25 @@
   "n_testing_reciters": 7,
   "n_remaining_reciters": 22,
   "training": [
-    "Abdulrahman Alsudaes",
     "Abdulbasit Abdulsamad",
-    "Mohammed Siddiq Al-Minshawi",
+    "Abdulrahman Alsudaes",
+    "Ahmad Al-Ajmy",
     "Maher Al Meaqli",
     "Yasser Al-Dosari"
   ],
   "testing": [
-    "Abdulrahman Alsudaes",
     "Abdulbasit Abdulsamad",
-    "Mohammed Siddiq Al-Minshawi",
+    "Abdullah Al-Johany",
+    "Abdulrahman Alsudaes",
+    "Ahmad Al-Ajmy",
     "Maher Al Meaqli",
-    "Yasser Al-Dosari",
-    "Ali Alhuthaifi",
-    "Ali Jaber"
+    "Saad Al-Ghamdi",
+    "Yasser Al-Dosari"
   ],
   "remaining": [
     "Abdullah Al-Johany",
     "Abdullah Basfer",
     "Abdulmohsen Al-Qasim",
-    "Ahmad Al-Ajmy",
     "Ali Alhuthaifi",
     "Ali Jaber",
     "Fares Abbad",
@@ -38,6 +37,7 @@
     "Mohammad Al-Tablaway",
     "Mohammed Ayyub",
     "Mohammed Jibreel",
+    "Mohammed Siddiq Al-Minshawi",
     "Mustafa Ismail",
     "Nasser Alqatami",
     "Saad Al-Ghamdi",

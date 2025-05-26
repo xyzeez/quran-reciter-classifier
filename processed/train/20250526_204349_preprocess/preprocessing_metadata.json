@@ -1,0 +1,35 @@
+{
+    "run_id": "20250526_204349_preprocess",
+    "timestamp": "2025-05-26T20:43:49.984678",
+    "mode": "train",
+    "augmentation_enabled": false,
+    "config": {
+        "sample_rate": 22050,
+        "n_mfcc": 32,
+        "n_mel_bands": 64,
+        "n_chroma": 12
+    },
+    "system_info": {
+        "platform": "Windows-10-10.0.26100-SP0",
+        "python_version": "3.10.0",
+        "cpu_count": 20,
+        "use_gpu_config": true,
+        "gpu_available": false
+    },
+    "input_directory": "data\\train",
+    "output_directory": "processed\\train\\20250526_204349_preprocess",
+    "reciters": [
+        "Abdulbasit Abdulsamad",
+        "Abdulrahman Alsudaes",
+        "Ahmad Al-Ajmy",
+        "Maher Al Meaqli",
+        "Yasser Al-Dosari"
+    ],
+    "total_reciters": 5,
+    "total_files_processed": 2535,
+    "total_files_skipped": 0,
+    "total_augmented_samples": 0,
+    "total_features": 2535,
+    "total_audio_duration": 11223.373378684817,
+    "total_processing_time": 661.9746856689453
+}
