@@ -1,0 +1,10 @@
+Test Case TC-005 Summary: Non-training reciter handling with Noisy Audio
+-------------------------------------------------------------------------
+Total Audio Files Processed: 20
+Correctly Handled (Marked Unreliable): 20 (100.00%)
+Incorrectly Handled (Marked Reliable - False Positive ID): 0 (0.00%)
+Avg. Confidence of False Positive IDs: N/A
+
+Avg. Server Response Time: 0.5218s
+
+No errors or failures reported during processing of silence/non-speech audio.
