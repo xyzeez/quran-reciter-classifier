@@ -1,0 +1,16 @@
+Test Case TC-003 Summary: Ayah Identification
+----------------------------------------------
+Total Audio Files Submitted: 11
+Files Processed Successfully (no errors): 11
+Files with Errors: 0
+
+Accuracy (Top Match Correct): 10/11 (90.91%)
+Accuracy (Found in Returned List, incl. top): 11/11 (100.00%)
+
+Avg. Confidence (Correct Top Match): 99.00
+Avg. Confidence (Incorrect Top Match, but matches returned): 100.00
+Avg. Number of Matches Returned per File: 1.18
+
+Avg. Server Response Time (Successful Files): 0.9363s
+
+No errors reported during Ayah identification processing.
