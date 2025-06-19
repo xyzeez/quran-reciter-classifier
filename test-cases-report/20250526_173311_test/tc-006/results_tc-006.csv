@@ -1,1 +1,0 @@
-file,duration_seconds,expected_surah,expected_ayah,top_match_surah,top_match_ayah,top_match_text,top_match_confidence,top_match_correct,found_in_matches,num_matches_returned,transcription,client_round_trip_time_s,server_response_time_s,status_code,error
