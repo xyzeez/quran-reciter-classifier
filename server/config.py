@@ -25,7 +25,11 @@ SAMPLE_RATE = DEFAULT_SAMPLE_RATE     # Target sample rate for reciter ID proces
 # --- Reciter Model Loading Settings --- 
 MODEL_DIR = Path(MODEL_OUTPUT_DIR)  
 LATEST_MODEL_SYMLINK = MODEL_DIR / 'latest' 
+<<<<<<< Updated upstream
 MODEL_ID = '20250417_023215_train'  
+=======
+MODEL_ID = '20250526_205455_train'  
+>>>>>>> Stashed changes
 
 # --- Ayah Matching Settings --- 
 WHISPER_MODEL_ID = "tarteel-ai/whisper-base-ar-quran" # Whisper model for transcription
