@@ -1,0 +1,322 @@
+\documentclass[conference]{IEEEtran}
+
+% -----------------------------
+% Packages
+% -----------------------------
+\usepackage{graphicx}
+\usepackage{ragged2e}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{cite}
+\newcommand{\safeincludegraphics}[2][]{%
+\IfFileExists{#2}{\includegraphics[#1]{#2}}{\fbox{\parbox[c][0.35\textheight][c]{0.92\linewidth}{\centering Missing figure: #2}}}}
+
+% -----------------------------
+% Custom Column Types
+% -----------------------------
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
+\newcolumntype{C}[1]{>{\centering\arraybackslash}p{#1}}
+\newcolumntype{R}[1]{>{\raggedleft\arraybackslash}p{#1}}
+
+% -----------------------------
+% Title / Author
+% -----------------------------
+\title{Open-Set Qur'anic Reciter Recognition Using Hybrid Acoustic Features: A Comparative Evaluation of Random Forest and Bidirectional LSTM Models}
+
+% \author{
+% \IEEEauthorblockN{Abdusamii Abdulazeez\IEEEauthorrefmark{1} and Habeeb Omotunde\IEEEauthorrefmark{2}}
+% \IEEEauthorblockA{\IEEEauthorrefmark{1}Information Technology, Imam Mohammad Ibn Saud Islamic University, Riyadh, Saudi Arabia\\
+% 443022312@sm.imamu.edu.sa}
+% \IEEEauthorblockA{\IEEEauthorrefmark{2}Information Systems, Imam Mohammad Ibn Saud Islamic University, Riyadh, Saudi Arabia\\
+% homotunde@imamu.edu.sa}
+% }
+
+% -----------------------------
+% Document Start
+% -----------------------------
+\begin{document}
+
+\maketitle
+\begin{abstract}
+Automatic Qur'anic reciter recognition is increasingly important for digital learning and recitation verification, yet limited attention has been given to open-set scenarios involving previously unseen reciters. This paper presents Qurr\={a}, an open-set reciter recognition framework that combines hybrid acoustic features---MFCC, spectral, rhythmic, tonal, and chroma descriptors---with a reliability-based rejection mechanism. Random Forest (RF) and Bidirectional LSTM (BLSTM) classifiers are compared under surah-separated evaluation using 2,535 training recordings from five reciters and 399 external recordings from seven reciters. On closed-set external evaluation (228 recordings, unseen surahs), RF achieved 100.0\% accuracy (Macro F1: 1.000) versus 97.81\% (0.978) for BLSTM. For open-set evaluation (171 unseen reciters), RF achieved 97.66\% rejection accuracy and a 2.34\% false positive rate, compared with 87.13\% and 12.87\% for BLSTM; overall external accuracies were 95.24\% and 88.97\%, respectively. The results demonstrate that hybrid acoustic representations with classical ensemble learning remain highly effective for Qur'anic reciter recognition and open-set rejection.
+\end{abstract}
+
+\begin{IEEEkeywords}
+Qur'anic reciter recognition, open-set recognition, Random Forest, bidirectional LSTM, MFCC, acoustic features, speech processing, Arabic speech recognition, machine learning, speaker identification.
+\end{IEEEkeywords}
+
+% -----------------------------
+% Main Text
+% -----------------------------
+\section{Introduction}
+
+The Holy Qur'an has been preserved for centuries through authenticated oral transmission and precise recitation practices. Accurate recitation plays a central role in Qur'anic learning and religious practice, motivating computational systems capable of analyzing recitation audio for learning, verification, and accessibility. With the growth of digital learning platforms and artificial intelligence applications in education, there is increasing interest in automated Qur'anic audio analysis systems \cite{ref2, ref9, ref10}.
+
+Automatic Qur'anic recitation analysis has attracted significant research attention in recent years. Existing studies have explored reciter recognition, speaker identification, recitation classification, and Arabic speech processing using classical machine learning, deep learning, and speech-recognition methods \cite{ref1, ref3, ref4, ref5, ref6, ref7, ref8, ref11, ref12}. However, most reciter-recognition studies use closed-set evaluation, where all test reciters are present during training. This does not reflect deployment conditions where systems may encounter previously unseen reciters.
+
+This paper presents Qurr\={a}, an open-set Qur'anic reciter recognition framework that combines MFCC, chroma, spectral, rhythmic, and tonal descriptors with a reliability-based rejection mechanism. Random Forest (RF) \cite{breiman} and Bidirectional Long Short-Term Memory (BLSTM) \cite{schuster} classifiers are evaluated under identical preprocessing and a surah-separated protocol: model fitting uses Surah 1 and Surahs 78--103, while external evaluation uses Surahs 104--114. The external set includes both known and unseen reciters, enabling measurement of classification and rejection performance.
+
+The main contributions of this work are as follows:
+
+\begin{enumerate}
+\item An open-set Qur'anic reciter recognition framework using hybrid acoustic feature representations and reliability-based rejection.
+\item A comparative evaluation of Random Forest and BLSTM classifiers under identical preprocessing and experimental conditions.
+\item A rigorous evaluation protocol using surah-level separation and open-set testing scenarios.
+\item An empirical demonstration that classical ensemble learning can outperform a compact deep sequence model in this open-set Qur'anic reciter recognition setting.
+\end{enumerate}
+
+\section{Related Work}
+
+Existing studies show that Qur'anic reciter identity can be inferred from audio using deep-learning models \cite{ref1,ref6,ref7} and conventional acoustic classifiers \cite{ref3,ref4}. Related systems address recitation-rule checking, memorization support, and verse-level processing \cite{ref2,ref9,ref10}. These works establish the feasibility of automated Qur'anic audio analysis, but they commonly assume that every test reciter belongs to a known training class. Open-set recognition addresses this limitation by allowing a model to reject samples outside the training classes \cite{openset}. This distinction is important for Qur'anic applications, where a user may submit audio from any reciter rather than only reciters represented in the training corpus.
+
+Two gaps motivate the proposed evaluation design. First, closed-set accuracy can overstate practical performance because a deployed system is forced to assign every input to a known reciter, even when the reciter was not observed during training. Second, Qur'anic recordings share fixed textual content, so evaluations that mix similar surahs across training and testing may reward content familiarity rather than reciter-specific acoustic modeling. Third, while classical and deep learning approaches have been independently studied, limited work provides a controlled comparison under identical preprocessing and feature extraction conditions. By separating surah content and introducing unseen reciters, the present work evaluates whether the models capture voice-related characteristics that generalize beyond memorized recitation material.
+
+\section{Proposed System}
+
+\subsection{System Overview}
+
+The proposed Qurr\={a} framework is an open-set Qur'anic reciter recognition system designed to identify known reciters from audio recordings while rejecting previously unseen reciters. The system consists of four main stages: audio preprocessing, acoustic feature extraction, classification, and reliability-based decision making.
+
+Given an input Qur'anic recitation clip, the system first applies standardized preprocessing to ensure uniform sampling and signal quality. Acoustic features are then extracted using a hybrid feature extraction pipeline. These features are passed to either RF or BLSTM classification, and a reliability-based module determines whether the prediction corresponds to a known reciter or should be rejected as unknown.
+
+The overall architecture is illustrated in Fig.~\ref{figure1}.
+
+% -----------------------------
+% Figure 1
+% -----------------------------
+\begin{figure*}[t]
+\centering
+\safeincludegraphics[width=0.82\textwidth]{figure1.png}
+\caption{Overall architecture of the proposed Qurr\={a} open-set reciter recognition framework.}
+\label{figure1}
+\end{figure*}
+
+\subsection{Audio Preprocessing and Feature Extraction}
+
+All recordings are converted to mono, resampled to 22,050 Hz, trimmed, normalized, and processed with librosa \cite{librosa}. The RF model uses a 511-dimensional vector formed by aggregating MFCC, chroma, mel-spectrogram, spectral contrast, rolloff, centroid, tempogram, tonnetz, RMS, and zero-crossing features. The BLSTM model uses the first 13 MFCC coefficients arranged as fixed-length temporal sequences of length 16. The complete pipeline is shown in Fig.~\ref{figure2}.
+
+The hybrid representation is designed to capture complementary properties of recitation audio. MFCC and mel-spectrogram features summarize cepstral and frequency-band structure, chroma and tonnetz features reflect tonal organization, spectral descriptors capture timbral differences, and rhythm-related features represent temporal delivery patterns. Since reciters may differ in pitch contour, articulation, pacing, and spectral color, combining these descriptors provides a broader acoustic profile than relying on MFCC features alone.
+
+% -----------------------------
+% Figure 2
+% -----------------------------
+\begin{figure}[htbp]
+\centering
+\safeincludegraphics[width=\columnwidth]{figure2.png}
+\caption{Hybrid acoustic feature extraction and processing pipeline.}
+\label{figure2}
+\end{figure}
+
+\subsection{Random Forest Classifier}
+
+The RF classifier uses 100 decision trees with maximum depth 10 and random state 42. It is trained on the full 511-dimensional hybrid feature vector, and probability calibration is applied to improve confidence estimates used by the open-set rejection stage. Predictions are aggregated from individual trees using majority voting, allowing the model to operate robustly on high-dimensional acoustic representations without requiring explicit temporal modeling.
+
+\subsection{Bidirectional Long Short-Term Memory Classifier}
+
+The BLSTM classifier captures temporal patterns from MFCC sequences \cite{schuster}. It uses a single bidirectional LSTM layer with 64 hidden units in each direction, followed by attention \cite{bahdanau} and a fully connected classifier. Training uses AdamW, learning rate 0.0005, batch size 64, dropout 0.5, early stopping, and learning-rate scheduling to reduce overfitting and improve generalization.
+
+\subsection{Reliability-Based Open-Set Recognition}
+
+To enable open-set recognition, each prediction is accepted only when confidence and distance criteria indicate that the sample belongs to a known class. Otherwise, the output label is \textbf{Unknown}.
+
+Let $p_1$ and $p_2$ denote the highest and second-highest predicted class probabilities, respectively. Let $d(x,c_1)$ denote the Euclidean distance between feature vector $x$ and the centroid of the predicted class $c_1$, and let $T(c_1)$ be the 95th-percentile intra-class distance threshold estimated from training data. The prediction is accepted only when
+\begin{equation}
+p_1 \geq 0.95 \ \land\ p_2 < 0.10 \ \land\ (p_1-p_2) \geq 0.80 \ \land\ \frac{d(x,c_1)}{T(c_1)} \leq 1.0.
+\label{eq:reliability}
+\end{equation}
+
+This mechanism allows the system to operate in open-set conditions without explicitly training on an unknown class. The workflow is shown in Fig.~\ref{figure3}.
+
+The four conditions serve different purposes. The maximum-confidence condition requires a strong leading prediction, the secondary-confidence and margin conditions reduce ambiguity between competing known classes, and the centroid-distance condition checks whether the sample is acoustically close to the predicted class distribution. A recording can therefore be rejected even if the classifier produces a high nominal label probability but the feature vector lies outside the learned class region.
+
+% -----------------------------
+% Figure 3
+% -----------------------------
+\begin{figure*}[t]
+\centering
+\safeincludegraphics[width=0.72\textwidth]{figure3.png}
+\caption{Reliability-based open-set recognition decision workflow.}
+\label{figure3}
+\end{figure*}
+
+\subsection{Supporting Verse Retrieval Component}
+
+The framework also includes a supplementary verse retrieval component using \texttt{tarteel-ai/whisper-base-ar-quran} \cite{tarteelwhisper}. Transcribed Arabic text is normalized and matched against 6,236 Qur'anic verses using token-based fuzzy similarity. The component identifies the most likely corresponding verse(s) from the Qur'an database and supports educational use cases such as recitation verification and learning assistance. Comprehensive benchmarking of this subsystem is left for future work.
+
+\section{Experimental Setup}
+
+\subsection{Dataset}
+
+Experiments use a curated Qur'anic recitation corpus designed for closed-set and open-set evaluation. The 2,535-recording development corpus is split into 2,028 model-fitting recordings and 507 holdout recordings from five reciters: Abdulbasit Abdulsamad, Abdulrahman Alsudaes, Ahmad Al-Ajmy, Maher Al Meaqli, and Yasser Al-Dosari. The separate external set contains 399 recordings from seven reciters, including four seen reciters and three unseen reciters. Training uses Surah 1 and Surahs 78--103, while external testing uses only Surahs 104--114. This surah-level separation reduces content leakage and tests reciter-specific generalization. The corpus is curated for this study rather than redistributed as a public benchmark; a manifest of sources, labels, surahs, and partitions should be made available for review.
+
+The external set is intentionally more demanding than the holdout split. The holdout split measures within-distribution generalization for known reciters, while the external set measures whether the same models remain reliable when the Qur'anic content changes and unknown reciters appear. This distinction is important for educational applications, where users may submit short recordings from different surahs and from reciters not represented in the training corpus.
+
+Four external-set reciters overlap with the training set, while three are entirely unseen during training. This structure allows the evaluation to distinguish two tasks that are often conflated: recognizing known reciters under unseen surah content and rejecting reciters that are outside the trained class set.
+
+% -----------------------------
+% Table 1
+% -----------------------------
+\begin{table*}[t]
+\centering
+\caption{Dataset partitions used in the experimental evaluation.}
+\label{table1}
+\renewcommand{\arraystretch}{1.2}
+\setlength{\tabcolsep}{6pt}
+\resizebox{\textwidth}{!}{
+\begin{tabular}{p{3cm} p{2.5cm} p{2cm} p{6.5cm}}
+\toprule
+\textbf{Partition} & \textbf{Recordings} & \textbf{Reciters} & \textbf{Details} \\
+\midrule
+Model-fitting set & 2,028 & 5 & Stratified 80\% of development corpus; Surah 1 and Surahs 78--103 \\
+Holdout set & 507 & 5 & Stratified 20\% of development corpus \\
+External test set & 399 & 7 & Surahs 104--114; includes seen and unseen reciters \\
+\bottomrule
+\end{tabular}
+}
+\end{table*}
+
+\subsection{Model Training Configuration}
+
+Both models are trained on identical partitions, although their input representations differ. Table~\ref{table2} summarizes the training settings.
+
+% -----------------------------
+% Table 2
+% -----------------------------
+\begin{table}[htbp]
+\centering
+\caption{Model training configurations for Random Forest and BLSTM classifiers.}
+\label{table2}
+\renewcommand{\arraystretch}{1.2}
+\setlength{\tabcolsep}{4pt}
+\resizebox{\columnwidth}{!}{
+\begin{tabular}{p{1.4cm} p{2.8cm} p{2.8cm}}
+\toprule
+\textbf{Parameter} & \textbf{Random Forest} & \textbf{BLSTM} \\
+\midrule
+Input features & 511-dim hybrid vector & 13 MFCCs (seq. len. 16) \\
+Architecture & 100 trees, depth 10 & BiLSTM (64 units) + attention \\
+Optimizer & --- & AdamW (lr = 0.0005) \\
+Batch size & --- & 64 \\
+Regularization & Probability calibration & Dropout 0.5, early stopping \\
+Random seed & 42 & 42 \\
+\bottomrule
+\end{tabular}
+}
+\end{table}
+
+\subsection{Data Preprocessing}
+
+All audio recordings are standardized before feature extraction. Preprocessing includes silence trimming, amplitude normalization, basic filtering for noise reduction, and duration validation to ensure consistent inputs. The same preprocessing pipeline is applied across all dataset partitions so that RF and BLSTM are evaluated under comparable signal-processing conditions.
+
+\subsection{Evaluation Protocol}
+
+Evaluation uses four stages:
+
+\begin{enumerate}
+\item \textbf{Holdout Evaluation:} A stratified 20\% subset of the training dataset is used to evaluate model performance on unseen samples from known reciters.
+\item \textbf{Closed-Set External Evaluation:} Evaluation is performed on 228 recordings from known reciters reciting previously unseen surahs (Surahs 104--114).
+\item \textbf{Open-Set Evaluation:} Evaluation is performed on 171 recordings from unseen reciters not included in the training dataset.
+\item \textbf{Combined External Evaluation:} A full evaluation on all 399 external test samples, combining both closed-set and open-set scenarios.
+\end{enumerate}
+
+This protocol separates model selection from final external assessment. The holdout set provides an internal estimate of known-reciter performance, while the external set is reserved for content-separated evaluation. For open-set testing, unknown-reciter recordings are not used as training classes; they are used only to test whether the reliability mechanism can reject out-of-distribution reciters.
+
+\subsection{Evaluation Metrics}
+
+Metrics include accuracy, precision, recall, F1-score, macro F1-score, false positive rate, and rejection accuracy. For open-set testing, an unseen-reciter sample is correct only when it is rejected as \textbf{Unknown}.
+
+\subsection{Experimental Reproducibility}
+
+Dataset splitting and RF training use random seed 42. All experiments use fixed partitions, a fixed preprocessing pipeline, standardized 22,050 Hz sampling, and consistent librosa-based feature extraction. BLSTM/PyTorch runs may still vary slightly across hardware unless deterministic CUDA settings are enforced.
+
+Trained models and evaluation outputs are stored with versioned identifiers to support traceability across experiments. The dataset partitions, model configurations, and evaluation scripts are designed to be reproducible under identical preprocessing conditions.
+
+\section{Results and Discussion}
+
+On the 507-recording holdout set, RF achieved \textbf{99.61\%} accuracy and BLSTM achieved \textbf{99.01\%}. On the 228-recording closed-set external test with unseen surahs, RF achieved \textbf{100.0\%} accuracy with Macro F1-score \textbf{1.000}, while BLSTM achieved \textbf{97.81\%} accuracy with Macro F1-score \textbf{0.978}. For the 171 unseen-reciter recordings, RF achieved \textbf{97.66\%} rejection accuracy with a \textbf{2.34\%} false positive rate, compared with \textbf{87.13\%} rejection accuracy and \textbf{12.87\%} false positive rate for BLSTM. Across all 399 external samples, RF achieved \textbf{95.24\%} overall accuracy and BLSTM achieved \textbf{88.97\%}. The results show stronger external robustness for RF, especially in open-set rejection.
+
+The gap between holdout and external evaluation is especially informative. Both models perform strongly on the holdout split, but the open-set external test exposes differences in reliability. RF maintains a low false positive rate, indicating that its calibrated confidence and centroid-distance checks are more conservative for unseen reciters. BLSTM remains competitive on known reciters but rejects fewer unknown samples, suggesting that its reduced MFCC sequence representation provides less separation between known and unseen reciter distributions.
+
+The holdout results indicate that both models capture discriminative acoustic patterns for known reciters within the development distribution. The closed-set external results further show that these patterns generalize to unseen Qur'anic content when the reciter is known. In contrast, the open-set evaluation highlights the practical importance of rejecting unknown reciters rather than forcing every recording into one of the trained classes.
+
+% -----------------------------
+% Table 3
+% -----------------------------
+\begin{table*}[t]
+\centering
+\caption{Summary of evaluation results across all experimental settings.}
+\label{table3}
+\renewcommand{\arraystretch}{1.2}
+\setlength{\tabcolsep}{6pt}
+\resizebox{\textwidth}{!}{
+\begin{tabular}{p{4.5cm} p{2.5cm} p{2.5cm} p{2.5cm} p{2.5cm}}
+\toprule
+\textbf{Evaluation Setting} & \textbf{Samples} & \textbf{RF Result} & \textbf{BLSTM Result} & \textbf{Metric} \\
+\midrule
+Holdout evaluation & 507 & 99.61\% & 99.01\% & Accuracy \\
+Closed-set external evaluation & 228 & 100.0\% (F1: 1.000) & 97.81\% (F1: 0.978) & Accuracy / Macro F1 \\
+Open-set rejection & 171 & 97.66\% (FPR: 2.34\%) & 87.13\% (FPR: 12.87\%) & Rejection accuracy \\
+Overall external evaluation & 399 & 95.24\% & 88.97\% & Accuracy \\
+\bottomrule
+\end{tabular}
+}
+\end{table*}
+
+\subsection{Confusion Matrix Analysis}
+
+Figures~\ref{figure4} and~\ref{figure5} present the confusion matrices. RF shows near-perfect diagonal dominance, indicating minimal misclassification across reciter classes. BLSTM produces a small number of errors, mainly in acoustically similar boundary cases and particularly in cases involving similar voice characteristics.
+
+% -----------------------------
+% Figure 4
+% -----------------------------
+\begin{figure}[htbp]
+\centering
+\safeincludegraphics[width=\columnwidth]{figure4.png}
+\caption{Confusion matrix for the Random Forest classifier.}
+\label{figure4}
+\end{figure}
+
+% -----------------------------
+% Figure 5
+% -----------------------------
+\begin{figure}[htbp]
+\centering
+\safeincludegraphics[width=\columnwidth]{figure5.png}
+\caption{Confusion matrix for the BLSTM classifier.}
+\label{figure5}
+\end{figure}
+
+\subsection{Discussion}
+
+RF consistently outperforms BLSTM across holdout, closed-set external, open-set, and combined evaluation. A likely reason is feature richness: RF uses the full 511-dimensional hybrid acoustic vector, while BLSTM uses only 13 MFCC coefficients arranged as short temporal sequences. The open-set results also show why closed-set accuracy alone is insufficient for deployment, since unseen reciters must be rejected rather than forced into known classes. Limitations remain: the dataset covers a fixed set of reciters and surahs, rejection thresholds are manually selected, BLSTM and RF use unequal feature representations, and the verse retrieval component has not yet been benchmarked at scale.
+
+The result should not be interpreted as a general rejection of sequence models. Rather, it shows that in this limited-data setting, a strong handcrafted representation paired with a classical ensemble can outperform a compact BLSTM input representation. A more balanced future comparison would provide the sequence model with richer acoustic descriptors, longer temporal context, or transformer-based encoders. Nevertheless, the present findings are useful because they demonstrate that an efficient classical model can provide strong accuracy and practical open-set behavior without requiring a large deep-learning corpus.
+
+The supporting verse retrieval component is not the primary focus of the current evaluation, but it demonstrates the potential of integrating reciter recognition with verse-level retrieval. Such integration is relevant for educational applications that combine recitation verification, listening support, and reference lookup.
+
+\subsection{Threats to Validity}
+
+Several factors may affect generalization. The dataset contains a limited number of reciters and selected surah ranges, so additional testing is needed across more recitation styles, recording conditions, and microphone qualities. The open-set thresholds are manually selected and may require calibration for new deployment environments. In addition, the RF and BLSTM models use different feature representations, which means the comparison reflects both model architecture and input-feature design. Finally, the verse retrieval component is included as a supporting subsystem but is not yet evaluated using a large verse-level benchmark.
+
+\subsection{Future Work}
+
+Future work should expand the corpus to include more reciters, additional surahs, different riwayat, and varied recording conditions. A larger dataset would support stronger threshold calibration and more robust evaluation of unknown-reciter rejection. The BLSTM baseline should also be strengthened with richer sequential inputs, and the verse retrieval subsystem should be evaluated using verse-level benchmarks so that reciter identification and verse retrieval can be assessed jointly.
+
+\section{Conclusion}
+
+This paper presented Qurr\={a}, an open-set Qur'anic reciter recognition framework combining hybrid acoustic features with reliability-based rejection. Under surah-separated external evaluation, RF achieved 100.0\% closed-set accuracy, 97.66\% unseen-reciter rejection accuracy, and 95.24\% overall external accuracy, outperforming BLSTM at 97.81\%, 87.13\%, and 88.97\%, respectively. These results indicate that carefully engineered acoustic features with classical ensemble learning remain effective for reliable Qur'anic reciter recognition, particularly when the system must distinguish known reciters from previously unseen voices.
+
+A key contribution of this work is the hybrid acoustic representation combining MFCC, spectral, chroma, rhythmic, and tonal descriptors. This enables the RF classifier to use a rich 511-dimensional feature space, while BLSTM operates on a reduced MFCC-based sequential representation. The reliability-based rejection mechanism also enables open-set recognition without explicitly training a separate unknown-reciter class.
+
+The study further introduces a structured evaluation protocol that separates training and testing data by Qur'anic surah content and incorporates both closed-set and open-set scenarios. This gives a more realistic assessment of whether the system can classify known reciters on unseen surahs while rejecting reciters absent from training.
+
+The study further shows the importance of evaluating Qur'anic audio systems beyond conventional closed-set testing. By separating training and testing surahs and including unknown reciters in the external evaluation set, the protocol provides a more realistic assessment of model behavior in educational and deployment-oriented scenarios. The RF model benefits from a richer 511-dimensional feature space, while the BLSTM baseline demonstrates that temporal modeling alone is not sufficient when the input representation is comparatively limited. Overall, the findings support the use of hybrid acoustic representations and explicit reliability checks as practical components for robust Qur'anic recitation analysis.
+
+Despite the strong performance achieved, several directions remain for future work. The rejection mechanism currently relies on manually defined reliability thresholds, which could be improved through adaptive or learned calibration strategies. Expanding the dataset to include a larger and more diverse set of reciters and recitation styles would also improve generalization and robustness. Finally, further investigation of transformer-based architectures may provide additional improvements for sequential modeling of Qur'anic recitation audio.
+
+\bibliographystyle{IEEEtran}
+\bibliography{references}
+
+\end{document}
